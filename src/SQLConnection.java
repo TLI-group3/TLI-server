@@ -20,7 +20,7 @@ public class SQLConnection {
 
             String sqlCommand = "USE senso";
             statement.executeUpdate(sqlCommand);
-            sqlCommand = "INSERT INTO customers VALUES('Alamgir', 'Khan', 740, 10000)";
+            sqlCommand = "INSERT INTO customers (firstName, lastName, creditScore, savings) VALUES('Alamgir', 'Khan', 740, 10000)";
             statement.executeUpdate(sqlCommand);
 
         }
