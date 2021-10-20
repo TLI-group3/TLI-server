@@ -1,3 +1,5 @@
+package Budget;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -7,10 +9,10 @@ import java.net.http.HttpResponse;
 
 public class SensoRate {
     public static void main(String[] args) throws IOException, InterruptedException {
-        executePost("https://auto-loan-api.senso.ai/rate");
+        executePost();
     }
 
-    public static void executePost(String targetURL) throws IOException, InterruptedException {
+    public static void executePost() throws IOException, InterruptedException {
         // create a client
         HttpClient client = HttpClient.newHttpClient();
 
