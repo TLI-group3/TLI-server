@@ -1,0 +1,32 @@
+/*
+ * This is a temporary file to see if we can insert data into the database
+ */
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class SQLConnection {
+
+    public static String url = "jdbc:mysql://localhost";
+    public static String user = "Alamgir";
+    public static String password = "tlig3p1";
+
+    public static void main(String[] args) {
+        try {
+            Connection connection = DriverManager.getConnection(url, user, password);
+            Statement statement = connection.createStatement();
+
+            String sqlCommand = "USE senso";
+            statement.executeUpdate(sqlCommand);
+            sqlCommand = "INSERT INTO customers VALUES('Alamgir', 'Khan', 740, 10000)";
+            statement.executeUpdate(sqlCommand);
+
+        }
+        catch (SQLException e) {
+            System.out.println("Something went wrong!");
+        }
+
+    }
+}
