@@ -9,9 +9,9 @@ import java.sql.Statement;
 
 public class SQLConnection {
 
-    public static String url = "jdbc:mysql://172.31.25.191:3306";
-    public static String user = "debian-sys-maint";
-    public static String password = "xZ9HeXgVEnwwSp1d";
+    public static String url = "jdbc:mysql://localhost";
+    public static String user = "Alamgir";
+    public static String password = "tlig3p1";
 
     public static void main(String[] args) {
         try {
