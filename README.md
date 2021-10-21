@@ -3,7 +3,7 @@
 The TLI server consists of the backend and database of our program. 
 
 # Database
-MySQL will be used to manage the database. There will be four tables in our database:
+MySQL will be used to store the database. There will be four tables in our database:
 1. A table storing the general informations about cars
 2. A table storing all the account holders of a bank
 3. A table storing monthly bank statements and financial data of a specific account holder
