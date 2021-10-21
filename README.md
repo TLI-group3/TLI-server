@@ -19,4 +19,4 @@ For the backend, Java will be the sole language used.
 
 There are two main components the backend will handle: calculate an account holder's budget and generate a list of recommended cars. 
 
-To calculate a budget, the program will identify salary and average money spent monthly. By taken into other financial aspects, such as savings and credit score, a estimated budget is calculated. The new information will be sent to the part of the program that handles identifying budget-suitable cars to generate a list of recommended cars. 
+To calculate a budget, the program will identify salary and average money spent monthly. By taken into other financial aspects, such as savings and credit score, a estimated budget is calculated. The budget will be used to identify budget-suitable cars to generate a list of recommended cars. Then, our program will use the Senso API to get back the available loan product. 
