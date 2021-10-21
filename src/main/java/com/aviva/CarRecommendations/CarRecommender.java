@@ -6,32 +6,35 @@ import main.java.com.aviva.DataAccess.CSVCarData;
 import main.java.com.aviva.DataAccess.CarDataInterface;
 import main.java.com.aviva.Entities.AccountHolder;
 import main.java.com.aviva.Entities.Car;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class CarRecommender {
-    public static ArrayList<Car> getRecommendedCars(AccountHolder user) throws IOException, InterruptedException, ClassNotFoundException {
+    public static JSONObject getRecommendedCars(AccountHolder user) throws IOException, InterruptedException, ClassNotFoundException {
         float approvedLoanAmount = SensoRate.getApprovedLoanAmount(user);
         CarDataInterface carData = new CSVCarData();
         ArrayList<Car> availableCars = carData.loadCarData("data/Car_Data.csv");
 
-        ArrayList<Car> recommendedCars = new ArrayList<Car>();
+        JSONObject carsJSON = new JSONObject();
+        JSONArray recommendedCars = new JSONArray();
         for (Car currentCar : availableCars) {
             if (currentCar.getPrice() <= approvedLoanAmount) {
-                recommendedCars.add(currentCar);
+                JSONObject carJSON = currentCar.toJSON();
+                recommendedCars.put(carJSON);
             }
         }
-
-        return recommendedCars;
+        carsJSON.put("cars", recommendedCars);
+        return carsJSON;
     }
 
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
         AccountHolderDataInterface accountData = new CSVAccountHolderData();
         AccountHolder user = accountData.getClientByID("5002357538983918");
-        ArrayList<Car> cars = CarRecommender.getRecommendedCars(user);
-        for (Car car : cars) {
-            System.out.println(car.getMake() +" "+ car.getModel());
-        }
+        JSONObject cars = CarRecommender.getRecommendedCars(user);
+
+        // System.out.println(cars);
     }
 }

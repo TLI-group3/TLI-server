@@ -1,5 +1,7 @@
 package main.java.com.aviva.Entities;
 
+import org.json.JSONObject;
+
 public class Car {
 
     private final String make;
@@ -18,4 +20,13 @@ public class Car {
     public String getMake() { return make;  }
     public int getYear() { return year; }
     public float getPrice() { return price; }
+
+    public JSONObject toJSON() {
+        JSONObject carJSON = new JSONObject();
+        carJSON.put("make", this.make);
+        carJSON.put("model", this.model);
+        carJSON.put("year", this.year);
+        carJSON.put("price", this.price);
+        return carJSON;
+    }
 }
