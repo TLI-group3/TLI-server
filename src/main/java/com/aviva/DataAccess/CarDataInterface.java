@@ -1,6 +1,6 @@
-package DataAccess;
+package main.java.com.aviva.DataAccess;
 
-import Entities.Car;
+import main.java.com.aviva.Entities.Car;
 
 import java.io.IOException;
 import java.util.ArrayList;
