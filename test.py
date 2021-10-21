@@ -12,7 +12,7 @@ async def root():
 
 @app.get("/demo")
 async def root():
-    return {"cars": [{"Lamborghini": {'Aventador', 'S', '2020', 100000}}, {"Ford": {'Explorer', 'SUV', '2021', 50000}}]}
+    return {"cars":[{price: 100000, make: "Aventador", model: "S",year: "2020"},{price: 50000,make: "SUV",year: "2021",model:"Explorer"}]}
 
 origins = [
     "http://localhost.tiangolo.com",
