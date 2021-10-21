@@ -1,4 +1,6 @@
-package Budget;
+package CarRecommendations;
+
+import Entities.AccountHolder;
 
 import java.io.IOException;
 import java.net.URI;
@@ -6,27 +8,23 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-
 public class SensoRate {
-    public static void main(String[] args) throws IOException, InterruptedException {
-        executePost();
-    }
-
-    public static void executePost() throws IOException, InterruptedException {
-        // create a client
+    public static String getInterestRateJSON(AccountHolder user) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
 
+        // Input parameters for the Senso API's rate endpoint
+        // TODO: use actual JSON
         String inputjson = "{\n" +
-                "  \"loanAmount\": 10000,\n" +
-                "  \"creditScore\": 780,\n" +
-                "  \"pytBudget\": 800,\n" +
+                "  \"loanAmount\": "+ String.valueOf(user.getSavings()) +",\n" +
+                "  \"creditScore\": "+ String.valueOf(user.getCreditScore()) +",\n" +
+                "  \"pytBudget\": "+ String.valueOf(user.getMonthlyBudget()) +",\n" +
                 "  \"vehicleMake\": \"Honda\",\n" +
                 "  \"vehicleModel\": \"Civic\",\n" +
                 "  \"vehicleYear\": 2021,\n" +
                 "  \"vehicleKms\": 1000\n" +
                 "}";
 
-        // create a request
+        // Creates a POST request
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://auto-loan-api.senso.ai/rate"))
                 .header("Content-Type", "application/json")
@@ -37,7 +35,6 @@ public class SensoRate {
         // use the client to send the request
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        // the response:
-        System.out.println(response.body());
+        return response.body();
     }
 }
