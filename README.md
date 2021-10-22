@@ -3,7 +3,7 @@
 The TLI server consists of the backend and database of our program. 
 
 # Database
-MySQL will be used to store the database. There will be four tables in our database:
+MySQL will be used to store the database. JDBC will be used to access the database. There will be four tables in our database:
 1. A table storing the general informations about cars
 2. A table storing all the account holders of a bank
 3. A table storing monthly bank statements and financial data of a specific account holder
@@ -11,7 +11,7 @@ MySQL will be used to store the database. There will be four tables in our datab
 
 In real life, tables 2 and 3 would be from the bank's database with access provided to us. However, for the simplicity of our program, all those data will be stored in the same dataset. 
 
-JDBC will be used to access the database. 
+The mock dataset containing banking info and the dataset of car information will be in CSV format. 
 
 # Backend
 
