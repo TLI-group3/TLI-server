@@ -20,7 +20,7 @@ public class HelloController {
         return "Greetings from Spring Boot!";
     }
 
-    @CrossOrigin(origins = "http://localhost:8080")
+    @CrossOrigin
     @PostMapping("/cars")
     public String getCars(@RequestBody String clientID) throws IOException, InterruptedException, ClassNotFoundException {
         AccountHolderDataInterface accountData = new CSVAccountHolderData();
