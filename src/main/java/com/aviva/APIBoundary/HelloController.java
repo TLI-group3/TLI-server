@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-@CrossOrigin
 public class HelloController {
     @GetMapping("/")
     public String index() {
         return "Greetings from Spring Boot!";
     }
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @PostMapping("/cars")
     public String getCars(@RequestBody String clientID) throws IOException, InterruptedException, ClassNotFoundException {
         AccountHolderDataInterface accountData = new CSVAccountHolderData();
