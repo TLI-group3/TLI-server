@@ -32,20 +32,15 @@ public class Application {
 
 		};
 	}
-	
-	@Configuration
-	public class MyConfiguration {
 
-	    @Bean
-	    public WebMvcConfigurer corsConfigurer() {
-			return new WebMvcConfigurer() {
-				@Override
-				public void addCorsMappings(CorsRegistry registry) {
-					registry.addMapping("/**")
-							.allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
-				}
-			};
-	    }
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/cars").allowedOrigins("http://localhost:3000");
+			}
+		};
 	}
 
 }
