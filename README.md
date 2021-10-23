@@ -23,5 +23,3 @@ To calculate a budget, the program will identify salary and average money spent 
 
 # How to Run the Files Locally
 - Run the command "./gradlew bootRun" (without the quotation marks) to activate the server locally
-
-# Testing commit and merge stuff - An
