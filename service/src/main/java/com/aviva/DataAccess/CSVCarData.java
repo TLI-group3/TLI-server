@@ -31,7 +31,7 @@ public class CSVCarData implements CarDataInterface {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         CSVCarData testCarData = new CSVCarData();
-        ArrayList<Car> cars = testCarData.loadCarData("data/Car_Data.csv");
+        ArrayList<Car> cars = testCarData.loadCarData("../database/data/Car_Data.csv");
         for (Car car : cars) {
             System.out.println(car.getMake() +" "+ car.getModel());
         }
