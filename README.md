@@ -22,4 +22,9 @@ There are two main components the backend will handle: calculate an account hold
 To calculate a budget, the program will identify salary and average money spent monthly. By taken into other financial aspects, such as savings and credit score, a estimated budget is calculated. Then, our program will use the Senso API to get back the available loan product. The budget will be used to identify budget-suitable cars to generate a list of recommended cars. 
 
 # How to Run the Files Locally
-- Run the command ```./gradlew bootRun``` to activate the server locally
+
+### Windows
+- In the "service" directory, run the command "./gradlew bootRun" (without the quotation marks) to activate the server locally
+
+### Linux/Mac
+- In the "service" directory, run the command "sudo sh gradlew bootRun" (without the quotation marks) to activate the server locally
