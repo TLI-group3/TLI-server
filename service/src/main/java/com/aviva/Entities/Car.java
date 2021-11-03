@@ -1,4 +1,4 @@
-package main.java.com.aviva.Entities;
+package com.aviva.Entities;
 
 import org.json.JSONObject;
 

@@ -1,8 +1,8 @@
-package main.java.com.aviva.CarRecommendations;
+package com.aviva.CarRecommendations;
 
-import main.java.com.aviva.DataAccess.AccountHolderDataInterface;
-import main.java.com.aviva.DataAccess.CSVAccountHolderData;
-import main.java.com.aviva.Entities.AccountHolder;
+import com.aviva.DataAccess.AccountHolderDataInterface;
+import com.aviva.DataAccess.CSVAccountHolderData;
+import com.aviva.Entities.AccountHolder;
 
 import org.json.JSONObject;
 import java.io.IOException;

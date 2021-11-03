@@ -1,9 +1,9 @@
-package main.java.com.aviva.APIBoundary;
+package com.aviva.APIBoundary;
 
-import main.java.com.aviva.CarRecommendations.CarRecommender;
-import main.java.com.aviva.DataAccess.AccountHolderDataInterface;
-import main.java.com.aviva.DataAccess.CSVAccountHolderData;
-import main.java.com.aviva.Entities.AccountHolder;
+import com.aviva.CarRecommendations.CarRecommender;
+import com.aviva.DataAccess.AccountHolderDataInterface;
+import com.aviva.DataAccess.CSVAccountHolderData;
+import com.aviva.Entities.AccountHolder;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;

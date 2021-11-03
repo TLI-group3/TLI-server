@@ -1,4 +1,4 @@
-package main.java.com.aviva.Entities;
+package com.aviva.Entities;
 
 /**
  * This class represents an account holder at the bank

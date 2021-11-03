@@ -1,6 +1,6 @@
-package main.java.com.aviva.DataAccess;
+package com.aviva.DataAccess;
 
-import main.java.com.aviva.Entities.Car;
+import com.aviva.Entities.Car;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

@@ -1,4 +1,4 @@
-package main.java.com.aviva.CarRecommendations;
+package com.aviva.CarRecommendations;
 
 public class EstimateBudget {
 }
