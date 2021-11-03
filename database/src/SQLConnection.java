@@ -9,21 +9,23 @@ import java.sql.Statement;
 
 public class SQLConnection {
 
-    public static String url = "jdbc:mysql://localhost";
+    public static String url = "jdbc:mysql://cb-database.c0bn4vphjqef.us-east-2.rds.amazonaws.com";
     public static String user = "Alamgir";
-    public static String password = "tlig3p1";
+    public static String password = "tligroup3";
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
-            insertInstallments(connection, "{\"cars\":[{price: 100000, make: \"Aventador\", model: \"S\",year: \"2020\"},{price: 50000,make: \"SUV\",year: \"2021\",model:\"Explorer\"}]}");
+            Statement statement = connection.createStatement();
+
+            System.out.println("Successfully connected");
         }
         catch (SQLException e) {
             System.out.println(e);
         }
     }
 
-    public void insertInstallments(Connection connection, String intallments) {
+    public static void insertInstallments(Connection connection, String intallments) {
         try {
             Statement statement = connection.createStatement();
 
@@ -32,9 +34,9 @@ public class SQLConnection {
 
             sqlCommand = "INSERT INTO customers (clientID, cars) VALUES('1007212080', " + intallments + ")";
             statement.executeUpdate(sqlCommand);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
 
     }
+}
