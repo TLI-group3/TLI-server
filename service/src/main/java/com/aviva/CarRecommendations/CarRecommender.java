@@ -16,7 +16,7 @@ public class CarRecommender {
     public static JSONObject getRecommendedCars(AccountHolder user) throws IOException, InterruptedException, ClassNotFoundException {
         float approvedLoanAmount = SensoRate.getApprovedLoanAmount(user);
         CarDataInterface carData = new CSVCarData();
-        ArrayList<Car> availableCars = carData.loadCarData("data/Car_Data.csv");
+        ArrayList<Car> availableCars = carData.loadCarData("../database/data/Car_Data.csv");
 
         JSONObject carsJSON = new JSONObject();
         JSONArray recommendedCars = new JSONArray();
