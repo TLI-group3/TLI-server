@@ -1,6 +1,6 @@
-package main.java.com.aviva.DataAccess;
+package com.aviva.DataAccess;
 
-import main.java.com.aviva.Entities.AccountHolder;
+import com.aviva.Entities.AccountHolder;
 
 import java.io.*;
 import java.util.Collection;

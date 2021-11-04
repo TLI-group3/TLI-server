@@ -1,4 +1,4 @@
-package main.java.com.aviva.APIBoundary;
+package com.aviva.APIBoundary;
 
 import java.util.Arrays;
 
