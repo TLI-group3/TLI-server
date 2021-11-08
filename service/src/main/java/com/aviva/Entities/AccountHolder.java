@@ -1,4 +1,6 @@
 package main.java.com.aviva.Entities;
+import org.json.JSONObject;
+
 
 /**
  * This class represents an account holder at the bank
@@ -6,8 +8,10 @@ package main.java.com.aviva.Entities;
 public class AccountHolder {
     private String accountNumber;
     private int creditScore;
-    private float savings;
     private float monthlyBudget;
+
+    // A temporarily private instance to store all the financial transactions
+    private JSONObject financialTransactions;
 
     public AccountHolder(String accountNumber){
         this.accountNumber = accountNumber;
@@ -15,15 +19,18 @@ public class AccountHolder {
 
     public void setCreditScore(int creditScore) {this.creditScore = creditScore;}
 
-    public void setSavings(float savings) {this.savings = savings;}
-
     public void setMonthlyBudget(float monthlyBudget) {this.monthlyBudget = monthlyBudget;}
 
     public String getAccountNumber() {return this.accountNumber;}
 
     public int getCreditScore() {return this.creditScore;}
 
-    public float getSavings() {return this.savings;}
-
     public float getMonthlyBudget() {return this.monthlyBudget;}
+
+    // A temporarily setter method to store all the financial transactions
+    public void setFinancialTransactions(JSONObject financialTransactions) {
+        this.financialTransactions=financialTransactions;}
+
+    // A temporarily getter method to return all the financial transactions
+    public JSONObject getFinancialTransactions() {return this.financialTransactions;}
 }
