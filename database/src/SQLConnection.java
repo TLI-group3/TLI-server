@@ -9,9 +9,9 @@ import java.sql.SQLException;
 public class SQLConnection {
     
     // RDS Credentials
-    public static String url = "jdbc:mysql://cb-database.c0bn4vphjqef.us-east-2.rds.amazonaws.com";
-    public static String user = "Alamgir";
-    public static String password = "tligroup3";
+    public static String url = "jdbc:mysql://" + System.getenv("AVANTAGE_SQLDB_URL");
+    public static String user = System.getenv("AVANTAGE_SQLDB_USER");
+    public static String password = System.getenv("AVANTAGE_SQLDB_PWD");
 
     public static void main(String[] args) {
         // Attempt to connect to RDS instance
