@@ -29,9 +29,9 @@ public class SensoRate {
 
         // Creates a POST request
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://auto-loan-api.senso.ai/rate"))
+                .uri(URI.create(System.getenv("SENSO_API_URL")))
                 .header("Content-Type", "application/json")
-                .header("x-api-key", "AIzaSyCD_-qCdXqrvWGHN1tpe2PH6Rf8zpnTdXs")
+                .header("x-api-key", System.getenv("SENSO_API_KEY"))
                 .POST(HttpRequest.BodyPublishers.ofString(inputjson))
                 .build();
 
