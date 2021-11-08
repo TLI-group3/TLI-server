@@ -19,7 +19,20 @@ For the backend, Java will be the sole language used.
 
 There are two main components the backend will handle: calculate an account holder's budget and generate a list of recommended cars. 
 
-To calculate a budget, the program will identify salary and average money spent monthly. By taken into other financial aspects, such as savings and credit score, a estimated budget is calculated. Then, our program will use the Senso API to get back the available loan product. The budget will be used to identify budget-suitable cars to generate a list of recommended cars. 
+To calculate a budget, the program will identify salary and average money spent monthly. By taken into other financial aspects, such as savings and credit score, a estimated budget is calculated. Then, our program will use the Senso API to get back the available loan product. The budget will be used to identify budget-suitable cars to generate a list of recommended cars.
+
+# Environment Variables
+
+For both the database and backend functionality, you will require the following environment variables:
+
+* `SENSO_API_URL`: the base URL for the Senso API, excluding endpoints and no final forwardslash
+  * e.g. `https://senso-api.example.com`
+* `SENSO_API_KEY`: the access credential for the Senso API, to be supplied in the
+`x-api-key` header.
+* `AVANTAGE_SQLDB_URL`: the url to access the RDS instance of our MySQL database
+  * e.g. `db.rds.aws.com`
+* `AVANTAGE_SQLDB_USER`: the username to access the MySQL database on RDS
+* `AVANTAGE_SQLDB_PWD`: the password to access the MySQL database on RDS
 
 # How to Run the Files Locally
 
