@@ -1,29 +1,34 @@
 /*
- * This is a temporary file to see if we can insert data into the database
+ * Establish connection with RDS instance
  */
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class SQLConnection {
-
-    public static String url = "jdbc:mysql://localhost";
+    
+    // RDS Credentials
+    public static String url = "jdbc:mysql://cb-database.c0bn4vphjqef.us-east-2.rds.amazonaws.com";
     public static String user = "Alamgir";
-    public static String password = "tlig3p1";
+    public static String password = "tligroup3";
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
+        // Attempt to connect to RDS instance
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
-            insertInstallments(connection, "{\"cars\":[{price: 100000, make: \"Aventador\", model: \"S\",year: \"2020\"},{price: 50000,make: \"SUV\",year: \"2021\",model:\"Explorer\"}]}");
+            System.out.println("Successfully connected");
         }
+        // Print error statement if connection fails
         catch (SQLException e) {
             System.out.println(e);
         }
     }
-
-    public void insertInstallments(Connection connection, String intallments) {
+    
+    /**
+    * Inserts a string into a dummy table in the database
+    */
+    public static void insertInstallments(Connection connection, String intallments) {
         try {
             Statement statement = connection.createStatement();
 
@@ -32,9 +37,9 @@ public class SQLConnection {
 
             sqlCommand = "INSERT INTO customers (clientID, cars) VALUES('1007212080', " + intallments + ")";
             statement.executeUpdate(sqlCommand);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
 
     }
+}
