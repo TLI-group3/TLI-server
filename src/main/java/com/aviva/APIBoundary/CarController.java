@@ -13,14 +13,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
+/**
+ * A controller class that handles input-output data communication between front-end and back-end. It uses springboot to
+ * handle HTTP GET/POST/PUT requests.
+ */
 @RestController
 @CrossOrigin(origins="*")
-public class HelloController {
+public class CarController {
+    /**
+     * Responds to a GET request at the root "/". This method is mainly used for testing purposes. Returns greeting.
+     */
     @GetMapping("/")
     public String index() {
-        return "Greetings from Spring Boot!";
+        return "Greetings!";
     }
 
+    /**
+     * Returns a list of recommended cars for a certain client.
+     * @param clientID the client's ID number
+     * @return list of recommended cars, formatted as a JSON string
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws ClassNotFoundException
+     */
+    // TODO: document the format of the returned JSON
     @PostMapping("/cars")
     public String getCars(@RequestBody String clientID) throws IOException, InterruptedException, ClassNotFoundException {
         AccountHolderDataInterface accountData = new CSVAccountHolderData();

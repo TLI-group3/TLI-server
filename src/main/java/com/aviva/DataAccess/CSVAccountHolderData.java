@@ -31,7 +31,7 @@ public class CSVAccountHolderData implements AccountHolderDataInterface {
         // TODO Polish the body of this method.
         FileReader fr = null;
         fr = new FileReader
-                ("../database/data/100_BT_Records.csv");
+                ("../../../../../../data/100_BT_Records.csv");
 
         BufferedReader csvReader = new BufferedReader(fr);
 
