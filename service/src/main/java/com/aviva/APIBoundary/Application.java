@@ -7,17 +7,24 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class Application {
-
+	/**
+	 * Runs our springboot application.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
 
+	/**
+	 * Prints the beans provided by Springboot to the console.
+	 * @param ctx application context
+	 * @return a lambda expression
+	 */
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
@@ -33,6 +40,10 @@ public class Application {
 		};
 	}
 
+	/**
+	 * Configures our API to accept cross-origin calls from localhost:3000
+	 * @return
+	 */
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
@@ -42,5 +53,4 @@ public class Application {
 			}
 		};
 	}
-
 }
