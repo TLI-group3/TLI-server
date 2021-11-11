@@ -24,11 +24,14 @@ public class SQLConnection {
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             System.out.println("Successfully connected");
-            writeCarData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Car_Data.csv");
+//            writeCarData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Car_Data.csv");
 //            testCarsTable(connection);
 //            deleteDatabase(connection);
 //            createDatabase(connection);
 //            createCarTable(connection);
+//            createBankingTable(connection);
+//            deleteTable(connection, "banking");
+            writeBankingData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Banking_Data.csv");
         }
         // Print error statement if connection fails
         catch (SQLException e) {
@@ -79,7 +82,7 @@ public class SQLConnection {
             Statement statement = connection.createStatement();
             String command = "USE aviva";
             statement.execute(command);
-            command = "CREATE TABLE banking(accountNumber VARCHAR(24), date VARCHAR(24), deposits INT(8), withdrawals INT(8))";
+            command = "CREATE TABLE banking(accountNumber VARCHAR(24), transactionDate VARCHAR(24), deposits FLOAT(8), withdrawals FLOAT(8))";
             statement.execute(command);
             System.out.println("Successfully created table: banking");
         }
@@ -93,9 +96,23 @@ public class SQLConnection {
             Statement statement = connection.createStatement();
             String command = "USE aviva";
             statement.execute(command);
-            command = "CREATE TABLE credit(accountNumber VARCHAR(24), date VARCHAR(24), creditScore INT(8))";
+            command = "CREATE TABLE credit(accountNumber VARCHAR(24), queryDate VARCHAR(24), creditScore INT(8))";
             statement.execute(command);
             System.out.println("Successfully created table: credit");
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void deleteTable(Connection connection, String table) {
+        try {
+            Statement statement = connection.createStatement();
+            String command = "USE aviva";
+            statement.execute(command);
+            command = "DROP TABLE " + table;
+            statement.execute(command);
+            System.out.println("Successfully deleted table: " + table);
         }
         catch (SQLException e) {
             System.out.println(e);
@@ -146,6 +163,71 @@ public class SQLConnection {
 
             lineReader.close(); // Close CSV file
             preparedStatement.executeBatch(); // Execute remaining SQL commands
+            System.out.println("Successfully inserted data into table: cars");
+
+        } catch (SQLException | IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void writeBankingData(Connection connection, String file) {
+        // Initialize variables
+        String command = "INSERT INTO banking (accountNumber, transactionDate, deposits, withdrawals) VALUES (?, ?, ?, ?)";
+        int batchSize = 10;
+        int count = 0;
+        String lineText = "";
+        String withdrawals = "";
+
+        try {
+            // Connect to aviva database
+            Statement statement = connection.createStatement();
+            statement.execute("USE aviva");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
+            BufferedReader lineReader = new BufferedReader(new FileReader(file)); // Open CSV file to read
+            lineReader.readLine(); // Skip CSV header
+
+            // Loop to read through each line in CSV file
+            while ((lineText = lineReader.readLine()) != null) {
+                String[] data = lineText.split(",");
+                String accountNumber = data[0];
+                String transactionDate = data[1];
+                String deposits = data[2];
+                // Special case when withdrawals field is empty in CSV
+                if (data.length > 3) {
+                    withdrawals = data[3];
+                }
+                else {
+                    withdrawals = "";
+                }
+
+                // Prepare data to match the table's data types
+                preparedStatement.setString(1, accountNumber);
+                preparedStatement.setString(2, transactionDate);
+                if (!deposits.isEmpty()) {
+                    preparedStatement.setFloat(3, Float.parseFloat(deposits));
+                }
+                else {
+                    preparedStatement.setNull(3, 0);
+                }
+                if (!withdrawals.isEmpty()) {
+                    preparedStatement.setFloat(4, Float.parseFloat(withdrawals));
+                }
+                else {
+                    preparedStatement.setNull(4, 0);
+                }
+
+                count = count + 1;
+                // Execute batch of SQL commands
+                preparedStatement.addBatch();
+                if (count % batchSize == 0) {
+                    preparedStatement.executeBatch();
+                }
+            }
+
+            lineReader.close(); // Close CSV file
+            preparedStatement.executeBatch(); // Execute remaining SQL commands
+            System.out.println("Successfully inserted data into table: banking");
 
         } catch (SQLException | IOException e) {
             System.out.println(e);
@@ -159,7 +241,9 @@ public class SQLConnection {
             statement.execute(command);
             command = "SELECT * FROM cars WHERE brand = 'nissan'";
             ResultSet rs = statement.executeQuery(command);
-            System.out.println(rs.getString(1));
+            if (rs.next()) {
+                System.out.println(rs.getString("vin"));
+            }
         }
         catch (SQLException e) {
             System.out.println(e);
