@@ -30,8 +30,10 @@ public class SQLConnection {
 //            createDatabase(connection);
 //            createCarTable(connection);
 //            createBankingTable(connection);
+//            createCreditTable(connection);
 //            deleteTable(connection, "banking");
-            writeBankingData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Banking_Data.csv");
+//            writeBankingData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Banking_Data.csv");
+            writeCreditData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Credit_Data.csv");
         }
         // Print error statement if connection fails
         catch (SQLException e) {
@@ -228,6 +230,52 @@ public class SQLConnection {
             lineReader.close(); // Close CSV file
             preparedStatement.executeBatch(); // Execute remaining SQL commands
             System.out.println("Successfully inserted data into table: banking");
+
+        } catch (SQLException | IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void writeCreditData(Connection connection, String file) {
+        // Initialize variables
+        String command = "INSERT INTO credit (accountNumber, queryDate, creditScore) VALUES (?, ?, ?)";
+        int batchSize = 10;
+        int count = 0;
+        String lineText = "";
+
+        try {
+            // Connect to aviva database
+            Statement statement = connection.createStatement();
+            statement.execute("USE aviva");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
+            BufferedReader lineReader = new BufferedReader(new FileReader(file)); // Open CSV file to read
+            lineReader.readLine(); // Skip CSV header
+
+            // Loop to read through each line in CSV file
+            while ((lineText = lineReader.readLine()) != null) {
+                String[] data = lineText.split(",");
+                String accountNumber = data[0];
+                String queryDate = data[1];
+                String creditScore = data[2];
+
+                // Prepare data to match the table's data types
+                preparedStatement.setString(1, accountNumber);
+                preparedStatement.setString(2, queryDate);
+                preparedStatement.setInt(3, Integer.parseInt(creditScore));
+
+
+                count = count + 1;
+                // Execute batch of SQL commands
+                preparedStatement.addBatch();
+                if (count % batchSize == 0) {
+                    preparedStatement.executeBatch();
+                }
+            }
+
+            lineReader.close(); // Close CSV file
+            preparedStatement.executeBatch(); // Execute remaining SQL commands
+            System.out.println("Successfully inserted data into table: credit");
 
         } catch (SQLException | IOException e) {
             System.out.println(e);
