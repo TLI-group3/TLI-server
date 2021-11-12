@@ -17,6 +17,7 @@ public class initDB {
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             System.out.println("Successfully connected");
+            deleteTable(connection, "recommendations");
             deleteDatabase(connection);
             createDatabase(connection);
             createCarTable(connection);
@@ -28,6 +29,7 @@ public class initDB {
             writeBankingData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Banking_Data.csv");
             writeCreditData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Credit_Data.csv");
             writeClientData(connection);
+            writeRecommendationsData(connection);
         }
         // Print error statement if connection fails
         catch (SQLException e) {
@@ -120,7 +122,7 @@ public class initDB {
             Statement statement = connection.createStatement();
             String command = "USE aviva";
             statement.execute(command);
-            command = "CREATE TABLE recommendations(accountNumber VARCHAR(255), carOne VARCHAR(24), carTwo VARCHAR(24), carThree VARCHAR(24), carFour VARCHAR(24), carFive VARCHAR(24))";
+            command = "CREATE TABLE recommendations(accountNumber VARCHAR(255), carOne VARCHAR(24), carTwo VARCHAR(24), carThree VARCHAR(24), carFour VARCHAR(24), carFive VARCHAR(24), PRIMARY KEY(accountNumber))";
             statement.execute(command);
             System.out.println("Successfully created table: recommendations");
         }
@@ -336,6 +338,40 @@ public class initDB {
 
             preparedStatement.executeBatch(); // Execute remaining SQL commands
             System.out.println("Successfully inserted data into table: client");
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void writeRecommendationsData(Connection connection) {
+        // Initialize variables
+        String command = "INSERT INTO recommendations (accountNumber) VALUES (?)";
+        int batchSize = 10;
+        int count = 0;
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute("USE aviva");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
+            String queryCommand = "SELECT DISTINCT(accountNumber) FROM banking;";
+            ResultSet rs = statement.executeQuery(queryCommand);
+
+            while (rs.next()) {
+                // Prepare data to match the table's data types
+                preparedStatement.setString(1, rs.getString("accountNumber"));
+
+                count = count + 1;
+                // Execute batch of SQL commands
+                preparedStatement.addBatch();
+                if (count % batchSize == 0) {
+                    preparedStatement.executeBatch();
+                }
+            }
+
+            preparedStatement.executeBatch(); // Execute remaining SQL commands
+            System.out.println("Successfully inserted data into table: recommendations");
         }
         catch (SQLException e) {
             System.out.println(e);

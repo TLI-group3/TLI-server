@@ -27,7 +27,7 @@ public class testinitDB {
             Statement statement = connection.createStatement();
             String command = "USE aviva";
             statement.execute(command);
-            command = "SELECT * FROM cars WHERE brand = nissan";
+            command = "SELECT * FROM cars WHERE brand = 'nissan'";
             ResultSet rs = statement.executeQuery(command);
             if (rs.next()) {
                 System.out.println(rs.getString("vin"));
