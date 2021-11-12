@@ -17,17 +17,16 @@ public class initDB {
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             System.out.println("Successfully connected");
-            deleteTable(connection, "client");
-            deleteDatabase(connection);
-            createDatabase(connection);
-            createCarTable(connection);
-            createBankingTable(connection);
-            createCreditTable(connection);
-            createClientTable(connection);
-            writeCarData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Car_Data.csv");
-            writeBankingData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Banking_Data.csv");
-            writeCreditData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Credit_Data.csv");
-            writeClientData(connection);
+//            deleteDatabase(connection);
+//            createDatabase(connection);
+//            createCarTable(connection);
+//            createBankingTable(connection);
+//            createCreditTable(connection);
+//            createClientTable(connection);
+//            writeCarData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Car_Data.csv");
+//            writeBankingData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Banking_Data.csv");
+//            writeCreditData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Credit_Data.csv");
+//            writeClientData(connection);
         }
         // Print error statement if connection fails
         catch (SQLException e) {
@@ -92,7 +91,7 @@ public class initDB {
             Statement statement = connection.createStatement();
             String command = "USE aviva";
             statement.execute(command);
-            command = "CREATE TABLE credit(accountNumber VARCHAR(255), queryDate VARCHAR(24), creditScore INT(8))";
+            command = "CREATE TABLE credit(accountNumber VARCHAR(255), queryDate DATE, creditScore INT(8))";
             statement.execute(command);
             System.out.println("Successfully created table: credit");
         }
@@ -264,12 +263,14 @@ public class initDB {
             while ((lineText = lineReader.readLine()) != null) {
                 String[] data = lineText.split(",");
                 String accountNumber = data[0];
-                String queryDate = data[1];
+                String date = data[1];
                 String creditScore = data[2];
+
 
                 // Prepare data to match the table's data types
                 preparedStatement.setString(1, accountNumber);
-                preparedStatement.setString(2, queryDate);
+                Date queryDate = Date.valueOf(date);
+                preparedStatement.setDate(2, queryDate);
                 preparedStatement.setInt(3, Integer.parseInt(creditScore));
 
 
