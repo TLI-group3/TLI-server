@@ -9,8 +9,8 @@ public class SQLAccountHolderData implements AccountHolderInterface {
     public static String password = System.getenv("AVANTAGE_SQLDB_PWD");
 
     public static void main(String[] args) {
-        getClientByID("1402110922112412");
-
+//        getClientByID("1402110922112412");
+//        getAllClients();
     }
 
     public static ResultSet getClientByID(String ID) {
@@ -31,15 +31,14 @@ public class SQLAccountHolderData implements AccountHolderInterface {
         return rs;
     }
 
-    public ResultSet getAllClients() {
+    public static ResultSet getAllClients() {
         ResultSet rs = null;
 
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
-            String command = "USE aviva";
-            statement.execute(command);
-            command = "SELECT * FROM cars WHERE brand = 'nissan'";
+            statement.execute("USE aviva");
+            String command = "SELECT * FROM client";
             rs = statement.executeQuery(command);
             return rs;
         }
