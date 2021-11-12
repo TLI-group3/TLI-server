@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 
 public interface CarAccessInterface {
 
-    static ResultSet getCar(String vin) {
+    static ResultSet getCar(String carName) {
         return null;
     };
 
@@ -12,5 +12,5 @@ public interface CarAccessInterface {
         return null;
     };
 
-    static void insertRecommendedCar(String accountNumber, String carID) {}
+    static void insertRecommendedCar(String accountNumber, String carName) {}
 }
