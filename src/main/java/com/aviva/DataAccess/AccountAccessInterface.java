@@ -6,10 +6,12 @@ import java.sql.ResultSet;
  * This is the Data Access Interface for the data of the bank's account holders
  */
 
-public interface AccountHolderInterface {
+public interface AccountAccessInterface {
     static ResultSet getClientByID(String ID) {
         return null;
     } ;
 
-    ResultSet getAllClients();
+    static ResultSet getAllClients() {
+        return null;
+    };
 }

@@ -2,7 +2,7 @@ package com.aviva.DataAccess;
 
 import java.sql.*;
 
-public class SQLAccountHolderData implements AccountHolderInterface {
+public class SQLAccountHolderData implements AccountAccessInterface {
 
     public static String url = "jdbc:mysql://" + System.getenv("AVANTAGE_SQLDB_URL");
     public static String user = System.getenv("AVANTAGE_SQLDB_USER");
