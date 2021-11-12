@@ -23,6 +23,7 @@ public class initDB {
 //            createBankingTable(connection);
 //            createCreditTable(connection);
 //            createClientTable(connection);
+//            createRecommendationsTable(connection);
 //            writeCarData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Car_Data.csv");
 //            writeBankingData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Banking_Data.csv");
 //            writeCreditData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Credit_Data.csv");
@@ -108,6 +109,20 @@ public class initDB {
             command = "CREATE TABLE client(accountNumber VARCHAR(255), fullName VARCHAR(24), previousCar VARCHAR(24), PRIMARY KEY(accountNumber))";
             statement.execute(command);
             System.out.println("Successfully created table: client");
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void createRecommendationsTable(Connection connection) {
+        try {
+            Statement statement = connection.createStatement();
+            String command = "USE aviva";
+            statement.execute(command);
+            command = "CREATE TABLE recommendations(accountNumber VARCHAR(255), carOne VARCHAR(24), carTwo VARCHAR(24), carThree VARCHAR(24), carFour VARCHAR(24), carFive VARCHAR(24))";
+            statement.execute(command);
+            System.out.println("Successfully created table: recommendations");
         }
         catch (SQLException e) {
             System.out.println(e);
