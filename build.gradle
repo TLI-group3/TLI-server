@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'TLI-server'
+group = 'TLI Group 3'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
