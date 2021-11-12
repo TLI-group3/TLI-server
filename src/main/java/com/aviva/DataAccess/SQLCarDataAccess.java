@@ -2,27 +2,26 @@ package com.aviva.DataAccess;
 
 import java.sql.*;
 
-public class SQLAccountHolderDataAccess implements AccountAccessInterface {
+public class SQLCarDataAccess implements CarAccessInterface {
 
     public static String url = "jdbc:mysql://" + System.getenv("AVANTAGE_SQLDB_URL");
     public static String user = System.getenv("AVANTAGE_SQLDB_USER");
     public static String password = System.getenv("AVANTAGE_SQLDB_PWD");
 
     public static void main(String[] args) {
-        getClient("1402110922112412");
-        getAllClients();
-        getLatestCreditScore("1402110922112412");
-        getAllFinancialTransactions("1402110922112412");
+        getCar("19xfb2f81fe252000");
+        getAllCars();
+
     }
 
-    public static ResultSet getClient(String accountNumber) {
+    public static ResultSet getCar(String vin) {
         ResultSet rs = null;
 
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
-            String command = "SELECT * FROM client WHERE accountNumber = '" + accountNumber + "' LIMIT 1";
+            String command = "SELECT * FROM cars WHERE vin = '" + vin + "' LIMIT 1";
             rs = statement.executeQuery(command);
             return rs;
         }
@@ -33,14 +32,14 @@ public class SQLAccountHolderDataAccess implements AccountAccessInterface {
         return rs;
     }
 
-    public static ResultSet getAllClients() {
+    public static ResultSet getAllCars() {
         ResultSet rs = null;
 
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
-            String command = "SELECT * FROM client";
+            String command = "SELECT * FROM cars";
             rs = statement.executeQuery(command);
             return rs;
         }
@@ -51,39 +50,15 @@ public class SQLAccountHolderDataAccess implements AccountAccessInterface {
         return rs;
     }
 
-    public static ResultSet getLatestCreditScore(String accountNumber) {
-        ResultSet rs = null;
-
+    public static void insertRecommendedCar(String accountNumber, String carID) {
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
-            String command = "SELECT * FROM credit WHERE accountNumber = " + "'" + accountNumber + "' ORDER BY queryDate DESC LIMIT 1";
-            rs = statement.executeQuery(command);
-            return rs;
+            String command = "SELECT * FROM cars";
         }
         catch (SQLException e) {
             System.out.println(e);
         }
-
-        return rs;
-    }
-
-    public static ResultSet getAllFinancialTransactions(String accountNumber) {
-        ResultSet rs = null;
-
-        try {
-            Connection connection = DriverManager.getConnection(url, user, password);
-            Statement statement = connection.createStatement();
-            statement.execute("USE aviva");
-            String command = "SELECT * FROM client WHERE accountNumber = '" + accountNumber + "'";
-            rs = statement.executeQuery(command);
-            return rs;
-        }
-        catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        return rs;
     }
 }

@@ -17,17 +17,17 @@ public class initDB {
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             System.out.println("Successfully connected");
-//            deleteDatabase(connection);
-//            createDatabase(connection);
-//            createCarTable(connection);
-//            createBankingTable(connection);
-//            createCreditTable(connection);
-//            createClientTable(connection);
-//            createRecommendationsTable(connection);
-//            writeCarData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Car_Data.csv");
-//            writeBankingData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Banking_Data.csv");
-//            writeCreditData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Credit_Data.csv");
-//            writeClientData(connection);
+            deleteDatabase(connection);
+            createDatabase(connection);
+            createCarTable(connection);
+            createBankingTable(connection);
+            createCreditTable(connection);
+            createClientTable(connection);
+            createRecommendationsTable(connection);
+            writeCarData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Car_Data.csv");
+            writeBankingData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Banking_Data.csv");
+            writeCreditData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Credit_Data.csv");
+            writeClientData(connection);
         }
         // Print error statement if connection fails
         catch (SQLException e) {
