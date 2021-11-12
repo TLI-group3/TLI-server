@@ -17,14 +17,17 @@ public class initDB {
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             System.out.println("Successfully connected");
+            deleteTable(connection, "client");
             deleteDatabase(connection);
             createDatabase(connection);
             createCarTable(connection);
             createBankingTable(connection);
             createCreditTable(connection);
+            createClientTable(connection);
             writeCarData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Car_Data.csv");
             writeBankingData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Banking_Data.csv");
             writeCreditData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Credit_Data.csv");
+            writeClientData(connection);
         }
         // Print error statement if connection fails
         catch (SQLException e) {
@@ -61,7 +64,7 @@ public class initDB {
             Statement statement = connection.createStatement();
             String command = "USE aviva";
             statement.execute(command);
-            command = "CREATE TABLE cars(vin VARCHAR(24), price INT(8), brand VARCHAR(24), model VARCHAR(24), modelYear INT(8), image VARCHAR(5000), PRIMARY KEY (vin))";
+            command = "CREATE TABLE cars(vin VARCHAR(255), price INT(8), brand VARCHAR(24), model VARCHAR(24), modelYear INT(8), image VARCHAR(5000), PRIMARY KEY (vin))";
             statement.execute(command);
             System.out.println("Successfully created table: cars");
         }
@@ -75,7 +78,7 @@ public class initDB {
             Statement statement = connection.createStatement();
             String command = "USE aviva";
             statement.execute(command);
-            command = "CREATE TABLE banking(accountNumber VARCHAR(24), transactionDate VARCHAR(24), deposits FLOAT(8), withdrawals FLOAT(8))";
+            command = "CREATE TABLE banking(accountNumber VARCHAR(255), transactionDate VARCHAR(24), deposits FLOAT(8), withdrawals FLOAT(8))";
             statement.execute(command);
             System.out.println("Successfully created table: banking");
         }
@@ -89,9 +92,23 @@ public class initDB {
             Statement statement = connection.createStatement();
             String command = "USE aviva";
             statement.execute(command);
-            command = "CREATE TABLE credit(accountNumber VARCHAR(24), queryDate VARCHAR(24), creditScore INT(8))";
+            command = "CREATE TABLE credit(accountNumber VARCHAR(255), queryDate VARCHAR(24), creditScore INT(8))";
             statement.execute(command);
             System.out.println("Successfully created table: credit");
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void createClientTable(Connection connection) {
+        try {
+            Statement statement = connection.createStatement();
+            String command = "USE aviva";
+            statement.execute(command);
+            command = "CREATE TABLE client(accountNumber VARCHAR(255), fullName VARCHAR(24), previousCar VARCHAR(24), PRIMARY KEY(accountNumber))";
+            statement.execute(command);
+            System.out.println("Successfully created table: client");
         }
         catch (SQLException e) {
             System.out.println(e);
@@ -269,6 +286,42 @@ public class initDB {
             System.out.println("Successfully inserted data into table: credit");
 
         } catch (SQLException | IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void writeClientData(Connection connection) {
+        // Initialize variables
+        String command = "INSERT INTO client (accountNumber, fullName, previousCar) VALUES (?, ?, ?)";
+        int batchSize = 10;
+        int count = 0;
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute("USE aviva");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
+            String queryCommand = "SELECT DISTINCT(accountNumber) FROM banking;";
+            ResultSet rs = statement.executeQuery(queryCommand);
+
+            while (rs.next()) {
+                // Prepare data to match the table's data types
+                preparedStatement.setString(1, rs.getString("accountNumber"));
+                preparedStatement.setString(2, "John Smith");
+                preparedStatement.setNull(3, 0);
+
+                count = count + 1;
+                // Execute batch of SQL commands
+                preparedStatement.addBatch();
+                if (count % batchSize == 0) {
+                    preparedStatement.executeBatch();
+                }
+            }
+
+            preparedStatement.executeBatch(); // Execute remaining SQL commands
+            System.out.println("Successfully inserted data into table: client");
+        }
+        catch (SQLException e) {
             System.out.println(e);
         }
     }
