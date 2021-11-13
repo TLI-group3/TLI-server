@@ -14,19 +14,25 @@ public interface BankingDataProcessingInterface {
      * @param accountNumber the account number of the client
      * @return list of deposit amounts in chronological order.
      */
-    public ArrayList<Integer> getDeposits(String accountNumber);
+    static ArrayList<Float> getDeposits(String accountNumber){
+        return null;
+    }
 
     /**
      * Returns a list of withdrawals made by the client from their bank statement.
      * @param accountNumber the account number of the client
      * @return list of withdrawal amounts in chronological order.
      */
-    public ArrayList<Integer> getWithdrawals(String accountNumber);
+    static ArrayList<Float> getWithdrawals(String accountNumber){
+        return null;
+    }
 
     /**
      * Returns the client's credit score
      * @param accountNumber the account number of the client
      * @return credit score
      */
-    public int getCreditScore(String accountNumber);
+    static int getCreditScore(String accountNumber){
+        return 0;
+    }
 }

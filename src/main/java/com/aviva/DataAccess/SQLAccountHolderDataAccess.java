@@ -76,7 +76,7 @@ public class SQLAccountHolderDataAccess implements AccountAccessInterface {
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
-            String command = "SELECT * FROM client WHERE accountNumber = '" + accountNumber + "'";
+            String command = "SELECT * FROM banking WHERE accountNumber = '" + accountNumber + "'";
             rs = statement.executeQuery(command);
             return rs;
         }
