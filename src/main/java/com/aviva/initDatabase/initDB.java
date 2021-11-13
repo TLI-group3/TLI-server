@@ -25,9 +25,9 @@ public class initDB {
             createCreditTable(connection);
             createClientTable(connection);
             createRecommendationsTable(connection);
-            writeCarData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Car_Data.csv");
-            writeBankingData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Banking_Data.csv");
-            writeCreditData(connection, "C:/Users/kalam/Desktop/senso/TLI-server/data/Credit_Data.csv");
+            writeCarData(connection, "data/Car_Data.csv");
+            writeBankingData(connection, "data/Banking_Data.csv");
+            writeCreditData(connection, "data/Credit_Data.csv");
             writeClientData(connection);
             writeRecommendationsData(connection);
         }
