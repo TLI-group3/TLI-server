@@ -4,12 +4,9 @@ import com.aviva.CarRecommendations.CarRecommender;
 import com.aviva.DataAccess.AccountHolderDataInterface;
 import com.aviva.DataAccess.CSVAccountHolderData;
 import com.aviva.Entities.AccountHolder;
+import com.aviva.Entities.InputData;
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -44,5 +41,28 @@ public class CarController {
         JSONObject cars = CarRecommender.getRecommendedCars(user);
         System.out.println(cars);
         return cars.toString();
+    }
+
+    /**
+     * Runs our program on the selected clients, and inserts their recommended cars
+     * into our database.
+     * @param inputData inserted input by user, includes client ids
+     * @return boolean representing whether the call was successful
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws ClassNotFoundException
+     */
+    @PutMapping("/input")
+    public boolean insertClient(@RequestBody InputData inputData) throws IOException, InterruptedException, ClassNotFoundException {
+        String clientIDsString = inputData.getClientIDs();
+        String[] clientIDs = clientIDsString.split(" ");
+        for (String id : clientIDs) {
+            AccountHolderDataInterface accountData = new CSVAccountHolderData();
+            AccountHolder user = accountData.getClientByID(id);
+            JSONObject cars = CarRecommender.getRecommendedCars(user);
+        }
+        // TODO: rewrite to reflect changes to business rules
+        // TODO: return false if error or improve the returned message
+        return true;
     }
 }
