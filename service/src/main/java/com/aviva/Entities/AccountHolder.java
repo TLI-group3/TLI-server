@@ -1,6 +1,4 @@
 package main.java.com.aviva.Entities;
-import org.json.JSONObject;
-
 
 /**
  * This class represents an account holder at a given bank.
