@@ -33,7 +33,7 @@ public class initDB {
         }
         // Print error statement if connection fails
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to connect");
         }
     }
 
@@ -45,7 +45,7 @@ public class initDB {
             statement.execute(command);
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to create database");
         }
     }
 
@@ -57,7 +57,7 @@ public class initDB {
             System.out.println("Successfully deleted database: aviva");
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to delete database");
         }
     }
 
@@ -71,7 +71,7 @@ public class initDB {
             System.out.println("Successfully created table: cars");
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to create car table");
         }
     }
 
@@ -85,7 +85,7 @@ public class initDB {
             System.out.println("Successfully created table: banking");
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to create banking table");
         }
     }
 
@@ -99,7 +99,7 @@ public class initDB {
             System.out.println("Successfully created table: credit");
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to create credit table");
         }
     }
 
@@ -113,7 +113,7 @@ public class initDB {
             System.out.println("Successfully created table: client");
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to create client table");
         }
     }
 
@@ -127,7 +127,7 @@ public class initDB {
             System.out.println("Successfully created table: recommendations");
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to create recommendations table");
         }
     }
 
@@ -141,7 +141,7 @@ public class initDB {
             System.out.println("Successfully deleted table: " + table);
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to delete table");
         }
     }
 
@@ -192,7 +192,7 @@ public class initDB {
             System.out.println("Successfully inserted data into table: cars");
 
         } catch (SQLException | IOException e) {
-            System.out.println(e);
+            System.out.println("Failed to write car data");
         }
     }
 
@@ -256,7 +256,7 @@ public class initDB {
             System.out.println("Successfully inserted data into table: banking");
 
         } catch (SQLException | IOException e) {
-            System.out.println(e);
+            System.out.println("Failed to write banking data");
         }
     }
 
@@ -304,7 +304,7 @@ public class initDB {
             System.out.println("Successfully inserted data into table: credit");
 
         } catch (SQLException | IOException e) {
-            System.out.println(e);
+            System.out.println("Failed to write credit data");
         }
     }
 
@@ -340,7 +340,7 @@ public class initDB {
             System.out.println("Successfully inserted data into table: client");
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to write client data");
         }
     }
 
@@ -374,8 +374,7 @@ public class initDB {
             System.out.println("Successfully inserted data into table: recommendations");
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to write recommendations data");
         }
     }
-
 }

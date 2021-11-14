@@ -4,13 +4,9 @@ import java.sql.ResultSet;
 
 public interface CarAccessInterface {
 
-    static ResultSet getCar(String carName) {
-        return null;
-    };
+    public ResultSet getCar(String carName);
 
-    static ResultSet getAllCars() {
-        return null;
-    };
+    public ResultSet getAllCars();
 
-    static void insertRecommendedCar(String accountNumber, String carName) {}
+    public void insertRecommendedCar(String accountNumber, String carName);
 }

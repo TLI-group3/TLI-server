@@ -1,7 +1,5 @@
 package com.aviva.CarRecommendations;
 
-import com.aviva.DataAccess.AccountHolderDataInterface;
-import com.aviva.DataAccess.CSVAccountHolderData;
 import com.aviva.Entities.AccountHolder;
 
 import org.json.JSONObject;
@@ -16,7 +14,6 @@ public class SensoRate {
         HttpClient client = HttpClient.newHttpClient();
 
         // Input parameters for the Senso API's rate endpoint
-        // TODO: use actual JSON
         String inputjson = "{\n" +
                 "  \"loanAmount\": "+ user.getSavings() +",\n" +
                 "  \"creditScore\": "+ user.getCreditScore() +",\n" +

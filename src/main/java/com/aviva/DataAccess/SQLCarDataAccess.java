@@ -4,19 +4,11 @@ import java.sql.*;
 
 public class SQLCarDataAccess implements CarAccessInterface {
 
-    public static String url = "jdbc:mysql://" + System.getenv("AVANTAGE_SQLDB_URL");
-    public static String user = System.getenv("AVANTAGE_SQLDB_USER");
-    public static String password = System.getenv("AVANTAGE_SQLDB_PWD");
+    public String url = "jdbc:mysql://" + System.getenv("AVANTAGE_SQLDB_URL");
+    public String user = System.getenv("AVANTAGE_SQLDB_USER");
+    public String password = System.getenv("AVANTAGE_SQLDB_PWD");
 
-    public static void main(String[] args) {
-        getCar("2018 ford focus");
-        getAllCars();
-        insertRecommendedCar("1402110922112412", "2018 ford focus");
-
-    }
-
-    public static ResultSet getCar(String carName) {
-        ResultSet rs = null;
+    public ResultSet getCar(String carName) {
         String[] carDetails = carName.split(" ");
         String carYear = carDetails[0];
         String carBrand = carDetails[1];
@@ -27,47 +19,40 @@ public class SQLCarDataAccess implements CarAccessInterface {
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
             String command = "SELECT * FROM cars WHERE modelYear = '" + carYear + "' AND brand = '" + carBrand + "' AND model = '" + carMake + "' LIMIT 1";
-            rs = statement.executeQuery(command);
-            return rs;
+            return statement.executeQuery(command);
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to get car");
         }
 
-        return rs;
+        return null;
     }
 
-    public static ResultSet getAllCars() {
-        ResultSet rs = null;
-
+    public ResultSet getAllCars() {
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
             String command = "SELECT * FROM cars";
-            rs = statement.executeQuery(command);
-            return rs;
+            return statement.executeQuery(command);
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to get all cars");
         }
 
-        return rs;
+        return null;
     }
 
-    public static void insertRecommendedCar(String accountNumber, String carName) {
-        int count = 0;
+    public void insertRecommendedCar(String accountNumber, String carName) {
         String[] columns = {"carOne", "carTwo", "carThree", "carFour", "carFive"};
-        ResultSet rs = null;
         boolean flag = false;
-        String nullString = "null";
 
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
             String command = "SELECT * FROM recommendations WHERE accountnumber = '" + accountNumber + "'";
-            rs = statement.executeQuery(command);
+            ResultSet rs = statement.executeQuery(command);
             if (rs.next()) {
                 for (int i = 2; i < 7; i++) {
                     String columnValue = rs.getString(i);
@@ -88,7 +73,7 @@ public class SQLCarDataAccess implements CarAccessInterface {
 
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to insert recommendations into database");
         }
     }
 }
