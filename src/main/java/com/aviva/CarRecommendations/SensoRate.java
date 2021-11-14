@@ -27,8 +27,7 @@ public class SensoRate {
                 " \"vehicleMake\": \"%s\", \"vehicleModel\": \"%s\", \"vehicleYear\": %d, \"vehicleKms\": %f," +
                 " \"listPrice\": %f, \"downpayment\": %f}", loanAmount, user.getCreditScore(), (int) user.getMonthlyBudget(),
                 carMake, carModel, carYear, vehicleKMS, carPrice, downPayment);
-
-        System.out.println(System.getenv("SENSO_API_URL") + "/rate");
+        
          // Creates a POST request
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(System.getenv("SENSO_API_URL") + "/rate"))
