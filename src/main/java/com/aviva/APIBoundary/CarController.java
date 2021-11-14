@@ -1,6 +1,5 @@
 package com.aviva.APIBoundary;
 
-import com.aviva.CarRecommendations.BudgetFilter;
 import com.aviva.CarRecommendations.InterestFilter;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
