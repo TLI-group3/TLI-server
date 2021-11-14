@@ -57,9 +57,4 @@ public class InterestFilter {
         return carsJSON;
     }
 
-    public static void main(String[] args) {
-        InterestFilter test = new InterestFilter();
-        String stringtest = "1402110922112412";
-        System.out.println(test.getBestFiveCars(stringtest));
-    }
 }

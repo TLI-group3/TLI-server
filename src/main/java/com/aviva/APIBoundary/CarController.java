@@ -31,7 +31,6 @@ public class CarController {
      */
     @PostMapping("/cars")
     public String getCars(@RequestBody String accountNumber){
-        System.out.println(accountNumber.equals("1402110922112412"));
         InterestFilter ifInit = new InterestFilter();
         JSONObject cars = ifInit.getBestFiveCars(accountNumber);
         return cars.toString();

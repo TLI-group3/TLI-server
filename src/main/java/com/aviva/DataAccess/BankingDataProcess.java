@@ -55,27 +55,19 @@ public class BankingDataProcess implements BankingDataProcessingInterface{
     public int getCreditScore(String accountNumber){
         SQLAccountHolderDataAccess sqlahdaInit = new SQLAccountHolderDataAccess();
         ResultSet latestCreditResultSet = sqlahdaInit.getLatestCreditScore(accountNumber);
-        System.out.println(latestCreditResultSet);
         int creditScore = 0;
         try {
             latestCreditResultSet.next();
             creditScore = latestCreditResultSet.getInt("creditScore");
-            System.out.println(creditScore);
             return creditScore;
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Could not get credit score");
         }
         return creditScore;
     }
 
     public AccountHolder getAccountHolder(String accountNumber) {
         AccountHolder user = new AccountHolder(accountNumber);
-        System.out.println(user);
-        BankingDataProcess bdpInit = new BankingDataProcess();
-        System.out.println(bdpInit.getWithdrawals(accountNumber));
-        System.out.println(bdpInit.getWithdrawals("1402110922112412"));
-        System.out.println(getCreditScore("1402110922112412"));
-        System.out.println(getCreditScore(accountNumber));
         user.setCreditScore(getCreditScore(accountNumber));
         return user;
     }
