@@ -39,6 +39,9 @@ public class InterestFilter {
         for (int i = 0; i < 5; i++) {
             float sortedRate = sortedRates[i];
             int carIndex = Arrays.asList(rates).indexOf(sortedRate);
+            if (carIndex == -1) {
+                carIndex = cars.size() - 1;
+            }
             bestFive.add(cars.get(carIndex));
             rates[carIndex] = (float) -1.0;
         }

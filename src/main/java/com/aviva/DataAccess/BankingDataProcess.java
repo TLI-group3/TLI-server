@@ -67,7 +67,7 @@ public class BankingDataProcess implements BankingDataProcessingInterface{
 
     public AccountHolder getAccountHolder(String accountNumber) {
         AccountHolder user = new AccountHolder(accountNumber);
-        user.setCreditScore(getCreditScore(user.getAccountNumber()));
+        user.setCreditScore(getCreditScore(accountNumber));
         return user;
     }
 }

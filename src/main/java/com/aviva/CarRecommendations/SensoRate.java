@@ -20,12 +20,12 @@ public class SensoRate {
         String carMake = car.getMake();
         String carModel = car.getModel();
         int carYear = car.getYear();
-        float loanAmount = (float) (carPrice - downPayment + (0.1 * carPrice)); // Adding 10% of car value as upselling
+        float loanAmount = (float) (carPrice - downPayment + (0.2 * carPrice)); // Adding 20% of car value as upselling
 
         // Input parameters for the Senso API's rate endpoint
-        String inputJson = String.format("{\"loanAmount\": %f, \"creditScore\": %d, \"pytBudget\": %f," +
-                " \"vehicleMake\": %s, \"vehicleModel\": %s, \"vehicleYear\": %d, \"vehicleKms\": %f," +
-                " \"listPrice\": %f, \"downpayment\": %f}", loanAmount, user.getCreditScore(), user.getMonthlyBudget(),
+        String inputJson = String.format("{\"loanAmount\": %f, \"creditScore\": %d, \"pytBudget\": %d," +
+                " \"vehicleMake\": \"%s\", \"vehicleModel\": \"%s\", \"vehicleYear\": %d, \"vehicleKms\": %f," +
+                " \"listPrice\": %f, \"downpayment\": %f}", loanAmount, user.getCreditScore(), (int) user.getMonthlyBudget(),
                 carMake, carModel, carYear, vehicleKMS, carPrice, downPayment);
 
          // Creates a POST request

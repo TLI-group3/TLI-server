@@ -18,11 +18,11 @@ public class BudgetFilter {
         ArrayList<Car> recommended = new ArrayList<>();
         int index = 0;
         // Random generation of cars for now
-        while (recommended.size() < 5) {
+        while (recommended.size() < 10) {
             Random rand = new Random();
             index = rand.nextInt(allCars.size());
             Car randomCar = allCars.get(index);
-            if (randomCar.getPrice() < user.getSavings()){
+            if (randomCar.getPrice() >= 5000 && randomCar.getPrice() < user.getSavings()){
                 recommended.add(randomCar);
             }
         }
