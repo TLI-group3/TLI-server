@@ -32,6 +32,7 @@ public class CarController {
     @PostMapping("/cars")
     public String getCars(@RequestBody String accountNumber){
         InterestFilter ifInit = new InterestFilter();
+        System.out.println(accountNumber);
         JSONObject cars = ifInit.getBestFiveCars(accountNumber);
         return cars.toString();
     }
