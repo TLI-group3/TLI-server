@@ -30,12 +30,10 @@ public class CarController {
      * @return list of recommended cars, formatted as a JSON string
      */
     @PostMapping("/cars")
-    public String getCars(@RequestBody JSONObject accountNumber){
-        System.out.println(accountNumber.toString());
-        String accountNum = accountNumber.getString("accountNumber");
-        System.out.println(accountNum);
+    public String getCars(@RequestBody String accountNumber){
+        System.out.println(accountNumber.equals("1402110922112412"));
         InterestFilter ifInit = new InterestFilter();
-        JSONObject cars = ifInit.getBestFiveCars(accountNum);
+        JSONObject cars = ifInit.getBestFiveCars(accountNumber);
         return cars.toString();
     }
 }
