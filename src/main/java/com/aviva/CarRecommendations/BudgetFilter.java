@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import com.aviva.Entities.Car;
 import java.util.Random;
 
-public class CarRecommender {
+public class BudgetFilter {
 
-    public JSONObject getRecommendedCars(String accountNumber) {
+    public ArrayList<Car> getRecommendedCars(String accountNumber) {
         CarDataProcess cdpInit = new CarDataProcess();
         ArrayList<Car> allCars = cdpInit.getAllCars();
 
@@ -28,14 +28,6 @@ public class CarRecommender {
                 recommended.add(randomCar);
             }
         }
-        // Converting to JSON
-        JSONObject carsJSON = new JSONObject();
-        JSONArray recommendedCarsJSON = new JSONArray();
-        for (Car car : recommended) {
-            JSONObject carJSON = car.toJSON();
-            recommendedCarsJSON.put(carJSON);
-        }
-        carsJSON.put("cars", recommendedCarsJSON);
-        return carsJSON;
+        return recommended;
     }
 }

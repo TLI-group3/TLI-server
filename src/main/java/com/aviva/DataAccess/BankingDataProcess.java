@@ -34,7 +34,7 @@ public class BankingDataProcess implements BankingDataProcessingInterface{
     public ArrayList<Float> getWithdrawals(String accountNumber) {
         SQLAccountHolderDataAccess sqlahdaInit = new SQLAccountHolderDataAccess();
         ResultSet accountDetails = sqlahdaInit.getAllFinancialTransactions(accountNumber);
-        ArrayList<Float> withdrawals = new ArrayList<Float>();
+        ArrayList<Float> withdrawals = new ArrayList<>();
         try {
             while (accountDetails.next()) {
                 withdrawals.add(accountDetails.getFloat("withdrawals"));
