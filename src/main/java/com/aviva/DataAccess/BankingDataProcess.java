@@ -71,6 +71,8 @@ public class BankingDataProcess implements BankingDataProcessingInterface{
     public AccountHolder getAccountHolder(String accountNumber) {
         AccountHolder user = new AccountHolder(accountNumber);
         System.out.println(user);
+        BankingDataProcess bdpInit = new BankingDataProcess();
+        System.out.println(bdpInit.getWithdrawals(accountNumber));
         user.setCreditScore(getCreditScore(accountNumber));
         return user;
     }

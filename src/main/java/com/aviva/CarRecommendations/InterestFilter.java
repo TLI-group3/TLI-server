@@ -59,6 +59,6 @@ public class InterestFilter {
 
     public static void main(String[] args) {
         InterestFilter test = new InterestFilter();
-        System.out.println(test.getBestFiveCars("hello"));
+        System.out.println(test.getBestFiveCars("1402110922112412"));
     }
 }
