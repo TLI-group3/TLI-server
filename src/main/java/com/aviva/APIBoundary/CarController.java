@@ -27,6 +27,8 @@ public class CarController {
 
     /**
      * Returns a list of recommended cars for a certain client.
+     * This endpoint is meant to be used when viewing the recommended cars for a particular
+     * client on the "Client Information" page.
      * @param clientID the client's ID number
      * @return list of recommended cars, formatted as a JSON string
      * @throws IOException
@@ -35,7 +37,7 @@ public class CarController {
      */
     // TODO: document the format of the returned JSON
     @PostMapping("/cars")
-    public String getCars(@RequestBody String clientID) throws IOException, InterruptedException, ClassNotFoundException {
+    public String getCarsForClient(@RequestBody String clientID) throws IOException, InterruptedException, ClassNotFoundException {
         AccountHolderDataInterface accountData = new CSVAccountHolderData();
         AccountHolder user = accountData.getClientByID(clientID);
         JSONObject cars = CarRecommender.getRecommendedCars(user);
@@ -46,6 +48,8 @@ public class CarController {
     /**
      * Runs our program on the selected clients, and inserts their recommended cars
      * into our database.
+     * This endpoint is meant to be called when a group of client IDs is inserted
+     * from the "Launch Widgets" page in the front-end.
      * @param inputData inserted input by user, includes client ids
      * @return boolean representing whether the call was successful
      * @throws IOException
@@ -53,16 +57,27 @@ public class CarController {
      * @throws ClassNotFoundException
      */
     @PutMapping("/input")
-    public boolean insertClient(@RequestBody InputData inputData) throws IOException, InterruptedException, ClassNotFoundException {
+    public boolean runForInputClients(@RequestBody InputData inputData) {
         String clientIDsString = inputData.getClientIDs();
         String[] clientIDs = clientIDsString.split(" ");
         for (String id : clientIDs) {
-            AccountHolderDataInterface accountData = new CSVAccountHolderData();
-            AccountHolder user = accountData.getClientByID(id);
-            JSONObject cars = CarRecommender.getRecommendedCars(user);
+            // TODO: generate recommended cars for this client
+            // TODO: store these recommendations in the db
+            System.out.println(id);
         }
-        // TODO: rewrite to reflect changes to business rules
         // TODO: return false if error or improve the returned message
         return true;
+    }
+
+    /**
+     * Take in a trade-in car from the user and generate recommended cars.
+     * This endpoint is meant to be called from the widget in the personal banking page.
+     * @param tradeInName the name of the trade-in, formatted as YEAR MAKE MODEL
+     * @return a list of affordable cars
+     */
+    @PostMapping("/widget")
+    public String getCarsForWidget(@RequestBody String tradeInName) {
+        // TODO: fetch recommended cars from output db
+        return tradeInName;
     }
 }
