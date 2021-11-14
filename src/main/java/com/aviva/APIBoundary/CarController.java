@@ -33,8 +33,7 @@ public class CarController {
     public String getCars(@RequestBody String accountNumber){
         InterestFilter ifInit = new InterestFilter();
         System.out.println(accountNumber);
-        System.out.println(accountNumber instanceof String);
-        JSONObject cars = ifInit.getBestFiveCars((String) accountNumber);
+        JSONObject cars = ifInit.getBestFiveCars(accountNumber);
         return cars.toString();
     }
 }

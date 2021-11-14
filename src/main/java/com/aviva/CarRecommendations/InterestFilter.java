@@ -56,4 +56,9 @@ public class InterestFilter {
         carsJSON.put("cars", recommendedCarsJSON);
         return carsJSON;
     }
+
+    public static void main(String[] args) {
+        InterestFilter test = new InterestFilter();
+        System.out.println(test.getBestFiveCars("hello"));
+    }
 }
