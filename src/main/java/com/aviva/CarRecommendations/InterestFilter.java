@@ -59,6 +59,7 @@ public class InterestFilter {
 
     public static void main(String[] args) {
         InterestFilter test = new InterestFilter();
-        System.out.println(test.getBestFiveCars("1402110922112412"));
+        String stringtest = "1402110922112412";
+        System.out.println(test.getBestFiveCars(stringtest));
     }
 }
