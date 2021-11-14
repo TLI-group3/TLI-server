@@ -4,86 +4,67 @@ import java.sql.*;
 
 public class SQLAccountHolderDataAccess implements AccountAccessInterface {
 
-    public static String url = "jdbc:mysql://" + System.getenv("AVANTAGE_SQLDB_URL");
-    public static String user = System.getenv("AVANTAGE_SQLDB_USER");
-    public static String password = System.getenv("AVANTAGE_SQLDB_PWD");
+    public String url = "jdbc:mysql://" + System.getenv("AVANTAGE_SQLDB_URL");
+    public String user = System.getenv("AVANTAGE_SQLDB_USER");
+    public String password = System.getenv("AVANTAGE_SQLDB_PWD");
 
-    public static void main(String[] args) {
-        getClient("1402110922112412");
-        getAllClients();
-        getLatestCreditScore("1402110922112412");
-        getAllFinancialTransactions("1402110922112412");
-    }
-
-    public static ResultSet getClient(String accountNumber) {
-        ResultSet rs = null;
-
+    public ResultSet getClient(String accountNumber) {
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
             String command = "SELECT * FROM client WHERE accountNumber = '" + accountNumber + "' LIMIT 1";
-            rs = statement.executeQuery(command);
-            return rs;
+            return statement.executeQuery(command);
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to get client");
         }
 
-        return rs;
+        return null;
     }
 
-    public static ResultSet getAllClients() {
-        ResultSet rs = null;
+    public ResultSet getAllClients() {
 
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
             String command = "SELECT * FROM client";
-            rs = statement.executeQuery(command);
-            return rs;
+            return statement.executeQuery(command);
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to get all clients");
         }
-
-        return rs;
+        return null;
     }
 
-    public static ResultSet getLatestCreditScore(String accountNumber) {
-        ResultSet rs = null;
-
+    public ResultSet getLatestCreditScore(String accountNumber) {
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
             String command = "SELECT * FROM credit WHERE accountNumber = " + "'" + accountNumber + "' ORDER BY queryDate DESC LIMIT 1";
-            rs = statement.executeQuery(command);
-            return rs;
+            return statement.executeQuery(command);
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to get latest credit score");
         }
 
-        return rs;
+        return null;
     }
 
-    public static ResultSet getAllFinancialTransactions(String accountNumber) {
-        ResultSet rs = null;
-
+    public ResultSet getAllFinancialTransactions(String accountNumber) {
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
             String command = "SELECT * FROM banking WHERE accountNumber = '" + accountNumber + "'";
-            rs = statement.executeQuery(command);
-            return rs;
+            return statement.executeQuery(command);
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to get all financial transactions");
         }
 
-        return rs;
+        return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.aviva.DataProcess;
+package com.aviva.DataAccess;
 
 import com.aviva.Entities.Car;
 
@@ -15,21 +15,15 @@ public interface CarDataProcessingInterface {
      * Iterates through our table of cars and returns all of them
      * @return a list of car objects from our database sorted by ascending price
      */
-    static ArrayList<Car> getAllCars(){
-        return null;
-    }
+    public ArrayList<Car> getAllCars();
 
     /**
      * @param name Full label of car as YEAR MAKE MODEL
      * @return a Car object using the database
      */
-    static Car getCarByName(String name){
-        return null;
-    }
+    public Car getCarByName(String name);
 
 
-
-    // Not sure what this means/requires more discussion
 //    /**
 //     * Iterates through our table of cars and returns one at a time.
 //     * This method uses a variation on the Iterator pattern.

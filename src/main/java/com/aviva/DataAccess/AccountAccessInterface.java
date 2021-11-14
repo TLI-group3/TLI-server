@@ -7,15 +7,11 @@ import java.sql.ResultSet;
  */
 
 public interface AccountAccessInterface {
-    static ResultSet getClient(String accountNumber) { return null; } ;
+    public ResultSet getClient(String accountNumber);
 
-    static ResultSet getAllClients() { return null; };
+    public ResultSet getAllClients();
 
-    static ResultSet getLatestCreditScore(String accountNumber) {
-        return null;
-    };
+    public ResultSet getLatestCreditScore(String accountNumber);
 
-    static ResultSet getAllFinancialTransactions(String accountNumber) {
-        return null;
-    };
+    public ResultSet getAllFinancialTransactions(String accountNumber);
 }

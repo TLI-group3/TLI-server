@@ -1,6 +1,5 @@
-package com.aviva.DataProcess;
+package com.aviva.DataAccess;
 
-import com.aviva.DataAccess.SQLCarDataAccess;
 import com.aviva.Entities.Car;
 
 import java.sql.ResultSet;
@@ -8,13 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CarDataProcess implements CarDataProcessingInterface{
-    public static ArrayList<Car> getAllCars(){
-        /**
-         * Iterates through our table of cars and returns all of them
-         * @return a list of car objects from our database sorted by ascending price
-         */
-        ResultSet carsInDB = SQLCarDataAccess.getAllCars();
-        ArrayList<Car> cars = new ArrayList<Car>();
+    /**
+     * Iterates through our table of cars and returns all of them
+     * @return a list of car objects from our database sorted by ascending price
+     */
+    public ArrayList<Car> getAllCars(){
+        SQLCarDataAccess sqlcdaInit = new SQLCarDataAccess();
+        ResultSet carsInDB = sqlcdaInit.getAllCars();
+        ArrayList<Car> cars = new ArrayList<>();
         try {
             while (carsInDB.next()) {
                 String carName = carsInDB.getString("brand");
@@ -25,17 +25,18 @@ public class CarDataProcess implements CarDataProcessingInterface{
                 cars.add(carToAdd);
             }
         } catch (SQLException e){
-            System.out.println(e);
+            System.out.println("Could not get all cars");
         }
         return cars;
     }
 
-    public static Car getCarByName(String name){
-        /**
-         * @param name Full label of car as YEAR MAKE MODEL
-         * @return a Car object using the database
-         */
-        ResultSet carInDB = SQLCarDataAccess.getCar(name);
+    /**
+     * @param name Full label of car as YEAR MAKE MODEL
+     * @return a Car object using the database
+     */
+    public Car getCarByName(String name){
+        SQLCarDataAccess sqlcdaInit = new SQLCarDataAccess();
+        ResultSet carInDB = sqlcdaInit.getCar(name);
         Car noCar = new Car("noCar", "noCar", 0, 0);
         try {
             carInDB.next();
@@ -43,16 +44,10 @@ public class CarDataProcess implements CarDataProcessingInterface{
             String carModel = carInDB.getString("model");
             int carYear = carInDB.getInt("modelYear");
             int carPrice = carInDB.getInt("price");
-            Car carToReturn = new Car(carName, carModel, carYear, carPrice);
-            return carToReturn;
+            return new Car(carName, carModel, carYear, carPrice);
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Could not get car by name");
         }
         return noCar;
-    }
-
-    public static void main(String args[]){
-        System.out.println(getAllCars());
-        System.out.println(getCarByName("2015 honda door"));
     }
 }
