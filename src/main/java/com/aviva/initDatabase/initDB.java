@@ -5,6 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
 
+/**
+ * This class is responsible for instantiating the database structure and inserting data into it
+ */
+
 public class initDB {
 
     // RDS Credentials
@@ -13,10 +17,12 @@ public class initDB {
     public static String password = System.getenv("AVANTAGE_SQLDB_PWD");
 
     public static void main(String[] args) {
-        // Attempt to connect to RDS instance
+
         try {
+            // Establish connection
             Connection connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Successfully connected");
+
+            // Calls to every method to re-setup the database
             deleteTable(connection, "cars");
             deleteDatabase(connection);
             createDatabase(connection);
@@ -37,18 +43,26 @@ public class initDB {
         }
     }
 
+    /**
+     * Creates a database named aviva on RDS
+     * @param connection communication link with RDS
+     */
     public static void createDatabase(Connection connection) {
         try {
             Statement statement = connection.createStatement();
             String command = "CREATE DATABASE aviva";
-            System.out.println("Successfully created database: aviva");
             statement.execute(command);
+            System.out.println("Successfully created database: aviva");
         }
         catch (SQLException e) {
             System.out.println("Failed to create database");
         }
     }
 
+    /**
+     * Deletes a database named aviva on RDS
+     * @param connection communication link with RDS
+     */
     public static void deleteDatabase(Connection connection) {
         try {
             Statement statement = connection.createStatement();
@@ -61,6 +75,10 @@ public class initDB {
         }
     }
 
+    /**
+     * Creates a car table on the aviva database
+     * @param connection communication link with RDS
+     */
     public static void createCarTable(Connection connection) {
         try {
             Statement statement = connection.createStatement();
@@ -75,6 +93,10 @@ public class initDB {
         }
     }
 
+    /**
+     * Creates a banking table on the aviva database
+     * @param connection communication link with RDS
+     */
     public static void createBankingTable(Connection connection) {
         try {
             Statement statement = connection.createStatement();
@@ -89,6 +111,10 @@ public class initDB {
         }
     }
 
+    /**
+     * Creates a credit table on the aviva database
+     * @param connection communication link with RDS
+     */
     public static void createCreditTable(Connection connection) {
         try {
             Statement statement = connection.createStatement();
@@ -103,6 +129,10 @@ public class initDB {
         }
     }
 
+    /**
+     * Creates a client table on the aviva database
+     * @param connection communication link with RDS
+     */
     public static void createClientTable(Connection connection) {
         try {
             Statement statement = connection.createStatement();
@@ -117,6 +147,10 @@ public class initDB {
         }
     }
 
+    /**
+     * Creates a recommendations table on the aviva database
+     * @param connection communication link with RDS
+     */
     public static void createRecommendationsTable(Connection connection) {
         try {
             Statement statement = connection.createStatement();
@@ -131,6 +165,11 @@ public class initDB {
         }
     }
 
+    /**
+     * Deletes a table from the aviva database given its name
+     * @param connection communication link with RDS
+     * @param table name of the table to delete
+    */
     public static void deleteTable(Connection connection, String table) {
         try {
             Statement statement = connection.createStatement();
@@ -145,6 +184,11 @@ public class initDB {
         }
     }
 
+    /**
+     * Writes car data into the cars table on the aviva database given a file path the car data csv
+     * @param connection communication link with RDS
+     * @param file csv filepath to cars data
+     */
     public static void writeCarData(Connection connection, String file) {
         // Initialize variables
         String command = "INSERT INTO cars (vin, price, brand, model, modelYear, image) VALUES (?, ?, ?, ?, ?, ?)";
@@ -157,6 +201,7 @@ public class initDB {
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
 
+            // Prepare SQL statement
             PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
             BufferedReader lineReader = new BufferedReader(new FileReader(file)); // Open CSV file to read
             lineReader.readLine(); // Skip CSV header
@@ -196,6 +241,11 @@ public class initDB {
         }
     }
 
+    /**
+     * Writes banking data into the banking table on the aviva database given a file path the banking data csv
+     * @param connection communication link with RDS
+     * @param file csv filepath to banking data
+     */
     public static void writeBankingData(Connection connection, String file) {
         // Initialize variables
         String command = "INSERT INTO banking (accountNumber, transactionDate, deposits, withdrawals) VALUES (?, ?, ?, ?)";
@@ -260,6 +310,11 @@ public class initDB {
         }
     }
 
+    /**
+     * Writes credit data into the credit table on the aviva database given a file path the credit data csv
+     * @param connection communication link with RDS
+     * @param file csv filepath to credit data
+     */
     public static void writeCreditData(Connection connection, String file) {
         // Initialize variables
         String command = "INSERT INTO credit (accountNumber, queryDate, creditScore) VALUES (?, ?, ?)";
@@ -308,6 +363,10 @@ public class initDB {
         }
     }
 
+    /**
+     * Writes client data into the client table on the aviva database by reading through existing banking data
+     * @param connection communication link with RDS
+     */
     public static void writeClientData(Connection connection) {
         // Initialize variables
         String command = "INSERT INTO client (accountNumber, fullName, previousCar) VALUES (?, ?, ?)";
@@ -315,13 +374,17 @@ public class initDB {
         int count = 0;
 
         try {
+            // Connect to aviva database
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
 
             PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
+
+            // Query all unique account numbers from the banking table
             String queryCommand = "SELECT DISTINCT(accountNumber) FROM banking;";
             ResultSet rs = statement.executeQuery(queryCommand);
 
+            // Loop through each queried account number
             while (rs.next()) {
                 // Prepare data to match the table's data types
                 preparedStatement.setString(1, rs.getString("accountNumber"));
@@ -344,6 +407,10 @@ public class initDB {
         }
     }
 
+    /**
+     * Writes all clients into recommendations table to prepare for any incoming recommended car
+     * @param connection communication link with RDS
+     */
     public static void writeRecommendationsData(Connection connection) {
         // Initialize variables
         String command = "INSERT INTO recommendations (accountNumber) VALUES (?)";
@@ -351,13 +418,17 @@ public class initDB {
         int count = 0;
 
         try {
+            // Connect to aviva database
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
 
             PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
+
+            // Query all unique account numbers from the banking table
             String queryCommand = "SELECT DISTINCT(accountNumber) FROM banking;";
             ResultSet rs = statement.executeQuery(queryCommand);
 
+            // Loop through each queried account number
             while (rs.next()) {
                 // Prepare data to match the table's data types
                 preparedStatement.setString(1, rs.getString("accountNumber"));

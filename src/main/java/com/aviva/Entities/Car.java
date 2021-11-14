@@ -2,6 +2,10 @@ package com.aviva.Entities;
 
 import org.json.JSONObject;
 
+/**
+ * This class represents a car
+ */
+
 public class Car {
 
     private final String make;
@@ -20,7 +24,7 @@ public class Car {
     public String getMake() { return make;  }
     public int getYear() { return year; }
     public float getPrice() { return price; }
-
+    
     public JSONObject toJSON() {
         JSONObject carJSON = new JSONObject();
         carJSON.put("make", this.make);
