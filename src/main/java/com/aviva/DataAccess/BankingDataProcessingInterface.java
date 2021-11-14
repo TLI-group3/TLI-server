@@ -1,4 +1,4 @@
-package com.aviva.DataProcess;
+package com.aviva.DataAccess;
 
 import java.util.ArrayList;
 
@@ -11,28 +11,22 @@ import java.util.ArrayList;
 public interface BankingDataProcessingInterface {
     /**
      * Returns a list of deposits made by the client from their bank statement.
-     * @param accountNumber the account number of the client
+     * @param clientID the id number of the client
      * @return list of deposit amounts in chronological order.
      */
-    static ArrayList<Float> getDeposits(String accountNumber){
-        return null;
-    }
+    public ArrayList<Integer> getDeposits(String clientID);
 
     /**
      * Returns a list of withdrawals made by the client from their bank statement.
-     * @param accountNumber the account number of the client
+     * @param clientID the id number of the client
      * @return list of withdrawal amounts in chronological order.
      */
-    static ArrayList<Float> getWithdrawals(String accountNumber){
-        return null;
-    }
+    public ArrayList<Integer> getWithdrawals(String clientID);
 
     /**
      * Returns the client's credit score
-     * @param accountNumber the account number of the client
+     * @param clientID the id number of the client
      * @return credit score
      */
-    static int getCreditScore(String accountNumber){
-        return 0;
-    }
+    public int getCreditScore(String clientID);
 }
