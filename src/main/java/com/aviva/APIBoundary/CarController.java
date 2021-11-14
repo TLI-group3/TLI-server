@@ -1,6 +1,7 @@
 package com.aviva.APIBoundary;
 
 import com.aviva.CarRecommendations.BudgetFilter;
+import com.aviva.CarRecommendations.InterestFilter;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +31,8 @@ public class CarController {
      */
     @PostMapping("/cars")
     public String getCars(@RequestBody String accountNumber){
-        BudgetFilter crInit = new BudgetFilter();
-        JSONObject cars = crInit.getRecommendedCars(accountNumber);
+        InterestFilter ifInit = new InterestFilter();
+        JSONObject cars = ifInit.getBestFiveCars(accountNumber);
         return cars.toString();
     }
 }

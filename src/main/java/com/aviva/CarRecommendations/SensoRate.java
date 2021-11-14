@@ -12,7 +12,7 @@ import java.net.http.HttpResponse;
 
 public class SensoRate {
 
-    public float getInterestRate(int creditScore, float pytBudget, Car car) {
+    public float getInterestRate(AccountHolder user, Car car) {
         HttpClient client = HttpClient.newHttpClient();
         float carPrice = car.getPrice();
         float downPayment = (float) (0.1 * carPrice);
@@ -25,8 +25,8 @@ public class SensoRate {
         // Input parameters for the Senso API's rate endpoint
         String inputJson = String.format("{\"loanAmount\": %f, \"creditScore\": %d, \"pytBudget\": %f," +
                 " \"vehicleMake\": %s, \"vehicleModel\": %s, \"vehicleYear\": %d, \"vehicleKms\": %f," +
-                " \"listPrice\": %f, \"downpayment\": %f}", loanAmount, creditScore, pytBudget, carMake,
-                carModel, carYear, vehicleKMS, carPrice, downPayment);
+                " \"listPrice\": %f, \"downpayment\": %f}", loanAmount, user.getCreditScore(), user.getMonthlyBudget(),
+                carMake, carModel, carYear, vehicleKMS, carPrice, downPayment);
 
          // Creates a POST request
         HttpRequest request = HttpRequest.newBuilder()

@@ -1,5 +1,6 @@
 package com.aviva.CarRecommendations;
 
+import com.aviva.Entities.AccountHolder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,12 +11,9 @@ import java.util.Random;
 
 public class BudgetFilter {
 
-    public ArrayList<Car> getRecommendedCars(String accountNumber) {
+    public ArrayList<Car> getRecommendedCars(AccountHolder user) {
         CarDataProcess cdpInit = new CarDataProcess();
         ArrayList<Car> allCars = cdpInit.getAllCars();
-
-        EstimateBudget ebInit = new EstimateBudget();
-        float budget = ebInit.calculateYearlyBudget(accountNumber);
 
         ArrayList<Car> recommended = new ArrayList<>();
         int index = 0;
@@ -24,7 +22,7 @@ public class BudgetFilter {
             Random rand = new Random();
             index = rand.nextInt(allCars.size());
             Car randomCar = allCars.get(index);
-            if (randomCar.getPrice() < budget){
+            if (randomCar.getPrice() < user.getSavings()){
                 recommended.add(randomCar);
             }
         }

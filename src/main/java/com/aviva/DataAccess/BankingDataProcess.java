@@ -1,5 +1,7 @@
 package com.aviva.DataAccess;
 
+import com.aviva.Entities.AccountHolder;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -61,5 +63,11 @@ public class BankingDataProcess implements BankingDataProcessingInterface{
             System.out.println("Could not get credit score");
         }
         return creditScore;
+    }
+
+    public AccountHolder getAccountHolder(String accountNumber) {
+        AccountHolder user = new AccountHolder(accountNumber);
+        user.setCreditScore(getCreditScore(user.getAccountNumber()));
+        return user;
     }
 }
