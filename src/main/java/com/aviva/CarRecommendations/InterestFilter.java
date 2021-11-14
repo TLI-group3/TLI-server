@@ -38,10 +38,7 @@ public class InterestFilter {
 
         for (int i = 0; i < 5; i++) {
             float sortedRate = sortedRates[i];
-            int carIndex = Arrays.asList(rates).indexOf(sortedRate);
-            if (carIndex == -1) {
-                carIndex = cars.size() - 1;
-            }
+            int carIndex = getFirstIndex(rates, sortedRate);
             bestFive.add(cars.get(carIndex));
             rates[carIndex] = (float) -1.0;
         }
@@ -57,4 +54,12 @@ public class InterestFilter {
         return carsJSON;
     }
 
+    public int getFirstIndex(float[] rates, float value) {
+        for (int i = 0; i < rates.length; i++) {
+            if (rates[i] == value) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

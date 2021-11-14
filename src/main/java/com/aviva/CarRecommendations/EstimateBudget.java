@@ -24,4 +24,5 @@ public class EstimateBudget {
     public float calculateMonthlyBudget(AccountHolder user) {
         return calculateYearlyBudget(user) / 12;
     }
+
 }
