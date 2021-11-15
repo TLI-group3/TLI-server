@@ -24,12 +24,7 @@ public class CarDataProcess implements CarDataProcessingInterface{
         // Convert the query data into a Car entity and add it to a list
         try {
             while (carsInDB.next()) {
-                String carName = carsInDB.getString("brand");
-                String carModel = carsInDB.getString("model");
-                int carYear = carsInDB.getInt("modelYear");
-                int carPrice = carsInDB.getInt("price");
-                Car carToAdd = new Car(carName, carModel, carYear, carPrice);
-                cars.add(carToAdd);
+                cars.add(helperCreateCarObject(carsInDB));
             }
         }
         catch (SQLException e){
@@ -52,15 +47,26 @@ public class CarDataProcess implements CarDataProcessingInterface{
         // Convert the queried car into a Car entity
         try {
             carInDB.next();
-            String carName = carInDB.getString("brand");
-            String carModel = carInDB.getString("model");
-            int carYear = carInDB.getInt("modelYear");
-            int carPrice = carInDB.getInt("price");
-            return new Car(carName, carModel, carYear, carPrice);
+            return helperCreateCarObject(carInDB);
         }
         catch (SQLException e) {
             System.out.println("Could not get car by name");
         }
         return noCar;
+    }
+
+    /**
+     * Returns a Car object given a ResultSet from the database
+     * @return a Car object with respective data
+     */
+    public Car helperCreateCarObject(ResultSet carsInDB) throws SQLException {
+        String carName = carsInDB.getString("brand");
+        String carModel = carsInDB.getString("model");
+        int carYear = carsInDB.getInt("modelYear");
+        int carPrice = carsInDB.getInt("price");
+        String carImage = carsInDB.getString("image");
+        Car carToAdd = new Car(carName, carModel, carYear, carPrice);
+        carToAdd.setImage(carImage);
+        return carToAdd;
     }
 }
