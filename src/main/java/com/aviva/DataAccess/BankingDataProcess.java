@@ -1,5 +1,7 @@
 package com.aviva.DataAccess;
 
+import com.aviva.Entities.AccountHolder;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ public class BankingDataProcess implements BankingDataProcessingInterface{
     public ArrayList<Float> getWithdrawals(String accountNumber) {
         SQLAccountHolderDataAccess sqlahdaInit = new SQLAccountHolderDataAccess();
         ResultSet accountDetails = sqlahdaInit.getAllFinancialTransactions(accountNumber);
-        ArrayList<Float> withdrawals = new ArrayList<Float>();
+        ArrayList<Float> withdrawals = new ArrayList<>();
         try {
             while (accountDetails.next()) {
                 withdrawals.add(accountDetails.getFloat("withdrawals"));
@@ -57,9 +59,16 @@ public class BankingDataProcess implements BankingDataProcessingInterface{
         try {
             latestCreditResultSet.next();
             creditScore = latestCreditResultSet.getInt("creditScore");
+            return creditScore;
         } catch (SQLException e) {
             System.out.println("Could not get credit score");
+            return creditScore;
         }
-        return creditScore;
+    }
+
+    public AccountHolder makeAccountHolder(String accountNumber) {
+        AccountHolder user = new AccountHolder(accountNumber);
+        user.setCreditScore(getCreditScore(accountNumber));
+        return user;
     }
 }

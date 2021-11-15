@@ -17,7 +17,7 @@ public class initDB {
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             System.out.println("Successfully connected");
-            deleteTable(connection, "recommendations");
+            deleteTable(connection, "cars");
             deleteDatabase(connection);
             createDatabase(connection);
             createCarTable(connection);
