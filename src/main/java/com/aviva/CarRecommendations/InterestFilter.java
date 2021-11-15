@@ -13,7 +13,7 @@ public class InterestFilter {
 
     public JSONObject getBestFiveCars(String accountNumber) {
         BankingDataProcess bdpInit = new BankingDataProcess();
-        AccountHolder user = bdpInit.getAccountHolder(accountNumber);
+        AccountHolder user = bdpInit.makeAccountHolder(accountNumber);
 
         EstimateBudget ebInit = new EstimateBudget();
         float yearlyBudget = ebInit.calculateYearlyBudget(user);

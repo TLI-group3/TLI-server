@@ -62,11 +62,11 @@ public class BankingDataProcess implements BankingDataProcessingInterface{
             return creditScore;
         } catch (SQLException e) {
             System.out.println("Could not get credit score");
+            return creditScore;
         }
-        return creditScore;
     }
 
-    public AccountHolder getAccountHolder(String accountNumber) {
+    public AccountHolder makeAccountHolder(String accountNumber) {
         AccountHolder user = new AccountHolder(accountNumber);
         user.setCreditScore(getCreditScore(accountNumber));
         return user;
