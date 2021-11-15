@@ -36,7 +36,7 @@ public class BankingDataProcessTest {
     }
 
     @Test
-    public void testGetAccountHolder() {
-        assertEquals(719, processToTest.getAccountHolder(knownUser.getAccountNumber()).getCreditScore());
+    public void testMakeAccountHolder() {
+        assertEquals(719, processToTest.makeAccountHolder(knownUser.getAccountNumber()).getCreditScore());
     }
 }
