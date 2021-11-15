@@ -1,9 +1,13 @@
 package com.aviva.APIBoundary;
 
+import com.aviva.DataAccess.SQLAccountHolderDataAccess;
+import com.aviva.DataAccess.SQLCarDataAccess;
 import com.aviva.Entities.InputData;
 import com.aviva.CarRecommendations.InterestFilter;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * A controller class that handles input-output data communication between front-end and back-end. It uses springboot to
@@ -47,9 +51,8 @@ public class CarController {
         String clientIDsString = inputData.getClientIDs();
         String[] clientIDs = clientIDsString.split(" ");
         for (String id : clientIDs) {
-            // TODO: generate recommended cars for this client
-            // TODO: store these recommendations in the db
-            System.out.println(id);
+            InterestFilter ifInit = new InterestFilter();
+            JSONObject cars = ifInit.getBestFiveCars(id);
         }
         // TODO: return false if error or improve the returned message
         return true;
@@ -58,12 +61,15 @@ public class CarController {
     /**
      * Take in a trade-in car from the user and generate recommended cars.
      * This endpoint is meant to be called from the widget in the personal banking page.
-     * @param tradeInName the name of the trade-in, formatted as YEAR MAKE MODEL
+     * @param params map including accountNumber and tradeIn car name
      * @return a list of affordable cars
      */
     @PostMapping("/widget")
-    public String getCarsForWidget(@RequestBody String tradeInName) {
-        // TODO: fetch recommended cars from output db
-        return tradeInName;
+    public String getCarsForWidget(@RequestBody Map<String, String> params) {
+        String accountNumber = params.get("accountNumber");
+        String tradeIn = params.get("tradeIn");
+        InterestFilter ifInit = new InterestFilter();
+        JSONObject cars = ifInit.getBestFiveCars(accountNumber);
+        return cars.toString();
     }
 }
