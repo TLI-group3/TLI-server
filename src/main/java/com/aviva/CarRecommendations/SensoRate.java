@@ -1,7 +1,5 @@
 package com.aviva.CarRecommendations;
 
-import com.aviva.DataAccess.BankingDataProcess;
-import com.aviva.DataAccess.CarDataProcess;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.Car;
 import org.json.JSONArray;
@@ -64,6 +62,13 @@ public class SensoRate {
         return (float) -1.0;
     }
 
+    /**
+     * Returns the installments for a particular AccountHolder and Car
+     *
+     * @param user the AccountHolder for which to calculate the rate
+     * @param car the Car for which to calculate the rate
+     * @return the installment plan for a given Car and Accountholder as a JSONArray
+     */
     public JSONArray getInstallments(AccountHolder user, Car car) {
         HttpClient client = HttpClient.newHttpClient();
         float carPrice = car.getPrice();

@@ -34,7 +34,7 @@ public class EstimateBudget {
             yearlyOut += i;
         }
 
-        return yearlyIn - yearlyOut; // difference of deposits and withdrawals
+        return yearlyIn - yearlyOut;
     }
 
     /**

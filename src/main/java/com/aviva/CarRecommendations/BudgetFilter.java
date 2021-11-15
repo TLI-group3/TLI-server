@@ -8,12 +8,14 @@ import java.util.Random;
 
 /**
  * Public class that handles the business logic of generating possible cars to be recommended (first filter)
+ * The first filter identifies 10 random cars within the client's budget by checking if the car's price is within
+ * the client's yearly savings
  */
 
 public class BudgetFilter {
 
     /**
-     * Returns a ArrayList of cars recommened for a particular AccountHolder.
+     * Returns a ArrayList of 10 random cars recommended for a particular AccountHolder based on client's budget
      *
      * @param user the AccountHolder for which to generate recommendations
      * @return ArrayList of 10 Car Entities.

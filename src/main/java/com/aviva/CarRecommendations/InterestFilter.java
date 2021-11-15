@@ -10,15 +10,16 @@ import java.util.Arrays;
 
 /**
  * Public class that handles the business logic of generating the best cars for an AccountHolder (second filter)
+ * Filters the initial 10 cars down to 5 based on the lowest interest rates returned by the Senso API
  */
 
 public class InterestFilter {
 
     /**
-     * Returns the best five cars given an AccountHolder's accountNumber
+     * Returns the best five cars given an AccountHolder's accountNumber based on the lowest interest rates
      *
      * @param accountNumber the account number of an AccountHolder
-     * @return JSON that maps cars to several Car entities converted to JSON
+     * @return JSON that maps cars to five Car entities with the lowest interest rate
      */
     public JSONObject getBestFiveCars(String accountNumber) {
         // Instantiate AccountHolder given the accountNumber
