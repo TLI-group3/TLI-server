@@ -24,7 +24,7 @@ public class Car {
     public String getMake() { return make;  }
     public int getYear() { return year; }
     public float getPrice() { return price; }
-    
+
     public JSONObject toJSON() {
         JSONObject carJSON = new JSONObject();
         carJSON.put("make", this.make);
