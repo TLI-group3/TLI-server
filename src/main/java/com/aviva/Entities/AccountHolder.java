@@ -1,5 +1,7 @@
 package com.aviva.Entities;
 
+// TODO: When this entity changes, change the budget estimation calculations accordingly
+
 /**
  * This class represents an account holder at the bank
  */

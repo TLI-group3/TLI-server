@@ -23,7 +23,7 @@ public class InterestFilter {
     public JSONObject getBestFiveCars(String accountNumber) {
         // Instantiate AccountHolder given the accountNumber
         BankingDataProcess bdpInit = new BankingDataProcess();
-        AccountHolder user = bdpInit.getAccountHolder(accountNumber);
+        AccountHolder user = bdpInit.makeAccountHolder(accountNumber);
 
         // Get and set the AccountHolder's budget
         EstimateBudget ebInit = new EstimateBudget();
