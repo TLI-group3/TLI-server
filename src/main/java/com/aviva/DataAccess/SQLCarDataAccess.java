@@ -2,76 +2,94 @@ package com.aviva.DataAccess;
 
 import java.sql.*;
 
+/**
+ * Public class that handles querying data from the database for cars
+ */
+
 public class SQLCarDataAccess implements CarAccessInterface {
 
-    public static String url = "jdbc:mysql://" + System.getenv("AVANTAGE_SQLDB_URL");
-    public static String user = System.getenv("AVANTAGE_SQLDB_USER");
-    public static String password = System.getenv("AVANTAGE_SQLDB_PWD");
+    // RDS Credentials
+    public String url = "jdbc:mysql://" + System.getenv("AVANTAGE_SQLDB_URL");
+    public String user = System.getenv("AVANTAGE_SQLDB_USER");
+    public String password = System.getenv("AVANTAGE_SQLDB_PWD");
 
-    public static void main(String[] args) {
-        getCar("2018 ford focus");
-        getAllCars();
-        insertRecommendedCar("1402110922112412", "2018 ford focus");
-
-    }
-
-    public static ResultSet getCar(String carName) {
-        ResultSet rs = null;
+    /**
+     * Returns the ResultSet of the query to get a car by its name
+     * @param carName the name of a car
+     * @return ResultSet of SQL query to get the car.
+     */
+    public ResultSet getCar(String carName) {
+        // Split the car name string into its year, brand and make
         String[] carDetails = carName.split(" ");
         String carYear = carDetails[0];
         String carBrand = carDetails[1];
         String carMake = carDetails[2];
 
         try {
+            // Establish connection with aviva database
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
+
+            // Query for a car that matches the given year, brand and model
             String command = "SELECT * FROM cars WHERE modelYear = '" + carYear + "' AND brand = '" + carBrand + "' AND model = '" + carMake + "' LIMIT 1";
-            rs = statement.executeQuery(command);
-            return rs;
+            return statement.executeQuery(command);
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to get car");
         }
 
-        return rs;
+        return null;
     }
 
-    public static ResultSet getAllCars() {
-        ResultSet rs = null;
-
+    /**
+     * Returns the ResultSet of the query to get all cars
+     * @return ResultSet of SQL query to get all cars.
+     */
+    public ResultSet getAllCars() {
         try {
+            // Establish connection with aviva database
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
+
+            // Query for all cars
             String command = "SELECT * FROM cars";
-            rs = statement.executeQuery(command);
-            return rs;
+            return statement.executeQuery(command);
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to get all cars");
         }
 
-        return rs;
+        return null;
     }
 
-    public static void insertRecommendedCar(String accountNumber, String carName) {
-        int count = 0;
+    /**
+     * Inserts a car name against an account number into a table
+     * @param accountNumber the account number of the client
+     * @param carName the name of the car to insert
+     */
+    public void insertRecommendedCar(String accountNumber, String carName) {
         String[] columns = {"carOne", "carTwo", "carThree", "carFour", "carFive"};
-        ResultSet rs = null;
         boolean flag = false;
-        String nullString = "null";
 
         try {
+            // Establish connection with aviva database
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
+
+            // Query for existing recommendations for a client with the given account number
             String command = "SELECT * FROM recommendations WHERE accountnumber = '" + accountNumber + "'";
-            rs = statement.executeQuery(command);
-            if (rs.next()) {
+            ResultSet rs = statement.executeQuery(command);
+
+            if (rs.next()) { // Check to client already has recommendations
+                // Loop through each possible recommendation
                 for (int i = 2; i < 7; i++) {
+                    // Check if the client does not have an ith recommendation
                     String columnValue = rs.getString(i);
                     if (columnValue == null) {
+                        // Add the car to the recommendations table
                         flag = true;
                         command = "UPDATE recommendations SET " + columns[i - 2] + " = '" + carName + "' WHERE accountnumber = '" + accountNumber + "'";
                         statement.execute(command);
@@ -85,10 +103,9 @@ public class SQLCarDataAccess implements CarAccessInterface {
             else {
                 System.out.println("Could not find specified account holder");
             }
-
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to insert recommendations into database");
         }
     }
 }

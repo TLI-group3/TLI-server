@@ -1,9 +1,8 @@
 package com.aviva.CarRecommendations;
 
-import com.aviva.DataAccess.AccountHolderDataInterface;
-import com.aviva.DataAccess.CSVAccountHolderData;
 import com.aviva.Entities.AccountHolder;
-
+import com.aviva.Entities.Car;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URI;
@@ -11,46 +10,90 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+/**
+ * Public class that handles the making a call to the Senso API
+ */
+
 public class SensoRate {
-    public static float getApprovedLoanAmount(AccountHolder user) throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
+
+    /**
+     * Returns the interest rate for a particular AccountHolder and Car
+     *
+     * @param user the AccountHolder for which to calculate the rate
+     * @param car the Car for which to calculate the rate
+     * @return the interest rate as a float
+     */
+    public float getInterestRate(AccountHolder user, Car car) {
+        // Set up HTTP Client and POST Request to Senso API
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest request = sensoAPICallHelper(user, car);
+
+        try {
+            // Use the client to send the request
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            JSONObject responseJSON = new JSONObject(response.body());
+            return responseJSON.getFloat("interestRate");
+        }
+        catch (InterruptedException | IOException e) {
+            System.out.println("Could not HTTP Request");
+        }
+
+        return (float) -1.0;
+    }
+
+    /**
+     * Returns the installments for a particular AccountHolder and Car
+     *
+     * @param user the AccountHolder for which to calculate the rate
+     * @param car the Car for which to calculate the rate
+     * @return the installment plan for a given Car and AccountHolder as a JSONArray
+     */
+    public JSONArray getInstallments(AccountHolder user, Car car) {
+        // Set up HTTP Client and POST Request to Senso API
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest request = sensoAPICallHelper(user, car);
+
+        try {
+            // use the client to send the request
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            JSONObject responseJSON = new JSONObject(response.body());
+            return responseJSON.getJSONArray("installments");
+        } catch (InterruptedException | IOException e) {
+            System.out.println("Could not HTTP Request");
+            return new JSONArray();
+        }
+    }
+
+    /**
+     * Returns the HTTP Request to be made to the Senso API Rate method for a given Car and AccountHolder
+     *
+     * @param user the AccountHolder for which to calculate the rate
+     * @param car the Car for which to calculate the rate
+     * @return HTTP POST Request to the Senso API Rate method
+     */
+    public HttpRequest sensoAPICallHelper(AccountHolder user, Car car) {
+        // Initialize variables required by the Senso API
+        float carPrice = car.getPrice();
+        float downPayment = (float) (0.1 * carPrice);
+        float vehicleKMS = 15000.0F; // Assuming average kilometres driven is 15k
+        String carMake = car.getMake();
+        String carModel = car.getModel();
+        int carYear = car.getYear();
+        float loanAmount = (float) (carPrice - downPayment + (0.2 * carPrice)); // Adding 20% of car value as upselling
 
         // Input parameters for the Senso API's rate endpoint
-        // TODO: use actual JSON
-        String inputjson = "{\n" +
-                "  \"loanAmount\": "+ user.getSavings() +",\n" +
-                "  \"creditScore\": "+ user.getCreditScore() +",\n" +
-                "  \"pytBudget\": "+ user.getMonthlyBudget() +",\n" +
-                "  \"vehicleMake\": \"Honda\",\n" +
-                "  \"vehicleModel\": \"Civic\",\n" +
-                "  \"vehicleYear\": 2021,\n" +
-                "  \"vehicleKms\": 1000\n" +
-                "}";
+        String inputJson = String.format("{\"loanAmount\": %f, \"creditScore\": %d, \"pytBudget\": %d," +
+                        " \"vehicleMake\": \"%s\", \"vehicleModel\": \"%s\", \"vehicleYear\": %d, \"vehicleKms\": %f," +
+                        " \"listPrice\": %f, \"downpayment\": %f}", loanAmount, user.getCreditScore(), (int) user.getMonthlyBudget(),
+                carMake, carModel, carYear, vehicleKMS, carPrice, downPayment);
 
-        // Creates a POST request
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(System.getenv("SENSO_API_URL")))
+        // Return the POST Request
+        return HttpRequest.newBuilder()
+                .uri(URI.create(System.getenv("SENSO_API_URL") + "/rate"))
                 .header("Content-Type", "application/json")
                 .header("x-api-key", System.getenv("SENSO_API_KEY"))
-                .POST(HttpRequest.BodyPublishers.ofString(inputjson))
+                .POST(HttpRequest.BodyPublishers.ofString(inputJson))
                 .build();
-
-        // use the client to send the request
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        //parse the returned JSON file
-        return getLoanAmountFromJSON(response.body());
     }
-
-    private static float getLoanAmountFromJSON(String response) {
-        JSONObject obj = new JSONObject(response);
-        return obj.getFloat("amount");
-    }
-
-    public static void main(String[] args) throws IOException, InterruptedException {
-        AccountHolder user;
-        AccountHolderDataInterface accountData = new CSVAccountHolderData();
-        user = accountData.getClientByID("5002357538983918");
-        System.out.println(getApprovedLoanAmount(user));
-    }
+    
 }

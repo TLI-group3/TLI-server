@@ -1,14 +1,9 @@
 package com.aviva.APIBoundary;
 
-import com.aviva.CarRecommendations.CarRecommender;
-import com.aviva.DataAccess.AccountHolderDataInterface;
-import com.aviva.DataAccess.CSVAccountHolderData;
-import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.InputData;
+import com.aviva.CarRecommendations.InterestFilter;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 /**
  * A controller class that handles input-output data communication between front-end and back-end. It uses springboot to
@@ -29,19 +24,13 @@ public class CarController {
      * Returns a list of recommended cars for a certain client.
      * This endpoint is meant to be used when viewing the recommended cars for a particular
      * client on the "Client Information" page.
-     * @param clientID the client's ID number
+     * @param accountNumber the client's ID number
      * @return list of recommended cars, formatted as a JSON string
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws ClassNotFoundException
      */
-    // TODO: document the format of the returned JSON
     @PostMapping("/cars")
-    public String getCarsForClient(@RequestBody String clientID) throws IOException, InterruptedException, ClassNotFoundException {
-        AccountHolderDataInterface accountData = new CSVAccountHolderData();
-        AccountHolder user = accountData.getClientByID(clientID);
-        JSONObject cars = CarRecommender.getRecommendedCars(user);
-        System.out.println(cars);
+    public String getCarsForClient(@RequestBody String accountNumber) {
+        InterestFilter ifInit = new InterestFilter();
+        JSONObject cars = ifInit.getBestFiveCars(accountNumber);
         return cars.toString();
     }
 
@@ -52,9 +41,6 @@ public class CarController {
      * from the "Launch Widgets" page in the front-end.
      * @param inputData inserted input by user, includes client ids
      * @return boolean representing whether the call was successful
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws ClassNotFoundException
      */
     @PutMapping("/input")
     public boolean runForInputClients(@RequestBody InputData inputData) {

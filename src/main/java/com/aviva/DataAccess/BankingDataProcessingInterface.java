@@ -11,22 +11,25 @@ import java.util.ArrayList;
 public interface BankingDataProcessingInterface {
     /**
      * Returns a list of deposits made by the client from their bank statement.
-     * @param clientID the id number of the client
+     *
+     * @param accountNumber the id number of the client
      * @return list of deposit amounts in chronological order.
      */
-    public ArrayList<Integer> getDeposits(String clientID);
+    public ArrayList<Float> getDeposits(String accountNumber);
 
     /**
      * Returns a list of withdrawals made by the client from their bank statement.
-     * @param clientID the id number of the client
+     *
+     * @param accountNumber the id number of the client
      * @return list of withdrawal amounts in chronological order.
      */
-    public ArrayList<Integer> getWithdrawals(String clientID);
+    public ArrayList<Float> getWithdrawals(String accountNumber);
 
     /**
      * Returns the client's credit score
-     * @param clientID the id number of the client
+     *
+     * @param accountNumber the id number of the client
      * @return credit score
      */
-    public int getCreditScore(String clientID);
+    public int getCreditScore(String accountNumber);
 }

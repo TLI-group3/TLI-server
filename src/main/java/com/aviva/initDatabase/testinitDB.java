@@ -18,7 +18,7 @@ public class testinitDB {
         }
         // Print error statement if connection fails
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to connect to database");
         }
     }
 
@@ -34,7 +34,7 @@ public class testinitDB {
             }
         }
         catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("Failed to get test car data");
         }
     }
 }
