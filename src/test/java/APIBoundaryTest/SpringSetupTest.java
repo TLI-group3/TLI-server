@@ -10,6 +10,9 @@ import java.net.http.HttpRequest;
 import java.net.URI;
 import java.net.http.HttpResponse;
 
+/**
+ * Testing if our own spring boot api is starting up and running as intended, both locally and on the EC2
+ */
 
 public class SpringSetupTest {
     @Test
