@@ -5,6 +5,7 @@ package com.aviva.Entities;
 /**
  * This class represents an account holder at the bank
  */
+
 public class AccountHolder {
     private String accountNumber;
     private int creditScore;
