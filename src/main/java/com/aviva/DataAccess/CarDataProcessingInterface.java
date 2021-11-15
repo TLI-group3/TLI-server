@@ -1,7 +1,6 @@
 package com.aviva.DataAccess;
 
 import com.aviva.Entities.Car;
-
 import java.util.ArrayList;
 
 /**

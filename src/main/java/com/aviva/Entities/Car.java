@@ -2,6 +2,10 @@ package com.aviva.Entities;
 
 import org.json.JSONObject;
 
+/**
+ * This class represents a car
+ */
+
 public class Car {
 
     private final String make;
