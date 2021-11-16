@@ -12,6 +12,7 @@ public class Car {
     private final String model;
     private final int year;
     private final float price;
+    private String image;
 
     public Car(String name, String model, int year, float price){
         this.make = name;
@@ -24,6 +25,9 @@ public class Car {
     public String getMake() { return make;  }
     public int getYear() { return year; }
     public float getPrice() { return price; }
+    public void setImage(String imageToSet) { this.image = imageToSet; }
+    public String getImage() { return image; }
+
 
     public JSONObject toJSON() {
         JSONObject carJSON = new JSONObject();
@@ -31,6 +35,7 @@ public class Car {
         carJSON.put("model", this.model);
         carJSON.put("year", this.year);
         carJSON.put("price", this.price);
+        carJSON.put("image", this.image);
         return carJSON;
     }
 }
