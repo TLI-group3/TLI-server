@@ -20,9 +20,6 @@ public class AccountHolder {
 
     public AccountHolder(String accountNumber){this.accountNumber = accountNumber;}
 
-
-    public String getAccountNumber() {return this.accountNumber;
-
     public void setCreditScore(int creditScore) {this.creditScore = creditScore;}
 
     public void setMonthlySalary(int monthlySalary) {this.monthlySalary = monthlySalary;}
@@ -31,20 +28,22 @@ public class AccountHolder {
 
     public void setExistingCarLoan(float loan) {this.existingCarLoan = loan;}
 
-    public void setExistingCar(String ownCar) {this.existingCar = ownedCar;}
+    public void setExistingCar(String existingCar) {this.existingCar = existingCar;}
 
     public void setOtherMonthlySpending(float monthlySpending) {this.otherMonthlySpending = monthlySpending;}
 
+    public String getAccountNumber() {return this.accountNumber;}
+
     public int getCreditScore() {return this.creditScore;}
 
-    public void getMonthlySalary() {return this.monthlySalary;}
+    public float getMonthlySalary() {return this.monthlySalary;}
 
     public float getMonthlyBudget() {return this.monthlyBudget;}
 
-    public void getExistingCarLoan() {return this.existingCarLoan;}
+    public float getExistingCarLoan() {return this.existingCarLoan;}
 
-    public void getExistingCar() {return this.existingCar;}
+    public String getExistingCar() {return this.existingCar;}
 
-    public void getOtherMonthlySpending() {return this.otherMonthlySpending;}
+    public float getOtherMonthlySpending() {return this.otherMonthlySpending;}
 
 }
