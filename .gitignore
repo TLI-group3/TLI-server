@@ -1,0 +1,13 @@
+# Intellij
+.idea/
+
+# Gradle
+.gradle/
+
+# build files
+build/
+out/
+
+#misc
+HELP.md
+lib/

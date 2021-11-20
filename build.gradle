@@ -1,0 +1,26 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.6'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'TLI Group 3'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.json:json:20210307'
+	implementation 'mysql:mysql-connector-java:8.0.27'
+}
+
+test {
+	useJUnitPlatform()
+}
