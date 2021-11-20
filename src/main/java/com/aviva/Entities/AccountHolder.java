@@ -18,9 +18,7 @@ public class AccountHolder {
     private String existingCar;
     private float otherMonthlySpending;
 
-    public AccountHolder(String accountNumber){
-        this.accountNumber = accountNumber;
-    }
+    public AccountHolder(String accountNumber){this.accountNumber = accountNumber;}
 
 
     public String getAccountNumber() {return this.accountNumber;
@@ -33,7 +31,7 @@ public class AccountHolder {
 
     public void setExistingCarLoan(float loan) {this.existingCarLoan = loan;}
 
-    public void setExistingCar(String ownedCar) {this.existingCar = ownedCar;}
+    public void setExistingCar(String ownCar) {this.existingCar = ownedCar;}
 
     public void setOtherMonthlySpending(float monthlySpending) {this.otherMonthlySpending = monthlySpending;}
 
@@ -47,6 +45,6 @@ public class AccountHolder {
 
     public void getExistingCar() {return this.existingCar;}
 
-    public void setOtherMonthlySpending() {return this.otherMonthlySpending;}
+    public void getOtherMonthlySpending() {return this.otherMonthlySpending;}
 
 }
