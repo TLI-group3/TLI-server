@@ -1,5 +1,9 @@
 package com.aviva.Entities;
 
+/**
+ * This class represents a installment from a loan
+ */
+
 public class Installment {
     private int termNumber;
     private float termCapital;

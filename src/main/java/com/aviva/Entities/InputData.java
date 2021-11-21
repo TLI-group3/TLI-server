@@ -3,6 +3,7 @@ package com.aviva.Entities;
 /**
  * A data class representing the data input by the user.
  */
+
 public class InputData {
     private final String clientIDs; // integers separated by spaces
     private final boolean generateEmail;

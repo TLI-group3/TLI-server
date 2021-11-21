@@ -2,6 +2,10 @@ package com.aviva.Entities;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents a recommended car with complete loan information
+ */
+
 public class RecommendedCar extends Car {
     private float loanAmount;
     private float interestSum;
