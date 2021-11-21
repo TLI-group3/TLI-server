@@ -46,6 +46,7 @@ public class AccountHolder {
     public float getMonthlyBudget() {return this.monthlyBudget;}
 
     public ArrayList<RecommendedCar> getRecommendedCars() {return this.recommendedCars;}
+
     public float getExistingCarLoan() {return this.existingCarLoan;}
 
     public String getExistingCar() {return this.existingCar;}
