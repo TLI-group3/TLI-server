@@ -65,14 +65,10 @@ public class InterestFilter {
         JSONObject carsJSON = new JSONObject();
         JSONArray recommendedCarsJSON = new JSONArray();
 
-        // to save in db
-        SQLCarDataAccess carDataAccess = new SQLCarDataAccess();
 
         for (Car car : bestFive) {
             JSONObject carJSON = car.toJSON();
             recommendedCarsJSON.put(carJSON);
-            carDataAccess.insertRecommendedCar(accountNumber,
-                    car.getYear() + " " + car.getMake() + " " + car.getModel());
         }
         carsJSON.put("cars", recommendedCarsJSON);
 
