@@ -13,13 +13,13 @@ public class EstimateBudget {
     /**
      * Return the yearly budget of an AccountHolder as a float
      *
-     * @param user the AccountHolder for which to generate the budget
+     * @param accountNumber the AccountHolder for which to generate the budget
      * @return float representing the AccountHolder's yearly budget.
      */
-    public float calculateYearlyBudget(AccountHolder user) {
+    public static float calculateYearlyBudget(String accountNumber) {
         // Get AccountHolder's deposits
         BankingDataProcess bdpInit = new BankingDataProcess();
-        ArrayList<Float> deposits = bdpInit.getDeposits(user.getAccountNumber());
+        ArrayList<Float> deposits = bdpInit.getDeposits(accountNumber);
 
         // Sum all deposits
         float yearlyIn = 0;
@@ -28,7 +28,7 @@ public class EstimateBudget {
         }
 
         // Get all withdrawals and sum them
-        ArrayList<Float> withdrawals = bdpInit.getWithdrawals(user.getAccountNumber());
+        ArrayList<Float> withdrawals = bdpInit.getWithdrawals(accountNumber);
         float yearlyOut = 0;
         for (float i : withdrawals) {
             yearlyOut += i;
@@ -36,15 +36,4 @@ public class EstimateBudget {
 
         return yearlyIn - yearlyOut;
     }
-
-    /**
-     * Return the monthly budget of an AccountHolder as a float
-     *
-     * @param user the AccountHolder for which to generate the budget
-     * @return float representing the AccountHolder's monthly budget.
-     */
-    public float calculateMonthlyBudget(AccountHolder user) {
-        return calculateYearlyBudget(user) / 12;
-    }
-
 }

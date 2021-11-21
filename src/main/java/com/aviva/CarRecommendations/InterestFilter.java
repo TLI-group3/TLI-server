@@ -27,13 +27,6 @@ public class InterestFilter {
         BankingDataProcess bdpInit = new BankingDataProcess();
         AccountHolder user = bdpInit.makeAccountHolder(accountNumber);
 
-        // Get and set the AccountHolder's budget
-        EstimateBudget ebInit = new EstimateBudget();
-        float yearlyBudget = ebInit.calculateYearlyBudget(user);
-        user.setSavings(yearlyBudget);
-        float monthlyBudget = ebInit.calculateMonthlyBudget(user);
-        user.setMonthlyBudget(monthlyBudget);
-
         // Get the list of possible cars for the AccountHolder
         BudgetFilter bfInit = new BudgetFilter();
         ArrayList<Car> cars = bfInit.getRecommendedCars(user);
