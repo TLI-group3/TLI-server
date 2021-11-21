@@ -5,35 +5,51 @@ package com.aviva.Entities;
 import java.util.ArrayList;
 
 /**
- * This class represents an account holder at the bank
+ * This class represents an account holder at a given bank.
  */
 
 public class AccountHolder {
+    // General financial Info
     private String accountNumber;
     private int creditScore;
-    private float savings;
-    private float monthlyBudget;
+    private float monthlySalary;
     private ArrayList<RecommendedCar> recommendedCars;
 
-    public AccountHolder(String accountNumber){
-        this.accountNumber = accountNumber;
-    }
+    // Information relating to lifestyle
+    private float monthlyBudget;
+    private float existingCarLoan;
+    private String existingCar;
+    private float otherMonthlySpending;
+
+    public AccountHolder(String accountNumber){this.accountNumber = accountNumber;}
 
     public void setCreditScore(int creditScore) {this.creditScore = creditScore;}
 
-    public void setSavings(float savings) {this.savings = savings;}
+    public void setMonthlySalary(float monthlySalary) {this.monthlySalary = monthlySalary;}
 
     public void setMonthlyBudget(float monthlyBudget) {this.monthlyBudget = monthlyBudget;}
 
     public void setRecommendedCars(ArrayList<RecommendedCar> recommended) {this.recommendedCars = recommended;}
 
+    public void setExistingCarLoan(float loan) {this.existingCarLoan = loan;}
+
+    public void setExistingCar(String existingCar) {this.existingCar = existingCar;}
+
+    public void setOtherMonthlySpending(float monthlySpending) {this.otherMonthlySpending = monthlySpending;}
+
     public String getAccountNumber() {return this.accountNumber;}
 
     public int getCreditScore() {return this.creditScore;}
 
-    public float getSavings() {return this.savings;}
+    public float getMonthlySalary() {return this.monthlySalary;}
 
     public float getMonthlyBudget() {return this.monthlyBudget;}
 
     public ArrayList<RecommendedCar> getRecommendedCars() {return this.recommendedCars;}
+    public float getExistingCarLoan() {return this.existingCarLoan;}
+
+    public String getExistingCar() {return this.existingCar;}
+
+    public float getOtherMonthlySpending() {return this.otherMonthlySpending;}
+
 }
