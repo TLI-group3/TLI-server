@@ -2,6 +2,8 @@ package com.aviva.Entities;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * This class represents a car
  */
