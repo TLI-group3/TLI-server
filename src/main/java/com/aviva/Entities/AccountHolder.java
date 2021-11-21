@@ -22,7 +22,7 @@ public class AccountHolder {
 
     public void setCreditScore(int creditScore) {this.creditScore = creditScore;}
 
-    public void setMonthlySalary(int monthlySalary) {this.monthlySalary = monthlySalary;}
+    public void setMonthlySalary(float monthlySalary) {this.monthlySalary = monthlySalary;}
 
     public void setMonthlyBudget(float monthlyBudget) {this.monthlyBudget = monthlyBudget;}
 
