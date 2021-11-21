@@ -1,5 +1,7 @@
 package com.aviva.DataAccess;
 
+import com.aviva.Entities.RecommendedCar;
+
 import java.sql.*;
 
 /**
@@ -67,12 +69,9 @@ public class SQLCarDataAccess implements CarAccessInterface {
     /**
      * Inserts a car name against an account number into a table
      * @param accountNumber the account number of the client
-     * @param carName the name of the car to insert
+     * @param car the RecommendedCar entity to insert against the client
      */
-    public void insertRecommendedCar(String accountNumber, String carName) {
-        String[] columns = {"carOne", "carTwo", "carThree", "carFour", "carFive"};
-        boolean flag = false;
-
+    public void insertRecommendedCar(String accountNumber, RecommendedCar car) {
         try {
             // Establish connection with aviva database
             Connection connection = DriverManager.getConnection(url, user, password);
@@ -80,27 +79,13 @@ public class SQLCarDataAccess implements CarAccessInterface {
             statement.execute("USE aviva");
 
             // Query for existing recommendations for a client with the given account number
-            String command = "SELECT * FROM recommendations WHERE accountnumber = '" + accountNumber + "'";
+            String command = "SELECT * FROM client WHERE accountnumber = '" + accountNumber + "'";
             ResultSet rs = statement.executeQuery(command);
 
             if (rs.next()) { // Check to client already has recommendations
                 // Loop through each possible recommendation
-                for (int i = 2; i < 7; i++) {
-                    // Check if the client does not have an ith recommendation
-                    String columnValue = rs.getString(i);
-                    if (columnValue == null) {
-                        // Add the car to the recommendations table
-                        flag = true;
-                        command = "UPDATE recommendations SET " + columns[i - 2] + " = '" + carName + "' WHERE accountnumber = '" + accountNumber + "'";
-                        statement.execute(command);
-                        break;
-                    }
-                }
-                if (!flag) {
-                    System.out.println("Account holder already has 5 recommended cars");
-                }
-            }
-            else {
+
+
                 System.out.println("Could not find specified account holder");
             }
         }

@@ -1,5 +1,7 @@
 package com.aviva.DataAccess;
 
+import com.aviva.Entities.RecommendedCar;
+
 import java.sql.ResultSet;
 
 /**
@@ -24,7 +26,7 @@ public interface CarAccessInterface {
     /**
      * Inserts a car name against an account number into a table
      * @param accountNumber the account number of the client
-     * @param carName the name of the car to insert
+     * @param car the RecommendedCar entity to insert against the client
      */
-    public void insertRecommendedCar(String accountNumber, String carName);
+    public void insertRecommendedCar(String accountNumber, RecommendedCar car);
 }
