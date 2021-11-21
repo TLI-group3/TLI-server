@@ -14,7 +14,7 @@ import java.util.Arrays;
  */
 
 public class InterestFilter {
-
+    public int lowestNoCars = 5;
     /**
      * Returns the best five cars given an AccountHolder's accountNumber based on the lowest interest rates
      *
@@ -91,7 +91,7 @@ public class InterestFilter {
         // Variable Initialization
         SensoRate srInit = new SensoRate();
         ArrayList<Car> bestFive = new ArrayList<>();
-        float[] rates = new float[10];
+        float[] rates = new float[initalCars.size()];
 
         // Loop to store interest rate of each car
         for (int i = 0; i < initalCars.size(); i++) {
@@ -100,11 +100,11 @@ public class InterestFilter {
         }
 
         // Create a copy of the array of interest rates and sort them
-        float[] sortedRates = Arrays.copyOf(rates, 10);
+        float[] sortedRates = Arrays.copyOf(rates, initalCars.size());
         Arrays.sort(sortedRates);
 
         // Loop to get five best cars
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < lowestNoCars; i++) {
             float sortedRate = sortedRates[i];
             int carIndex = getFirstIndex(rates, sortedRate);
             bestFive.add(initalCars.get(carIndex));

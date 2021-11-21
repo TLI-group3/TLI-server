@@ -13,6 +13,9 @@ import java.util.Random;
  */
 
 public class BudgetFilter {
+    public int noOfCars = 10;
+    public int minBudget = 5000;
+
 
     /**
      * Returns a ArrayList of 10 random cars recommended for a particular AccountHolder based on client's budget
@@ -30,13 +33,13 @@ public class BudgetFilter {
         int index = 0;
 
         // Loop to get 10 cars
-        while (recommended.size() < 10) {
+        while (recommended.size() < noOfCars) {
             // Get random car from list
             Random rand = new Random();
             index = rand.nextInt(allCars.size());
             Car randomCar = allCars.get(index);
             // Check if car price is above 5000 (required for API call) and within the AccountHolder's savings
-            if (randomCar.getPrice() >= 5000 && randomCar.getPrice() < user.getSavings()){
+            if (randomCar.getPrice() >= minBudget && randomCar.getPrice() < user.getSavings()){
                 recommended.add(randomCar);
             }
         }

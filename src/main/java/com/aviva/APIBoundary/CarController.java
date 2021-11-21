@@ -1,7 +1,5 @@
 package com.aviva.APIBoundary;
 
-import com.aviva.DataAccess.SQLAccountHolderDataAccess;
-import com.aviva.DataAccess.SQLCarDataAccess;
 import com.aviva.Entities.InputData;
 import com.aviva.CarRecommendations.InterestFilter;
 import org.json.JSONObject;
