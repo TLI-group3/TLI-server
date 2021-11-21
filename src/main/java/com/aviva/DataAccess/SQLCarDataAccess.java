@@ -4,6 +4,7 @@ import com.aviva.Entities.Installment;
 import com.aviva.Entities.RecommendedCar;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -84,6 +85,9 @@ public class SQLCarDataAccess implements CarAccessInterface {
             String command = "SELECT * FROM client WHERE accountnumber = '" + accountNumber + "'";
             ResultSet rs = statement.executeQuery(command);
 
+            // Delete previous recommendations if 5 cars already recommended
+            deletePreviousRecommendations(connection, accountNumber);
+
             if (rs.next()) { // Check to client already has recommendations
                 String uniqueID = UUID.randomUUID().toString(); // Generate unique carID
                 insertIntoRecommendations(connection, accountNumber, car, uniqueID);
@@ -98,6 +102,9 @@ public class SQLCarDataAccess implements CarAccessInterface {
         }
     }
 
+    /**
+     * Helper method to insert data into recommendations table
+     */
     public void insertIntoRecommendations(Connection connection, String accountNumber, RecommendedCar car, String uniqueID) throws SQLException {
         String command = "INSERT INTO recommendations (carID, accountNumber, carYear, carBrand, carMake, loanAmount, interestSum, capitalSum, loanSum, loanTerm, interestRate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
@@ -120,6 +127,9 @@ public class SQLCarDataAccess implements CarAccessInterface {
         preparedStatement.executeBatch();
     }
 
+    /**
+     * Helper method to insert data into installments table
+     */
     public void insertIntoInstallments(Connection connection, RecommendedCar car, String uniqueID) throws SQLException {
         String command = "INSERT INTO recommendations (carID, termNumber, termCapital, termInterest, termInstallment, remainingAmount, interestSum) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
@@ -140,7 +150,39 @@ public class SQLCarDataAccess implements CarAccessInterface {
         preparedStatement.executeBatch(); // Execute SQL commands
     }
 
-    public void deletePreviousRecommendations () {
+    /**
+     * Helper method to delete data from recommendations and installments tables if an account number already has 5 recommended cars
+     */
+    public void deletePreviousRecommendations (Connection connection, String accountNumber) {
+        ArrayList<String> carIDs = new ArrayList<>();
+
+        try {
+            // Query how many existing recommendations this account number has
+            Statement statement = connection.createStatement();
+            String command = "SELECT * FROM recommendations WHERE accountnumber = '" + accountNumber + "'";
+            ResultSet rs = statement.executeQuery(command);
+
+            // Add IDs of existing recommendations to a list
+            while (rs.next()) {
+                carIDs.add(rs.getString(1));
+                }
+
+            // Delete all records of recommendations and installments if there are already 5 recommendations
+            if (carIDs.size() >= 5) {
+                // Delete all records from recommendations table
+                command = "DELETE FROM recommendations WHERE accountnumber = '" + accountNumber + "'";
+                statement.execute(command);
+
+                // Delete all records from installments table
+                for (String ID : carIDs) {
+                    command = "DELETE FROM installments WHERE carID = '" + ID + "'";
+                    statement.execute(command);
+                }
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("This account number has less than 5 recommended cars");
+        }
 
     }
 }
