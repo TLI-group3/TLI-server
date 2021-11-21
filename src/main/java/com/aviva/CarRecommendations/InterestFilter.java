@@ -14,6 +14,7 @@ import java.util.Arrays;
  */
 
 public class InterestFilter {
+    // Number of cars to return by interest filter
     public int lowestNoCars = 5;
     /**
      * Returns the best five cars given an AccountHolder's accountNumber based on the lowest interest rates

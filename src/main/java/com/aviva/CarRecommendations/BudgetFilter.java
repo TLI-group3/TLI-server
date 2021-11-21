@@ -13,7 +13,9 @@ import java.util.Random;
  */
 
 public class BudgetFilter {
+    // Number of cars to be returned by the budget filter
     public int noOfCars = 10;
+    // Minimum budget that the senso api allows/requires
     public int minBudget = 5000;
 
 
