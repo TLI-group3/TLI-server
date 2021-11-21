@@ -72,9 +72,9 @@ public class SQLCarDataAccess implements CarAccessInterface {
     /**
      * Inserts a car name against an account number into a table
      * @param accountNumber the account number of the client
-     * @param car the RecommendedCar entity to insert against the client
+     * @param cars a list of RecommendedCar entities to insert against the client
      */
-    public void insertRecommendedCar(String accountNumber, RecommendedCar car) {
+    public void insertRecommendedCars(String accountNumber, ArrayList<RecommendedCar> cars) {
         try {
             // Establish connection with aviva database
             Connection connection = DriverManager.getConnection(url, user, password);
@@ -88,10 +88,13 @@ public class SQLCarDataAccess implements CarAccessInterface {
             // Delete previous recommendations if 5 cars already recommended
             deletePreviousRecommendations(connection, accountNumber);
 
-            if (rs.next()) { // Check to client already has recommendations
-                String uniqueID = UUID.randomUUID().toString(); // Generate unique carID
-                insertIntoRecommendations(connection, accountNumber, car, uniqueID);
-                insertIntoInstallments(connection, car, uniqueID);
+            if (rs.next()) {
+                // Loop through each car to insert
+                for (RecommendedCar car: cars) {
+                    String uniqueID = UUID.randomUUID().toString(); // Generate unique carID
+                    insertIntoRecommendations(connection, accountNumber, car, uniqueID);
+                    insertIntoInstallments(connection, car, uniqueID);
+                }
             }
             else {
                 System.out.println("Could not find specified account holder");
