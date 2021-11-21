@@ -7,7 +7,7 @@ public class RecommendedCar extends Car {
     private float interestSum;
     private float capitalSum;
     private float loanSum;
-    private float loanTerm;
+    private int loanTerm;
     private float interestRate;
     private ArrayList<Installment> installments;
 
@@ -19,7 +19,7 @@ public class RecommendedCar extends Car {
     public void setInterestSum(float interestSum) {this.interestSum = interestSum;}
     public void setCapitalSum(float capitalSum) {this.capitalSum = capitalSum;}
     public void setLoanSum(float loanSum) {this.loanSum = loanSum;}
-    public void setLoanTerm(float loanTerm) {this.loanTerm = loanTerm;}
+    public void setLoanTerm(int loanTerm) {this.loanTerm = loanTerm;}
     public void setInterestRate(float interestRate) {this.interestRate = interestRate;}
     public void setInstallments(ArrayList<Installment> installments) {this.installments = installments;}
 
@@ -27,7 +27,7 @@ public class RecommendedCar extends Car {
     public float getInterestSum() {return this.interestSum;}
     public float getCapitalSum() {return this.capitalSum;}
     public float getLoanSum() {return this.loanSum;}
-    public float getLoanTerm() {return this.loanTerm;}
+    public int getLoanTerm() {return this.loanTerm;}
     public float getInterestRate() {return this.interestRate;}
     public ArrayList<Installment> getInstallments() {return this.installments;}
 
