@@ -1,8 +1,10 @@
 package com.aviva.DataAccess;
 
+import com.aviva.Entities.Installment;
 import com.aviva.Entities.RecommendedCar;
 
 import java.sql.*;
+import java.util.UUID;
 
 /**
  * Public class that handles querying data from the database for cars
@@ -83,14 +85,62 @@ public class SQLCarDataAccess implements CarAccessInterface {
             ResultSet rs = statement.executeQuery(command);
 
             if (rs.next()) { // Check to client already has recommendations
-                // Loop through each possible recommendation
-
-
+                String uniqueID = UUID.randomUUID().toString(); // Generate unique carID
+                insertIntoRecommendations(connection, accountNumber, car, uniqueID);
+                insertIntoInstallments(connection, car, uniqueID);
+            }
+            else {
                 System.out.println("Could not find specified account holder");
             }
         }
         catch (SQLException e) {
             System.out.println("Failed to insert recommendations into database");
         }
+    }
+
+    public void insertIntoRecommendations(Connection connection, String accountNumber, RecommendedCar car, String uniqueID) throws SQLException {
+        String command = "INSERT INTO recommendations (carID, accountNumber, carYear, carBrand, carMake, loanAmount, interestSum, capitalSum, loanSum, loanTerm, interestRate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
+
+        // Match variables against SQL data types
+        preparedStatement.setString(1, uniqueID);
+        preparedStatement.setString(2, accountNumber);
+        preparedStatement.setInt(3, car.getYear());
+        preparedStatement.setString(4, car.getMake());
+        preparedStatement.setString(5, car.getModel());
+        preparedStatement.setFloat(6, car.getLoanAmount());
+        preparedStatement.setFloat(7, car.getInterestSum());
+        preparedStatement.setFloat(8, car.getCapitalSum());
+        preparedStatement.setFloat(9, car.getLoanSum());
+        preparedStatement.setInt(10, car.getLoanTerm());
+        preparedStatement.setFloat(11, car.getInterestRate());
+
+        // Execute SQL commands
+        preparedStatement.addBatch();
+        preparedStatement.executeBatch();
+    }
+
+    public void insertIntoInstallments(Connection connection, RecommendedCar car, String uniqueID) throws SQLException {
+        String command = "INSERT INTO recommendations (carID, termNumber, termCapital, termInterest, termInstallment, remainingAmount, interestSum) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
+
+        // Loop through each installment of the RecommendedCar
+        for (Installment installment: car.getInstallments()) {
+            // Match variables against SQL data types
+            preparedStatement.setString(1, uniqueID);
+            preparedStatement.setInt(2, installment.getTermNumber());
+            preparedStatement.setFloat(3, installment.getTermCapital());
+            preparedStatement.setFloat(4, installment.getTermInterest());
+            preparedStatement.setFloat(5, installment.getTermInstallment());
+            preparedStatement.setFloat(6, installment.getRemainingAmount());
+            preparedStatement.setFloat(7, installment.getInterestSum());
+
+            preparedStatement.addBatch(); // Add to batch of statements to execute
+        }
+        preparedStatement.executeBatch(); // Execute SQL commands
+    }
+
+    public void deletePreviousRecommendations () {
+
     }
 }
