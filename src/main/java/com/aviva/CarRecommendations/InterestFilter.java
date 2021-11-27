@@ -1,7 +1,6 @@
 package com.aviva.CarRecommendations;
 
 import com.aviva.DataAccess.BankingDataProcess;
-import com.aviva.DataAccess.SQLCarDataAccess;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.Car;
 import org.json.JSONArray;
@@ -38,45 +37,10 @@ public class InterestFilter {
         BudgetFilter bfInit = new BudgetFilter();
         ArrayList<Car> cars = bfInit.getRecommendedCars(user);
 
-        // Variable Initialization
-        SensoRate srInit = new SensoRate();
-        ArrayList<Car> bestFive = new ArrayList<>();
-        float[] rates = new float[10];
+        ArrayList<Car> bestFive = filterLowestFive(user, cars);
 
-        // Loop to store interest rate of each car
-        for (int i = 0; i < cars.size(); i++) {
-            float interestRate = srInit.getInterestRate(user, cars.get(i));
-            rates[i] = interestRate;
-        }
-
-        // Create a copy of the array of interest rates and sort them
-        float[] sortedRates = Arrays.copyOf(rates, 10);
-        Arrays.sort(sortedRates);
-
-        // Loop to get five best cars
-        for (int i = 0; i < 5; i++) {
-            float sortedRate = sortedRates[i];
-            int carIndex = getFirstIndex(rates, sortedRate);
-            bestFive.add(cars.get(carIndex));
-            rates[carIndex] = (float) -1.0;
-        }
-
-        // Converting to JSON
-        JSONObject carsJSON = new JSONObject();
-        JSONArray recommendedCarsJSON = new JSONArray();
-
-        // to save in db
-        SQLCarDataAccess carDataAccess = new SQLCarDataAccess();
-
-        for (Car car : bestFive) {
-            JSONObject carJSON = car.toJSON();
-            recommendedCarsJSON.put(carJSON);
-            carDataAccess.insertRecommendedCar(accountNumber,
-                    car.getYear() + " " + car.getMake() + " " + car.getModel());
-        }
-        carsJSON.put("cars", recommendedCarsJSON);
-
-        return carsJSON;
+        // Convert to JSON
+        return convertToJSON(bestFive);
     }
 
     /**
@@ -93,5 +57,59 @@ public class InterestFilter {
             }
         }
         return -1;
+    }
+
+    /**
+     * Convert an array list of cars into JSON equivalent
+     *
+     * @param bestFive an array list of car objects
+     * @return return JSONObject of cars
+     */
+    public JSONObject convertToJSON(ArrayList<Car> bestFive){
+        // Initialisation
+        JSONObject carsJSON = new JSONObject();
+        JSONArray recommendedCarsJSON = new JSONArray();
+
+        // Convert each car object to JSON and add to JSON array
+        for (Car car : bestFive) {
+            JSONObject carJSON = car.toJSON();
+            recommendedCarsJSON.put(carJSON);
+        }
+        carsJSON.put("cars", recommendedCarsJSON);
+
+        return carsJSON;
+    }
+
+    /**
+     * Filter a list of cars by their loan interest rate given by the senso api
+     *
+     * @param user an account holder providing financial details
+     * @param initalCars the initial list of cars to filter against
+     * @return an array list of lowest interest cars
+     */
+    public ArrayList<Car> filterLowestFive(AccountHolder user, ArrayList<Car> initalCars){
+        // Variable Initialization
+        SensoRate srInit = new SensoRate();
+        ArrayList<Car> bestFive = new ArrayList<>();
+        float[] rates = new float[10];
+
+        // Loop to store interest rate of each car
+        for (int i = 0; i < initalCars.size(); i++) {
+            float interestRate = srInit.getInterestRate(user, initalCars.get(i));
+            rates[i] = interestRate;
+        }
+
+        // Create a copy of the array of interest rates and sort them
+        float[] sortedRates = Arrays.copyOf(rates, 10);
+        Arrays.sort(sortedRates);
+
+        // Loop to get five best cars
+        for (int i = 0; i < 5; i++) {
+            float sortedRate = sortedRates[i];
+            int carIndex = getFirstIndex(rates, sortedRate);
+            bestFive.add(initalCars.get(carIndex));
+            rates[carIndex] = (float) -1.0;
+        }
+        return bestFive;
     }
 }
