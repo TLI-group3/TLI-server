@@ -2,6 +2,8 @@ package com.aviva.Entities;
 
 // TODO: When this entity changes, change the budget estimation calculations accordingly
 
+import java.util.ArrayList;
+
 /**
  * This class represents an account holder at a given bank.
  */
@@ -11,6 +13,7 @@ public class AccountHolder {
     private String accountNumber;
     private int creditScore;
     private float monthlySalary;
+    private ArrayList<RecommendedCar> recommendedCars;
 
     // Information relating to lifestyle
     private float monthlyBudget;
@@ -26,6 +29,8 @@ public class AccountHolder {
 
     public void setMonthlyBudget(float monthlyBudget) {this.monthlyBudget = monthlyBudget;}
 
+    public void setRecommendedCars(ArrayList<RecommendedCar> recommended) {this.recommendedCars = recommended;}
+
     public void setExistingCarLoan(float loan) {this.existingCarLoan = loan;}
 
     public void setExistingCar(String existingCar) {this.existingCar = existingCar;}
@@ -39,6 +44,8 @@ public class AccountHolder {
     public float getMonthlySalary() {return this.monthlySalary;}
 
     public float getMonthlyBudget() {return this.monthlyBudget;}
+
+    public ArrayList<RecommendedCar> getRecommendedCars() {return this.recommendedCars;}
 
     public float getExistingCarLoan() {return this.existingCarLoan;}
 

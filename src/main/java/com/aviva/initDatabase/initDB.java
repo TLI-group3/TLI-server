@@ -31,11 +31,11 @@ public class initDB {
             createCreditTable(connection);
             createClientTable(connection);
             createRecommendationsTable(connection);
+            createInstallmentsTable(connection);
             writeCarData(connection, "data/Car_Data.csv");
             writeBankingData(connection, "data/Banking_Data.csv");
             writeCreditData(connection, "data/Credit_Data.csv");
             writeClientData(connection);
-            writeRecommendationsData(connection);
         }
         // Print error statement if connection fails
         catch (SQLException e) {
@@ -156,12 +156,30 @@ public class initDB {
             Statement statement = connection.createStatement();
             String command = "USE aviva";
             statement.execute(command);
-            command = "CREATE TABLE recommendations(accountNumber VARCHAR(255), carOne VARCHAR(24), carTwo VARCHAR(24), carThree VARCHAR(24), carFour VARCHAR(24), carFive VARCHAR(24), PRIMARY KEY(accountNumber))";
+            command = "CREATE TABLE recommendations(carID VARCHAR(255), accountNumber VARCHAR(255), carYear INT(8), carBrand VARCHAR(255), carMake VARCHAR (255), loanAmount FLOAT(32), interestSum FLOAT(32), capitalSum FLOAT(32), loanSum FLOAT(32), loanTerm INT(8), interestRate FLOAT(32), PRIMARY KEY(carID))";
             statement.execute(command);
             System.out.println("Successfully created table: recommendations");
         }
         catch (SQLException e) {
             System.out.println("Failed to create recommendations table");
+        }
+    }
+
+    /**
+     * Creates an installments table on the aviva database
+     * @param connection communication link with RDS
+     */
+    public static void createInstallmentsTable(Connection connection) {
+        try {
+            Statement statement = connection.createStatement();
+            String command = "USE aviva";
+            statement.execute(command);
+            command = "CREATE TABLE installments(carID VARCHAR(255), termNumber INT(8), termCapital FLOAT(32), termInterest FLOAT(32), termInstallment FLOAT(32), remainingAmount FLOAT(32), interestSum FLOAT(32))";
+            statement.execute(command);
+            System.out.println("Successfully created table: installments");
+        }
+        catch (SQLException e) {
+            System.out.println("Failed to create installments table");
         }
     }
 
@@ -404,48 +422,6 @@ public class initDB {
         }
         catch (SQLException e) {
             System.out.println("Failed to write client data");
-        }
-    }
-
-    /**
-     * Writes all clients into recommendations table to prepare for any incoming recommended car
-     * @param connection communication link with RDS
-     */
-    public static void writeRecommendationsData(Connection connection) {
-        // Initialize variables
-        String command = "INSERT INTO recommendations (accountNumber) VALUES (?)";
-        int batchSize = 10;
-        int count = 0;
-
-        try {
-            // Connect to aviva database
-            Statement statement = connection.createStatement();
-            statement.execute("USE aviva");
-
-            PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
-
-            // Query all unique account numbers from the banking table
-            String queryCommand = "SELECT DISTINCT(accountNumber) FROM banking;";
-            ResultSet rs = statement.executeQuery(queryCommand);
-
-            // Loop through each queried account number
-            while (rs.next()) {
-                // Prepare data to match the table's data types
-                preparedStatement.setString(1, rs.getString("accountNumber"));
-
-                count = count + 1;
-                // Execute batch of SQL commands
-                preparedStatement.addBatch();
-                if (count % batchSize == 0) {
-                    preparedStatement.executeBatch();
-                }
-            }
-
-            preparedStatement.executeBatch(); // Execute remaining SQL commands
-            System.out.println("Successfully inserted data into table: recommendations");
-        }
-        catch (SQLException e) {
-            System.out.println("Failed to write recommendations data");
         }
     }
 }
