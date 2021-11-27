@@ -1,13 +1,14 @@
 package com.aviva.CarRecommendations;
 
-import com.aviva.DataAccess.BankingDataProcess;
-import com.aviva.DataAccess.SQLCarDataAccess;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.Car;
+import com.aviva.Entities.Installment;
+import com.aviva.Entities.Loan;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Public class that handles the business logic of generating the best cars for an AccountHolder (second filter)
@@ -15,23 +16,26 @@ import java.util.Arrays;
  */
 
 public class InterestFilter {
-
     /**
-     * Returns the best five cars given an AccountHolder's accountNumber based on the lowest interest rates
+     * Filter a list of cars by their loan interest rate given by the senso api
      *
-     * @param account an AccountHolder object
-     * @return JSON that maps cars to five Car entities with the lowest interest rate
+     * @param user an account holder providing financial details
+     * @param initialCars the initial list of cars to filter against
+     * @return an array list of lowest interest cars
      */
-    void generateBestFiveCars(AccountHolder account, ArrayList<Car> cars) {
+    public HashMap<Car, Loan> generateRecommendedCars(AccountHolder user, ArrayList<Car> initialCars){
         // Variable Initialization
         SensoRate srInit = new SensoRate();
-        ArrayList<Car> bestFive = new ArrayList<>();
+        HashMap<Car, Loan> bestFive = new HashMap<Car, Loan>();
+        ArrayList<Loan> loans = new ArrayList<Loan>();
         float[] rates = new float[10];
 
         // Loop to store interest rate of each car
-        for (int i = 0; i < cars.size(); i++) {
-            float interestRate = srInit.getInterestRate(account, cars.get(i));
-            rates[i] = interestRate;
+        for (int i = 0; i < initialCars.size(); i++) {
+            JSONObject JSONLoan = srInit.getLoan(user, initialCars.get(i));
+            Loan loan = loanConverter(JSONLoan);
+            loans.add(loan);
+            rates[i] = loan.getInterestRate();
         }
 
         // Create a copy of the array of interest rates and sort them
@@ -42,26 +46,12 @@ public class InterestFilter {
         for (int i = 0; i < 5; i++) {
             float sortedRate = sortedRates[i];
             int carIndex = getFirstIndex(rates, sortedRate);
-            bestFive.add(cars.get(carIndex));
+            Car carAtIndex = initialCars.get(carIndex);
+            Loan loanAtIndex = loans.get(carIndex);
+            bestFive.put(carAtIndex, loanAtIndex);
             rates[carIndex] = (float) -1.0;
         }
-
-        // Converting to JSON
-        JSONObject carsJSON = new JSONObject();
-        JSONArray recommendedCarsJSON = new JSONArray();
-
-        // to save in db
-        SQLCarDataAccess carDataAccess = new SQLCarDataAccess();
-
-        for (Car car : bestFive) {
-            JSONObject carJSON = car.toJSON();
-            recommendedCarsJSON.put(carJSON);
-            carDataAccess.insertRecommendedCar(account.getAccountNumber(),
-                    car.getYear() + " " + car.getMake() + " " + car.getModel());
-        }
-        carsJSON.put("cars", recommendedCarsJSON);
-
-        return carsJSON;
+        return bestFive;
     }
 
     /**
@@ -79,4 +69,61 @@ public class InterestFilter {
         }
         return -1;
     }
+
+    private Loan loanConverter(JSONObject JSONLoan) {
+        float amount = JSONLoan.getFloat("amount");
+        float interestSum = JSONLoan.getFloat("interestSum");
+        float capitalSum = JSONLoan.getFloat("capitalSum");
+        float sum = JSONLoan.getFloat("sum");
+        int term = JSONLoan.getInt("term");
+        float interestRate = JSONLoan.getFloat("installment");
+        JSONArray JSONInstallments = JSONLoan.getJSONArray("installments");
+        ArrayList<Installment> installments = installmentConvertor(JSONInstallments);
+
+        Loan loan = new Loan(amount, interestSum, capitalSum, sum, term, interestRate, installments);
+
+        return loan;
+    }
+
+    private ArrayList<Installment> installmentConvertor(JSONArray JSONInstallments) {
+        ArrayList<Installment> installments = new ArrayList<Installment>();
+
+        for (int i = 0; i < JSONInstallments.length(); i++) {
+            JSONObject JSONInstallment = JSONInstallments.getJSONObject(i);
+
+            float capital = JSONInstallment.getFloat("capital");
+            float interest = JSONInstallment.getFloat("interest");
+            float installment = JSONInstallment.getFloat("installment");
+            float remain = JSONInstallment.getFloat("remain");
+            float interestSum = JSONInstallment.getFloat("interestSum");
+
+            Installment installmentToAdd = new Installment(i + 1, capital, interest, installment,
+                    remain, interestSum);
+            installments.add(installmentToAdd);
+        }
+
+        return installments;
+    }
+
+//    /**
+//     * Convert an array list of cars into JSON equivalent
+//     *
+//     * @param bestFive an array list of car objects
+//     * @return return JSONObject of cars
+//     */
+//    private JSONObject convertToJSON(ArrayList<Car> bestFive){
+//        // Initialisation
+//        JSONObject carsJSON = new JSONObject();
+//        JSONArray recommendedCarsJSON = new JSONArray();
+//
+//        // Convert each car object to JSON and add to JSON array
+//        for (Car car : bestFive) {
+//            JSONObject carJSON = car.toJSON();
+//            recommendedCarsJSON.put(carJSON);
+//        }
+//        carsJSON.put("cars", recommendedCarsJSON);
+//
+//        return carsJSON;
+//    }
+
 }

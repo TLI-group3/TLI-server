@@ -20,7 +20,7 @@ public class BudgetFilter {
      * @param user the AccountHolder for which to generate recommendations
      * @return ArrayList of 10 Car Entities.
      */
-    public ArrayList<Car> getRecommendedCars(AccountHolder account) {
+    public ArrayList<Car> getInitialCars(AccountHolder account) {
         // Get list of all cars
         CarDataProcess cdpInit = new CarDataProcess();
         ArrayList<Car> allCars = cdpInit.getAllCars();

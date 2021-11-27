@@ -25,13 +25,13 @@ public class BudgetFilterTest {
 
     @Test
     public void testGetRecommendedCarsOutputSize() {
-        assertEquals(10, filterToTest.getRecommendedCars(knownUser).size());
+        assertEquals(10, filterToTest.getInitialCars(knownUser).size());
     }
 
     @Test
     // Each car has to be at least $5000 for the SensoAPI to work
     public void testCarPricesMinimum() {
-        ArrayList<Car> listToTest = filterToTest.getRecommendedCars(knownUser);
+        ArrayList<Car> listToTest = filterToTest.getInitialCars(knownUser);
         for (Car car : listToTest){
             assertTrue(car.getPrice() >= 5000F);
         }
@@ -40,7 +40,7 @@ public class BudgetFilterTest {
     @Test
     // Each car has to be less than the account holder's budget
     public void testCarPricesMaximum() {
-        ArrayList<Car> listToTest = filterToTest.getRecommendedCars(knownUser);
+        ArrayList<Car> listToTest = filterToTest.getInitialCars(knownUser);
         for (Car car : listToTest){
             assertTrue(car.getPrice() < knownUser.getSavings());
         }

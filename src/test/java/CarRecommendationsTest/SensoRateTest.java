@@ -25,6 +25,6 @@ public class SensoRateTest {
 
     @Test
     public void testGetInterestRate() {
-        assertEquals(2.240000009536743, apiToTest.getInterestRate(knownUser, knownCar));
+        assertEquals(2.240000009536743, apiToTest.getLoan(knownUser, knownCar));
     }
 }
