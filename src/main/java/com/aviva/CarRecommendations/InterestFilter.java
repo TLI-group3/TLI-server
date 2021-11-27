@@ -19,25 +19,10 @@ public class InterestFilter {
     /**
      * Returns the best five cars given an AccountHolder's accountNumber based on the lowest interest rates
      *
-     * @param accountNumber the account number of an AccountHolder
+     * @param account an AccountHolder object
      * @return JSON that maps cars to five Car entities with the lowest interest rate
      */
-    public JSONObject getBestFiveCars(String accountNumber) {
-        // Instantiate AccountHolder given the accountNumber
-        BankingDataProcess bdpInit = new BankingDataProcess();
-        AccountHolder user = bdpInit.makeAccountHolder(accountNumber);
-
-        // Get and set the AccountHolder's budget
-        EstimateBudget ebInit = new EstimateBudget();
-        float yearlyBudget = ebInit.calculateYearlyBudget(user);
-        user.setSavings(yearlyBudget);
-        float monthlyBudget = ebInit.calculateMonthlyBudget(user);
-        user.setMonthlyBudget(monthlyBudget);
-
-        // Get the list of possible cars for the AccountHolder
-        BudgetFilter bfInit = new BudgetFilter();
-        ArrayList<Car> cars = bfInit.getRecommendedCars(user);
-
+    void generateBestFiveCars(AccountHolder account, ArrayList<Car> cars) {
         // Variable Initialization
         SensoRate srInit = new SensoRate();
         ArrayList<Car> bestFive = new ArrayList<>();
@@ -45,7 +30,7 @@ public class InterestFilter {
 
         // Loop to store interest rate of each car
         for (int i = 0; i < cars.size(); i++) {
-            float interestRate = srInit.getInterestRate(user, cars.get(i));
+            float interestRate = srInit.getInterestRate(account, cars.get(i));
             rates[i] = interestRate;
         }
 
@@ -71,7 +56,7 @@ public class InterestFilter {
         for (Car car : bestFive) {
             JSONObject carJSON = car.toJSON();
             recommendedCarsJSON.put(carJSON);
-            carDataAccess.insertRecommendedCar(accountNumber,
+            carDataAccess.insertRecommendedCar(account.getAccountNumber(),
                     car.getYear() + " " + car.getMake() + " " + car.getModel());
         }
         carsJSON.put("cars", recommendedCarsJSON);
