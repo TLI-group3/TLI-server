@@ -44,7 +44,7 @@ public class EstimateBudget {
         }
 
 
-       account.setMonthlySalary(possibleSalary * (possibleSalaryFrequency / 12));
+       account.setMonthlySalary(possibleSalary * (possibleSalaryFrequency / (float)12));
     }
 
     /**
@@ -56,10 +56,8 @@ public class EstimateBudget {
     void identifySpending(AccountHolder account) {
         ArrayList<Float> withdrawals = bdpInit.getWithdrawals(account.getAccountNumber());
 
-        // Mapping the possible deposits that could be the bimonthly salary to its number of occurrence
         Map frequency = new HashMap();
 
-        // Identify the possible deposits that could be the bimonthly salary
         extractMajorCashFlow(withdrawals, frequency, MINIMUM_MONTHLY_CAR_LOAN);
 
         Set monthlySpendings = new HashSet();
@@ -72,7 +70,6 @@ public class EstimateBudget {
             }
         }
 
-        // Assuming the biggest monthly withdrawal is for rent, so it is set to the other monthly spending
         account.setOtherMonthlySpending((float) Collections.max(monthlySpendings));
         monthlySpendings.remove(Collections.max(monthlySpendings));
 
@@ -90,7 +87,7 @@ public class EstimateBudget {
      */
     void determineMonthlyBudget(AccountHolder account) {
         if (account.getExistingCarLoan() == 0) {
-            float monthlyBudget = (float) ((account.getMonthlySalary() - account.getOtherMonthlySpending()) * 0.1;
+            float monthlyBudget = (float) ((account.getMonthlySalary() - account.getOtherMonthlySpending()) * 0.1);
             account.setMonthlyBudget(monthlyBudget);
         } else {
             account.setMonthlyBudget(account.getExistingCarLoan());

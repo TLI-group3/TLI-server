@@ -34,6 +34,8 @@ public class CarController {
     @PostMapping("/cars")
     public String getCarsForClient(@RequestBody String accountNumber) {
         InterestFilter ifInit = new InterestFilter();
+
+        // Talk about this with group
         JSONObject cars = ifInit.getBestFiveCars(accountNumber);
         return cars.toString();
     }

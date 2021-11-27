@@ -36,7 +36,7 @@ public class BudgetFilter {
             index = rand.nextInt(allCars.size());
             Car randomCar = allCars.get(index);
             // Check if car price is above 5000 (required for API call) and within the AccountHolder's savings
-            if (randomCar.getPrice() >= 5000 && randomCar.getPrice() < user.getSavings()){
+            if (randomCar.getPrice() >= 5000 && randomCar.getPrice() < user.getMonthlyBudget()*12*0.1){
                 recommended.add(randomCar);
             }
         }
