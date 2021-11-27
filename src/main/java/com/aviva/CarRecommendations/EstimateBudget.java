@@ -10,19 +10,30 @@ import java.util.*;
  * Public class that handles the business logic of estimating the budget of a particular AccountHolder
  */
 
-public class EstimateBudget {
+public class EstimateBudget extends Handler {
     static float MINIMUM_BIMONTHLY_SALARY = 1000;
     static int BIMONTHLY_SALARY_FREQUENCY = 24;
     static int MONTHLY_SPENDING_FREQUENCY = 12;
     static float MINIMUM_MONTHLY_CAR_LOAN = 50;
+
+    private AccountHolder account;
+
     BankingDataProcessingInterface bdpInit = new BankingDataProcess();
+
+    public EstimateBudget(AccountHolder account) {
+        this.account = account;
+    }
+
+    public void execute() {
+        identifyBiMonthlySalary();
+        identifySpending();
+        determineMonthlyBudget();
+    }
 
     /**
      * Set the monthly salary of an AccountHolder based on studying the deposits of this AccountHolder
-     *
-     * @param account the AccountHolder for which to generate the budget
      */
-    void identifyBiMonthlySalary(AccountHolder account) {
+    void identifyBiMonthlySalary() {
 
         ArrayList<Float> deposits = bdpInit.getDeposits(account.getAccountNumber());
 
@@ -50,10 +61,8 @@ public class EstimateBudget {
     /**
      * Set the other monthly spending, and optionally an existing car loan,
      * of an AccountHolder based on studying the deposits of this AccountHolder
-     *
-     * @param account the AccountHolder for which to generate the budget
      */
-    void identifySpending(AccountHolder account) {
+    void identifySpending() {
         ArrayList<Float> withdrawals = bdpInit.getWithdrawals(account.getAccountNumber());
 
         Map frequency = new HashMap();
@@ -82,10 +91,8 @@ public class EstimateBudget {
     /**
      * Set the monthly budget of an AccountHolder assuming that at least their monthly salary and other montly
      * spending are known.
-     *
-     * @param account the AccountHolder for which to generate the budget
      */
-    void determineMonthlyBudget(AccountHolder account) {
+    void determineMonthlyBudget() {
         if (account.getExistingCarLoan() == 0) {
             float monthlyBudget = (float) ((account.getMonthlySalary() - account.getOtherMonthlySpending()) * 0.1);
             account.setMonthlyBudget(monthlyBudget);

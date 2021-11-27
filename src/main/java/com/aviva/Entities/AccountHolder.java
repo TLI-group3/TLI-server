@@ -3,6 +3,7 @@ package com.aviva.Entities;
 // TODO: When this entity changes, change the budget estimation calculations accordingly
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class represents an account holder at a given bank.
@@ -13,13 +14,16 @@ public class AccountHolder {
     private String accountNumber;
     private int creditScore;
     private float monthlySalary;
-    private ArrayList<Loan> recommendedCars;
+    private HashMap<Car,Loan> recommendedCars;
 
     // Information relating to lifestyle
     private float monthlyBudget;
     private float existingCarLoan;
     private String existingCar;
     private float otherMonthlySpending;
+
+    //
+    private ArrayList<Car> initialCar;
 
     public AccountHolder(String accountNumber){this.accountNumber = accountNumber;}
 
@@ -29,13 +33,16 @@ public class AccountHolder {
 
     public void setMonthlyBudget(float monthlyBudget) {this.monthlyBudget = monthlyBudget;}
 
-    public void setRecommendedCars(ArrayList<Loan> recommended) {this.recommendedCars = recommended;}
+    public void setRecommendedCars(HashMap<Car, Loan> recommended) {this.recommendedCars = recommended;}
 
     public void setExistingCarLoan(float loan) {this.existingCarLoan = loan;}
 
     public void setExistingCar(String existingCar) {this.existingCar = existingCar;}
 
     public void setOtherMonthlySpending(float monthlySpending) {this.otherMonthlySpending = monthlySpending;}
+
+    public void setInitialCar(ArrayList<Car> cars) {this.initialCar = cars;}
+
 
     public String getAccountNumber() {return this.accountNumber;}
 
@@ -45,7 +52,9 @@ public class AccountHolder {
 
     public float getMonthlyBudget() {return this.monthlyBudget;}
 
-    public ArrayList<Loan> getRecommendedCars() {return this.recommendedCars;}
+    public HashMap<Car, Loan> getRecommendedCars() {return this.recommendedCars;}
+
+    public ArrayList<Car> getInitialCar() {return this.initialCar;}
 
     public float getExistingCarLoan() {return this.existingCarLoan;}
 

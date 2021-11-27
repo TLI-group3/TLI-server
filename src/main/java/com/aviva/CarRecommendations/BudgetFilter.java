@@ -12,15 +12,24 @@ import java.util.Random;
  * the client's yearly savings
  */
 
-public class BudgetFilter {
-
+public class BudgetFilter extends Handler {
     /**
      * Returns a ArrayList of 10 random cars recommended for a particular AccountHolder based on client's budget
      *
-     * @param user the AccountHolder for which to generate recommendations
+     * @param account the AccountHolder for which to generate recommendations
      * @return ArrayList of 10 Car Entities.
      */
-    public ArrayList<Car> getInitialCars(AccountHolder account) {
+
+    private AccountHolder account;
+
+    public BudgetFilter(AccountHolder account) {
+        this.account = account;
+    }
+    public void execute() {
+        getInitialCars();
+    }
+
+    public void getInitialCars() {
         // Get list of all cars
         CarDataProcess cdpInit = new CarDataProcess();
         ArrayList<Car> allCars = cdpInit.getAllCars();
@@ -40,7 +49,7 @@ public class BudgetFilter {
                 recommended.add(randomCar);
             }
         }
-        return recommended;
+        account.setInitialCar(recommended);
     }
 
 }

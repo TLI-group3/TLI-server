@@ -15,7 +15,7 @@ import java.util.HashMap;
  * Filters the initial 10 cars down to 5 based on the lowest interest rates returned by the Senso API
  */
 
-public class InterestFilter {
+public class InterestFilter extends Handler{
     /**
      * Filter a list of cars by their loan interest rate given by the senso api
      *
@@ -23,7 +23,18 @@ public class InterestFilter {
      * @param initialCars the initial list of cars to filter against
      * @return an array list of lowest interest cars
      */
-    public HashMap<Car, Loan> generateRecommendedCars(AccountHolder user, ArrayList<Car> initialCars){
+    private AccountHolder account;
+
+    public InterestFilter(AccountHolder account) {
+        this.account = account;
+    }
+
+
+    public void execute() {
+        generateRecommendedCars();
+    }
+    public void generateRecommendedCars(){
+        ArrayList<Car> initialCars = this.account.getInitialCar();
         // Variable Initialization
         SensoRate srInit = new SensoRate();
         HashMap<Car, Loan> bestFive = new HashMap<Car, Loan>();
@@ -32,7 +43,7 @@ public class InterestFilter {
 
         // Loop to store interest rate of each car
         for (int i = 0; i < initialCars.size(); i++) {
-            JSONObject JSONLoan = srInit.getLoan(user, initialCars.get(i));
+            JSONObject JSONLoan = srInit.getLoan(account, initialCars.get(i));
             Loan loan = loanConverter(JSONLoan);
             loans.add(loan);
             rates[i] = loan.getInterestRate();
@@ -51,7 +62,7 @@ public class InterestFilter {
             bestFive.put(carAtIndex, loanAtIndex);
             rates[carIndex] = (float) -1.0;
         }
-        return bestFive;
+        account.setRecommendedCars(bestFive);
     }
 
     /**

@@ -15,13 +15,13 @@ public class BudgetFilterTest {
     AccountHolder knownUser;
     BudgetFilter filterToTest;
 
-    @BeforeEach
-    public void setup() {
-        knownUser = new AccountHolder("1402110922112412");
-        knownUser.setSavings(50000F);
-        filterToTest = new BudgetFilter();
-        knownUser.setSavings(100000F);
-    }
+//    @BeforeEach
+//    public void setup() {
+//        knownUser = new AccountHolder("1402110922112412");
+//        knownUser.setSavings(50000F);
+//        filterToTest = new BudgetFilter();
+//        knownUser.setSavings(100000F);
+//    }
 
     @Test
     public void testGetRecommendedCarsOutputSize() {
