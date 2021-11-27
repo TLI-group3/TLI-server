@@ -21,12 +21,4 @@ public interface CarDataProcessingInterface {
      * @return a Car object using the database
      */
     public Car getCarByName(String name);
-
-
-//    /**
-//     * Iterates through our table of cars and returns one at a time.
-//     * This method uses a variation on the Iterator pattern.
-//     * @return the next Car object
-//     */
-//    public Car getNextCar();
 }

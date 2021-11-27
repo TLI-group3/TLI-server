@@ -1,10 +1,12 @@
 package com.aviva.DataAccess;
 
+import com.aviva.Entities.Car;
 import com.aviva.Entities.Installment;
 import com.aviva.Entities.Loan;
-
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -72,9 +74,9 @@ public class SQLCarDataAccess implements CarAccessInterface {
     /**
      * Inserts a car name against an account number into a table
      * @param accountNumber the account number of the client
-     * @param cars a list of RecommendedCar entities to insert against the client
+     * @param recommendations a map of Car Entities to their respective Loan entity
      */
-    public void insertRecommendedCars(String accountNumber, ArrayList<Loan> cars) {
+    public void insertRecommendedCars(String accountNumber, HashMap<Car, Loan> recommendations) {
         try {
             // Establish connection with aviva database
             Connection connection = DriverManager.getConnection(url, user, password);
@@ -89,11 +91,17 @@ public class SQLCarDataAccess implements CarAccessInterface {
             deletePreviousRecommendations(connection, accountNumber);
 
             if (rs.next()) {
-                // Loop through each car to insert
-                for (Loan car: cars) {
-                    String uniqueID = UUID.randomUUID().toString(); // Generate unique carID
-                    insertIntoRecommendations(connection, accountNumber, car, uniqueID);
-                    insertIntoInstallments(connection, car, uniqueID);
+                // Loop through entry in the HashMap
+                for (Map.Entry<Car, Loan> entry : recommendations.entrySet()) {
+                    Car car = entry.getKey();
+                    Loan loan = entry.getValue();
+
+                    // Generate and set unique carID
+                    String uniqueID = UUID.randomUUID().toString();
+                    car.setID(uniqueID);
+
+                    insertIntoRecommendations(connection, accountNumber, car, loan);
+                    insertIntoInstallments(connection, loan, car.getID());
                 }
             }
             else {
@@ -108,22 +116,22 @@ public class SQLCarDataAccess implements CarAccessInterface {
     /**
      * Helper method to insert data into recommendations table
      */
-    public void insertIntoRecommendations(Connection connection, String accountNumber, Loan car, String uniqueID) throws SQLException {
+    public void insertIntoRecommendations(Connection connection, String accountNumber, Car car, Loan loan) throws SQLException {
         String command = "INSERT INTO recommendations (carID, accountNumber, carYear, carBrand, carMake, loanAmount, interestSum, capitalSum, loanSum, loanTerm, interestRate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
 
         // Match variables against SQL data types
-        preparedStatement.setString(1, uniqueID);
+        preparedStatement.setString(1, car.getID());
         preparedStatement.setString(2, accountNumber);
         preparedStatement.setInt(3, car.getYear());
         preparedStatement.setString(4, car.getMake());
         preparedStatement.setString(5, car.getModel());
-        preparedStatement.setFloat(6, car.getLoanAmount());
-        preparedStatement.setFloat(7, car.getInterestSum());
-        preparedStatement.setFloat(8, car.getCapitalSum());
-        preparedStatement.setFloat(9, car.getLoanSum());
-        preparedStatement.setInt(10, car.getLoanTerm());
-        preparedStatement.setFloat(11, car.getInterestRate());
+        preparedStatement.setFloat(6, loan.getLoanAmount());
+        preparedStatement.setFloat(7, loan.getInterestSum());
+        preparedStatement.setFloat(8, loan.getCapitalSum());
+        preparedStatement.setFloat(9, loan.getLoanSum());
+        preparedStatement.setInt(10, loan.getLoanTerm());
+        preparedStatement.setFloat(11, loan.getInterestRate());
 
         // Execute SQL commands
         preparedStatement.addBatch();
@@ -133,12 +141,12 @@ public class SQLCarDataAccess implements CarAccessInterface {
     /**
      * Helper method to insert data into installments table
      */
-    public void insertIntoInstallments(Connection connection, Loan car, String uniqueID) throws SQLException {
+    public void insertIntoInstallments(Connection connection, Loan loan, String uniqueID) throws SQLException {
         String command = "INSERT INTO recommendations (carID, termNumber, termCapital, termInterest, termInstallment, remainingAmount, interestSum) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
 
         // Loop through each installment of the RecommendedCar
-        for (Installment installment: car.getInstallments()) {
+        for (Installment installment: loan.getInstallments()) {
             // Match variables against SQL data types
             preparedStatement.setString(1, uniqueID);
             preparedStatement.setInt(2, installment.getTermNumber());
