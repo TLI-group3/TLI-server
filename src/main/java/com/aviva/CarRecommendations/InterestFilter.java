@@ -16,24 +16,20 @@ import java.util.HashMap;
  */
 
 public class InterestFilter extends Handler{
-    /**
-     * Filter a list of cars by their loan interest rate given by the senso api
-     *
-     * @param user an account holder providing financial details
-     * @param initialCars the initial list of cars to filter against
-     * @return an array list of lowest interest cars
-     */
     private AccountHolder account;
 
     public InterestFilter(AccountHolder account) {
         this.account = account;
     }
 
-
+    /**
+     * Filter a list of cars by their loan interest rate given by the senso api.
+     */
     public void execute() {
         generateRecommendedCars();
     }
-    public void generateRecommendedCars(){
+
+    private void generateRecommendedCars(){
         ArrayList<Car> initialCars = this.account.getInitialCar();
         // Variable Initialization
         SensoRate srInit = new SensoRate();
@@ -72,7 +68,7 @@ public class InterestFilter extends Handler{
      * @param value a float representing the interest rate to find within the given array
      * @return index value of given element in array as integer
      */
-    public int getFirstIndex(float[] rates, float value) {
+    private int getFirstIndex(float[] rates, float value) {
         for (int i = 0; i < rates.length; i++) {
             if (rates[i] == value) {
                 return i;
