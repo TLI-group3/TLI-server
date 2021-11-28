@@ -51,7 +51,7 @@ public class SensoRate {
     public HttpRequest sensoAPICallHelper (AccountHolder user, Car car){
         // Initialize variables required by the Senso API
         float carPrice = car.getPrice();
-        float downPayment = (float) (0.1 * carPrice);
+        float downPayment = (float) ((0.1 * carPrice) + user.getExistingCarValue());
         float vehicleKMS = 15000.0F; // Assuming average kilometres driven is 15k
         String carMake = car.getMake();
         String carModel = car.getModel();

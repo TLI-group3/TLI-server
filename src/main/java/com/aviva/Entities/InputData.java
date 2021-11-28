@@ -6,19 +6,18 @@ package com.aviva.Entities;
 
 public class InputData {
     private final String clientIDs; // integers separated by spaces
-    private final boolean generateEmail;
-    private final boolean generateWidget;
+    private String tradeInCar; // the make model year of their current car
 
-    public InputData(String clientIDs, boolean generateEmail, boolean generateWidget) {
+    public InputData(String clientIDs) {
         this.clientIDs = clientIDs;
-        this.generateEmail = generateEmail;
-        this.generateWidget = generateWidget;
+    }
+
+    public InputData(String clientIDs, String tradeInCar) {
+        this.clientIDs = clientIDs;
+        this.tradeInCar = tradeInCar;
     }
 
     // Getters
-    public String getClientIDs() { return clientIDs; }
-
-    public boolean isGenerateEmail() { return generateEmail; }
-
-    public boolean isGenerateWidget() { return generateWidget; }
+    public String getClientIDs() { return this.clientIDs; }
+    public String getTradeInCar() { return this.tradeInCar; }
 }
