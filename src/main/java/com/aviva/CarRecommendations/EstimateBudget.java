@@ -16,7 +16,7 @@ public class EstimateBudget extends Handler {
     static int MONTHLY_SPENDING_FREQUENCY = 12;
     static float MINIMUM_MONTHLY_CAR_LOAN = 50;
 
-    private AccountHolder account;
+    private final AccountHolder account;
 
     BankingDataProcessingInterface bdpInit = new BankingDataProcess();
 

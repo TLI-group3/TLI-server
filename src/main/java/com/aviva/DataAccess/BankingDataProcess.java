@@ -101,7 +101,7 @@ public class BankingDataProcess implements BankingDataProcessingInterface{
      * @param accountNumber the id number of the client
      * @return HashMap of Car Objects to their respective Loan Objects
      */
-    public HashMap<Car, Loan> getRecommendCars(String accountNumber) {
+    public HashMap<Car, Loan> getRecommendedCars(String accountNumber) {
         HashMap<Car, Loan> recommendations = new HashMap<>();
 
         try {
