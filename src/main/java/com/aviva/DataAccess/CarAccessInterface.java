@@ -10,10 +10,10 @@ public interface CarAccessInterface {
 
     /**
      * Returns the ResultSet of the query to get a car by its name
-     * @param carName the name of a car
+     * @param vin the vin number of a car
      * @return ResultSet of SQL query to get the car.
      */
-    public ResultSet getCar(String carName);
+    public ResultSet getCarByVin(String vin);
 
     /**
      * Returns the ResultSet of the query to get all cars

@@ -29,4 +29,12 @@ public interface AccountAccessInterface {
      * @param accountHolder the AccountHolder entity for which to insert the recommendations
      */
     public void insertRecommendedCars(AccountHolder accountHolder);
+
+    /**
+     * Returns the ResultSet of the query to get all recommended cars IDS for a particular client
+     * @param accountNumber the account number of the client
+     * @return ResultSet of SQL query to get all recommended cars IDS stored for the client.
+     */
+    public ResultSet getAllRecommendations(String accountNumber);
+
 }
