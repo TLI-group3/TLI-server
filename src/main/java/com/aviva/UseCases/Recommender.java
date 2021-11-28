@@ -1,7 +1,7 @@
 package com.aviva.UseCases;
 
 import com.aviva.CarRecommendations.FillOutAccountHolder;
-import com.aviva.DataAccess.SQLCarDataAccess;
+import com.aviva.DataAccess.SQLAccountHolderDataAccess;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.InputData;
 
@@ -11,7 +11,7 @@ public class Recommender {
     }
     public void generateAndInsert(InputData input) {
 
-        SQLCarDataAccess sqlinit = new SQLCarDataAccess();
+        SQLAccountHolderDataAccess sqlinit = new SQLAccountHolderDataAccess();
 
         String clientIDsString = input.getClientIDs();
         String[] clientIDs = clientIDsString.split(" ");
