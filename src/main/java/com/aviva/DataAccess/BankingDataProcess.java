@@ -1,9 +1,12 @@
 package com.aviva.DataAccess;
 
 import com.aviva.Entities.AccountHolder;
+import com.aviva.Entities.Car;
+import com.aviva.Entities.Loan;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Public class that handles processing data from the database and converting it into proper types/entities for clients
@@ -91,5 +94,49 @@ public class BankingDataProcess implements BankingDataProcessingInterface{
         AccountHolder user = new AccountHolder(accountNumber);
         user.setCreditScore(getCreditScore(accountNumber));
         return user;
+    }
+
+    /**
+     * Returns a mapping of a client's recommended Car Objects to their respective Loan Objects
+     * @param accountNumber the id number of the client
+     * @return HashMap of Car Objects to their respective Loan Objects
+     */
+    public HashMap<Car, Loan> getRecommendCars(String accountNumber) {
+        HashMap<Car, Loan> recommendations = new HashMap<>();
+
+        try {
+            // Query the latest credit score for the given account number
+            SQLAccountHolderDataAccess sqlahdaInit = new SQLAccountHolderDataAccess();
+            CarDataProcess cdpInit = new CarDataProcess();
+            ResultSet allRecommendations = sqlahdaInit.getAllRecommendations(accountNumber);
+
+            while (allRecommendations.next()) {
+                String vin = allRecommendations.getString(3);
+                Car carFromDataset = cdpInit.getCarByVin(vin);
+                Loan loanfromQuery = helperCreateLoanObject(allRecommendations);
+                recommendations.put(carFromDataset, loanfromQuery);
+            }
+
+            return recommendations;
+        }
+        catch (SQLException e) {
+            System.out.println("Failed to get recommended cars for client");
+            return null;
+        }
+    }
+
+    /**
+     * Returns a Loan object given a ResultSet from the database
+     * @return a Loan object with respective data
+     */
+    public Loan helperCreateLoanObject(ResultSet loanInfo) throws SQLException {
+        float loanAmount = loanInfo.getFloat("loanAmount");
+        float interestSum = loanInfo.getFloat("interestSum");
+        float CapitalSum = loanInfo.getFloat("CapitalSum");
+        float loanSum = loanInfo.getFloat("loanSum");
+        int loanTerm = loanInfo.getInt("loanTerm");
+        float interestRate = loanInfo.getFloat("interestRate");
+        Loan loan = new Loan(loanAmount, interestSum, CapitalSum, loanSum, loanTerm, interestRate);
+        return loan;
     }
 }

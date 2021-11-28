@@ -34,13 +34,13 @@ public class CarDataProcess implements CarDataProcessingInterface{
     }
 
     /**
-     * @param name Full label of car as YEAR MAKE MODEL
+     * @param vin vin number of the car
      * @return a Car object using the database
      */
-    public Car getCarByName(String name){
+    public Car getCarByVin(String vin){
         // Query a car by its name
         SQLCarDataAccess sqlcdaInit = new SQLCarDataAccess();
-        ResultSet carInDB = sqlcdaInit.getCar(name);
+        ResultSet carInDB = sqlcdaInit.getCarByVin(vin);
 
         Car noCar = new Car("noCar", "noCar", 0, 0);
 

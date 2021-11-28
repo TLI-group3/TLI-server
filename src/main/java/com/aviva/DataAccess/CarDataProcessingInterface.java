@@ -9,6 +9,7 @@ import java.util.ArrayList;
  *
  * Implementations of this interface should NOT talk directly to the SQL db
  */
+
 public interface CarDataProcessingInterface {
     /**
      * Iterates through our table of cars and returns all of them
@@ -17,8 +18,8 @@ public interface CarDataProcessingInterface {
     public ArrayList<Car> getAllCars();
 
     /**
-     * @param name Full label of car as YEAR MAKE MODEL
+     * @param vin the vin number of the car to query
      * @return a Car object using the database
      */
-    public Car getCarByName(String name);
+    public Car getCarByVin(String vin);
 }

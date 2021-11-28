@@ -28,6 +28,15 @@ public class Loan {
         this.installments = installments;
     }
 
+    public Loan(float loanAmount, float interestSum, float capitalSum, float loanSum, int loanTerm, float interestRate) {
+        this.loanAmount = loanAmount;
+        this.interestSum = interestSum;
+        this.capitalSum = capitalSum;
+        this.loanSum = loanSum;
+        this.loanTerm = loanTerm;
+        this.interestRate = interestRate;
+    }
+
     public void setLoanAmount(float loanAmount) {this.loanAmount = loanAmount;}
     public void setInterestSum(float interestSum) {this.interestSum = interestSum;}
     public void setCapitalSum(float capitalSum) {this.capitalSum = capitalSum;}

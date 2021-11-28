@@ -195,4 +195,28 @@ public class SQLAccountHolderDataAccess implements AccountAccessInterface {
         }
     }
 
+    /**
+     * Returns the ResultSet of the query to get all recommended cars IDS for a particular client
+     * @param accountNumber the account number of the client
+     * @return ResultSet of SQL query to get all recommended cars IDS stored for the client.
+     */
+    public ResultSet getAllRecommendations(String accountNumber) {
+        try {
+            // Establish connection with database
+            Connection connection = DriverManager.getConnection(url, user, password);
+
+            // Connect to aviva database
+            Statement statement = connection.createStatement();
+            statement.execute("USE aviva");
+
+            // Query all transactions of a client given their account number
+            String command = "SELECT * FROM recommendations WHERE accountNumber = '" + accountNumber + "'";
+            return statement.executeQuery(command);
+        }
+        catch (SQLException e) {
+            System.out.println("Failed to get recommended car IDS");
+        }
+
+        return null;
+    }
 }

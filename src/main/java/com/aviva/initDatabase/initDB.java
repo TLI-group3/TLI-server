@@ -136,7 +136,7 @@ public class initDB {
             Statement statement = connection.createStatement();
             String command = "USE aviva";
             statement.execute(command);
-            command = "CREATE TABLE recommendations(carID VARCHAR(255), accountNumber VARCHAR(255), carYear INT(8), carBrand VARCHAR(255), carMake VARCHAR (255), loanAmount FLOAT(32), interestSum FLOAT(32), capitalSum FLOAT(32), loanSum FLOAT(32), loanTerm INT(8), interestRate FLOAT(32), PRIMARY KEY(carID))";
+            command = "CREATE TABLE recommendations(carID VARCHAR(255), accountNumber VARCHAR(255), vin VARCHAR (255), loanAmount FLOAT(32), interestSum FLOAT(32), capitalSum FLOAT(32), loanSum FLOAT(32), loanTerm INT(8), interestRate FLOAT(32), PRIMARY KEY(carID))";
             statement.execute(command);
             System.out.println("Successfully created table: recommendations");
         }
