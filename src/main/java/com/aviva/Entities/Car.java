@@ -1,7 +1,6 @@
 package com.aviva.Entities;
 
 import org.json.JSONObject;
-import org.yaml.snakeyaml.events.Event;
 
 /**
  * This class represents a car
@@ -15,6 +14,7 @@ public class Car {
     private final int year;
     private final float price;
     private String image;
+    private String vin;
 
     public Car(String name, String model, int year, float price){
         this.make = name;
@@ -31,6 +31,8 @@ public class Car {
     public String getImage() { return image; }
     public void setID(String id) { this.ID = id; }
     public String getID(){ return this.ID; }
+    public void setVin(String vin) {this.vin = vin;}
+    public String getVin() {return this.vin;}
 
 
     public JSONObject toJSON() {

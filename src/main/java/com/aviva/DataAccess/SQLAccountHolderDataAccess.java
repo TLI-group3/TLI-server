@@ -81,30 +81,21 @@ public class SQLAccountHolderDataAccess implements AccountAccessInterface {
             Statement statement = connection.createStatement();
             statement.execute("USE aviva");
 
-            // Query for existing recommendations for a client with the given account number
             String accountNumber = accountHolder.getAccountNumber();
-            String command = "SELECT * FROM client WHERE accountnumber = '" + accountNumber + "'";
-            ResultSet rs = statement.executeQuery(command);
 
             // Delete previous recommendations if 5 cars already recommended
             deletePreviousRecommendations(connection, accountNumber);
 
-            if (rs.next()) {
-                // Loop through entry in the HashMap
-                for (Map.Entry<Car, Loan> entry : accountHolder.getRecommendedCars().entrySet()) {
-                    Car car = entry.getKey();
-                    Loan loan = entry.getValue();
+            for (Map.Entry<Car, Loan> entry : accountHolder.getRecommendedCars().entrySet()) {
+                Car car = entry.getKey();
+                Loan loan = entry.getValue();
 
-                    // Generate and set unique carID
-                    String uniqueID = UUID.randomUUID().toString();
-                    car.setID(uniqueID);
+                // Generate and set unique carID
+                String uniqueID = UUID.randomUUID().toString();
+                car.setID(uniqueID);
 
-                    insertIntoRecommendations(connection, accountNumber, car, loan);
-                    insertIntoInstallments(connection, loan, car.getID());
-                }
-            }
-            else {
-                System.out.println("Could not find specified account holder");
+                insertIntoRecommendations(connection, accountNumber, car, loan);
+                insertIntoInstallments(connection, loan, car.getID());
             }
         }
         catch (SQLException e) {
@@ -116,21 +107,19 @@ public class SQLAccountHolderDataAccess implements AccountAccessInterface {
      * Helper method to insert data into recommendations table
      */
     public void insertIntoRecommendations(Connection connection, String accountNumber, Car car, Loan loan) throws SQLException {
-        String command = "INSERT INTO recommendations (carID, accountNumber, carYear, carBrand, carMake, loanAmount, interestSum, capitalSum, loanSum, loanTerm, interestRate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String command = "INSERT INTO recommendations (carID, accountNumber, vin, loanAmount, interestSum, capitalSum, loanSum, loanTerm, interestRate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
 
         // Match variables against SQL data types
         preparedStatement.setString(1, car.getID());
         preparedStatement.setString(2, accountNumber);
-        preparedStatement.setInt(3, car.getYear());
-        preparedStatement.setString(4, car.getMake());
-        preparedStatement.setString(5, car.getModel());
-        preparedStatement.setFloat(6, loan.getLoanAmount());
-        preparedStatement.setFloat(7, loan.getInterestSum());
-        preparedStatement.setFloat(8, loan.getCapitalSum());
-        preparedStatement.setFloat(9, loan.getLoanSum());
-        preparedStatement.setInt(10, loan.getLoanTerm());
-        preparedStatement.setFloat(11, loan.getInterestRate());
+        preparedStatement.setString(3, car.getVin());
+        preparedStatement.setFloat(4, loan.getLoanAmount());
+        preparedStatement.setFloat(5, loan.getInterestSum());
+        preparedStatement.setFloat(6, loan.getCapitalSum());
+        preparedStatement.setFloat(7, loan.getLoanSum());
+        preparedStatement.setInt(8, loan.getLoanTerm());
+        preparedStatement.setFloat(9, loan.getInterestRate());
 
         // Execute SQL commands
         preparedStatement.addBatch();

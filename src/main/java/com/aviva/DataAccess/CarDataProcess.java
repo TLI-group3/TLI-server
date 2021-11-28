@@ -65,8 +65,10 @@ public class CarDataProcess implements CarDataProcessingInterface{
         int carYear = carsInDB.getInt("modelYear");
         int carPrice = carsInDB.getInt("price");
         String carImage = carsInDB.getString("image");
+        String vin = carsInDB.getString("vin");
         Car carToAdd = new Car(carName, carModel, carYear, carPrice);
         carToAdd.setImage(carImage);
+        carToAdd.setVin(vin);
         return carToAdd;
     }
 }
