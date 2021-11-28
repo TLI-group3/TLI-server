@@ -13,24 +13,24 @@ import java.util.Random;
  */
 
 public class BudgetFilter extends Handler {
-    /**
-     * Returns a ArrayList of 10 random cars recommended for a particular AccountHolder based on client's budget
-     *
-     * @param account the AccountHolder for which to generate recommendations
-     * @return ArrayList of 10 Car Entities.
-     */
 
-    private AccountHolder account;
+    private final AccountHolder account;
 
     public BudgetFilter(int i, AccountHolder account) {
         this.level = i;
         this.account = account;
     }
+
+    /**
+     * Generate 10 random cars recommended for a particular AccountHolder based on client's budget and set it
+     * to the AccountHolder.
+     */
+
     public void performTask() {
         getInitialCars();
     }
 
-    public void getInitialCars() {
+    private void getInitialCars() {
         // Get list of all cars
         CarDataProcess cdpInit = new CarDataProcess();
         ArrayList<Car> allCars = cdpInit.getAllCars();

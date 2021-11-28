@@ -25,6 +25,9 @@ public class EstimateBudget extends Handler {
         this.account = account;
     }
 
+    /**
+     * Estimate the monthly budget of a given AccountHolder by identifying their salary and monthly spending.
+     */
     public void performTask() {
         identifyBiMonthlySalary();
         identifySpending();
@@ -36,8 +39,7 @@ public class EstimateBudget extends Handler {
     /**
      * Set the monthly salary of an AccountHolder based on studying the deposits of this AccountHolder
      */
-    void identifyBiMonthlySalary() {
-
+    private void identifyBiMonthlySalary() {
         ArrayList<Float> deposits = bdpInit.getDeposits(account.getAccountNumber());
 
         // Mapping the possible deposits that could be the bimonthly salary to its number of occurrence
@@ -57,15 +59,14 @@ public class EstimateBudget extends Handler {
             }
         }
 
-
        account.setMonthlySalary(possibleSalary * (possibleSalaryFrequency / (float)12));
     }
 
     /**
      * Set the other monthly spending, and optionally an existing car loan,
-     * of an AccountHolder based on studying the deposits of this AccountHolder
+     * of an AccountHolder based on studying the deposits of this AccountHolder.
      */
-    void identifySpending() {
+    private void identifySpending() {
         ArrayList<Float> withdrawals = bdpInit.getWithdrawals(account.getAccountNumber());
 
         Map frequency = new HashMap();
@@ -92,10 +93,10 @@ public class EstimateBudget extends Handler {
     }
 
     /**
-     * Set the monthly budget of an AccountHolder assuming that at least their monthly salary and other montly
+     * Set the monthly budget of an AccountHolder assuming that at least their monthly salary and other monthly
      * spending are known.
      */
-    void determineMonthlyBudget() {
+    private void determineMonthlyBudget() {
         if (account.getExistingCarLoan() == 0) {
             float monthlyBudget = (float) ((account.getMonthlySalary() - account.getOtherMonthlySpending()) * 0.1);
             account.setMonthlyBudget(monthlyBudget);

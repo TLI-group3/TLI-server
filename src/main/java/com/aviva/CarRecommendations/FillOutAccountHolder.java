@@ -6,6 +6,13 @@ abstract class Handler {
     protected Handler nextInChain;
     protected int level;
 
+    /**
+     * Add a Handler object to be executed after this current Handler. If there is already an existing Handler next
+     * in chain, set the given Handler object to be the next in chain of that already an existing Handler next
+     * in chain.
+     *
+     * @param next a Handler object representing the next action in the chain of responsibility
+     */
     public void add(Handler next) {
         if (nextInChain == null) {
             nextInChain = next;
@@ -31,6 +38,14 @@ public class FillOutAccountHolder {
     public FillOutAccountHolder(AccountHolder account) {
         this.account = account;
     }
+
+    /**
+     *
+     * 1. Estimate budget.
+     * 2. Filter for cars based on budget.
+     * 3. Apply the SensoAPI on the cars passing the first filtering,
+     *    filter the cars based on returned installment information.
+     */
     public void run() {
         Handler estimateBudget = new EstimateBudget(1, account);
         Handler budgetFilter = new BudgetFilter(2, account);

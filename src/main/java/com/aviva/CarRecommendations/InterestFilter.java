@@ -16,25 +16,23 @@ import java.util.HashMap;
  */
 
 public class InterestFilter extends Handler{
-    /**
-     * Filter a list of cars by their loan interest rate given by the senso api
-     *
-     * @param user an account holder providing financial details
-     * @param initialCars the initial list of cars to filter against
-     * @return an array list of lowest interest cars
-     */
-    private AccountHolder account;
+    private final AccountHolder account;
 
     public InterestFilter(int i, AccountHolder account) {
         this.level = i;
         this.account = account;
     }
 
-
+    /**
+     * Filter a list of cars by their loan interest rate given by the senso api.
+     */
     public void performTask() {
         generateRecommendedCars();
     }
-    public void generateRecommendedCars(){
+
+
+
+    private void generateRecommendedCars(){
         ArrayList<Car> initialCars = this.account.getInitialCar();
         // Variable Initialization
         SensoRate srInit = new SensoRate();
@@ -73,7 +71,7 @@ public class InterestFilter extends Handler{
      * @param value a float representing the interest rate to find within the given array
      * @return index value of given element in array as integer
      */
-    public int getFirstIndex(float[] rates, float value) {
+    private int getFirstIndex(float[] rates, float value) {
         for (int i = 0; i < rates.length; i++) {
             if (rates[i] == value) {
                 return i;
@@ -116,26 +114,4 @@ public class InterestFilter extends Handler{
 
         return installments;
     }
-
-//    /**
-//     * Convert an array list of cars into JSON equivalent
-//     *
-//     * @param bestFive an array list of car objects
-//     * @return return JSONObject of cars
-//     */
-//    private JSONObject convertToJSON(ArrayList<Car> bestFive){
-//        // Initialisation
-//        JSONObject carsJSON = new JSONObject();
-//        JSONArray recommendedCarsJSON = new JSONArray();
-//
-//        // Convert each car object to JSON and add to JSON array
-//        for (Car car : bestFive) {
-//            JSONObject carJSON = car.toJSON();
-//            recommendedCarsJSON.put(carJSON);
-//        }
-//        carsJSON.put("cars", recommendedCarsJSON);
-//
-//        return carsJSON;
-//    }
-
 }
