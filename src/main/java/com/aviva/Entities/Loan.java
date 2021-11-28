@@ -1,5 +1,7 @@
 package com.aviva.Entities;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -42,5 +44,15 @@ public class Loan {
     public float getInterestRate() {return this.interestRate;}
     public ArrayList<Installment> getInstallments() {return this.installments;}
 
+    public JSONObject toJSON() {
+        JSONObject loanJSON = new JSONObject();
+        loanJSON.put("loanAmount", this.loanAmount);
+        loanJSON.put("interestSum", this.interestSum);
+        loanJSON.put("capitalSum", this.capitalSum);
+        loanJSON.put("loanSum", this.loanSum);
+        loanJSON.put("loanTerm", this.loanTerm);
+        loanJSON.put("interestRate", this.interestRate);
+        return loanJSON;
+    }
 }
 
