@@ -141,7 +141,7 @@ public class SQLAccountHolderDataAccess implements AccountAccessInterface {
      * Helper method to insert data into installments table
      */
     public void insertIntoInstallments(Connection connection, Loan loan, String uniqueID) throws SQLException {
-        String command = "INSERT INTO recommendations (carID, termNumber, termCapital, termInterest, termInstallment, remainingAmount, interestSum) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String command = "INSERT INTO installments (carID, termNumber, termCapital, termInterest, termInstallment, remainingAmount, interestSum) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
 
         // Loop through each installment of the RecommendedCar
