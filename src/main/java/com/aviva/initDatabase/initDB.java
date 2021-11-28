@@ -29,13 +29,11 @@ public class initDB {
             createCarTable(connection);
             createBankingTable(connection);
             createCreditTable(connection);
-            createClientTable(connection);
             createRecommendationsTable(connection);
             createInstallmentsTable(connection);
             writeCarData(connection, "data/Car_Data.csv");
             writeBankingData(connection, "data/Banking_Data.csv");
             writeCreditData(connection, "data/Credit_Data.csv");
-            writeClientData(connection);
         }
         // Print error statement if connection fails
         catch (SQLException e) {
@@ -126,24 +124,6 @@ public class initDB {
         }
         catch (SQLException e) {
             System.out.println("Failed to create credit table");
-        }
-    }
-
-    /**
-     * Creates a client table on the aviva database
-     * @param connection communication link with RDS
-     */
-    public static void createClientTable(Connection connection) {
-        try {
-            Statement statement = connection.createStatement();
-            String command = "USE aviva";
-            statement.execute(command);
-            command = "CREATE TABLE client(accountNumber VARCHAR(255), fullName VARCHAR(24), previousCar VARCHAR(24), PRIMARY KEY(accountNumber))";
-            statement.execute(command);
-            System.out.println("Successfully created table: client");
-        }
-        catch (SQLException e) {
-            System.out.println("Failed to create client table");
         }
     }
 
@@ -378,50 +358,6 @@ public class initDB {
 
         } catch (SQLException | IOException e) {
             System.out.println("Failed to write credit data");
-        }
-    }
-
-    /**
-     * Writes client data into the client table on the aviva database by reading through existing banking data
-     * @param connection communication link with RDS
-     */
-    public static void writeClientData(Connection connection) {
-        // Initialize variables
-        String command = "INSERT INTO client (accountNumber, fullName, previousCar) VALUES (?, ?, ?)";
-        int batchSize = 10;
-        int count = 0;
-
-        try {
-            // Connect to aviva database
-            Statement statement = connection.createStatement();
-            statement.execute("USE aviva");
-
-            PreparedStatement preparedStatement = connection.prepareStatement(command); // Prepare SQL Command
-
-            // Query all unique account numbers from the banking table
-            String queryCommand = "SELECT DISTINCT(accountNumber) FROM banking;";
-            ResultSet rs = statement.executeQuery(queryCommand);
-
-            // Loop through each queried account number
-            while (rs.next()) {
-                // Prepare data to match the table's data types
-                preparedStatement.setString(1, rs.getString("accountNumber"));
-                preparedStatement.setString(2, "John Smith");
-                preparedStatement.setNull(3, 0);
-
-                count = count + 1;
-                // Execute batch of SQL commands
-                preparedStatement.addBatch();
-                if (count % batchSize == 0) {
-                    preparedStatement.executeBatch();
-                }
-            }
-
-            preparedStatement.executeBatch(); // Execute remaining SQL commands
-            System.out.println("Successfully inserted data into table: client");
-        }
-        catch (SQLException e) {
-            System.out.println("Failed to write client data");
         }
     }
 }

@@ -1,9 +1,6 @@
 package com.aviva.DataAccess;
 
-import com.aviva.Entities.Loan;
-
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 /**
  * This is the Data Access Interface for the data of the cars
@@ -24,10 +21,4 @@ public interface CarAccessInterface {
      */
     public ResultSet getAllCars();
 
-    /**
-     * Inserts a car name against an account number into a table
-     * @param accountNumber the account number of the client
-     * @param cars a list of RecommendedCar entities to insert against the client
-     */
-    public void insertRecommendedCars(String accountNumber, ArrayList<Loan> cars);
 }
