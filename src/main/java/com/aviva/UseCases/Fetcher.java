@@ -15,7 +15,6 @@ public class Fetcher {
         AccountHolder user = new AccountHolder(input.getClientIDs());
         BankingDataProcess userData = new BankingDataProcess();
         OutputBoundary dataConverter = new OutputBoundary();
-//        return dataConverter.convert(userData.getRecommendedCars(user));
-        return "";
+        return dataConverter.convert(userData.getRecommendedCars(user.getAccountNumber()));
     }
 }
