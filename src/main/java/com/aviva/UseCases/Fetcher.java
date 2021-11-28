@@ -7,10 +7,14 @@ import com.aviva.CarRecommendations.OutputBoundary;
 
 public class Fetcher {
 
+    public Fetcher(){
+
+    }
+
     public String getCars(InputData input) {
         AccountHolder user = new AccountHolder(input.getClientIDs());
         BankingDataProcess userData = new BankingDataProcess();
         OutputBoundary dataConverter = new OutputBoundary();
-        return dataConverter.methodToConvert(userData.getRecommendedCars(user));
+        return dataConverter.convert(userData.getRecommendedCars(user));
     }
 }

@@ -6,6 +6,9 @@ import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.InputData;
 
 public class Recommender {
+    public Recommender(){
+
+    }
     public void generateAndInsert(InputData input) {
 
         SQLCarDataAccess sqlinit = new SQLCarDataAccess();
