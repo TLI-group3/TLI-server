@@ -20,14 +20,17 @@ public class EstimateBudget extends Handler {
 
     BankingDataProcessingInterface bdpInit = new BankingDataProcess();
 
-    public EstimateBudget(AccountHolder account) {
+    public EstimateBudget(int i, AccountHolder account) {
+        this.level = i;
         this.account = account;
     }
 
-    public void execute() {
+    public void performTask() {
         identifyBiMonthlySalary();
         identifySpending();
         determineMonthlyBudget();
+
+        account.setCreditScore(bdpInit.getCreditScore(account.getAccountNumber()));
     }
 
     /**
@@ -48,7 +51,7 @@ public class EstimateBudget extends Handler {
         // Identify the possible salary
         for (Object curr : frequency.keySet()) {
             int currFrequency = (int) frequency.get(curr);
-            if (currFrequency >= BIMONTHLY_SALARY_FREQUENCY && ((float) curr) == possibleSalary) {
+            if (currFrequency >= BIMONTHLY_SALARY_FREQUENCY && ((float) curr) >= possibleSalary) {
                 possibleSalary = (float) curr;
                 possibleSalaryFrequency = currFrequency;
             }
@@ -113,4 +116,5 @@ public class EstimateBudget extends Handler {
             }
         }
     }
+
 }

@@ -25,12 +25,13 @@ public class InterestFilter extends Handler{
      */
     private AccountHolder account;
 
-    public InterestFilter(AccountHolder account) {
+    public InterestFilter(int i, AccountHolder account) {
+        this.level = i;
         this.account = account;
     }
 
 
-    public void execute() {
+    public void performTask() {
         generateRecommendedCars();
     }
     public void generateRecommendedCars(){
@@ -87,7 +88,7 @@ public class InterestFilter extends Handler{
         float capitalSum = JSONLoan.getFloat("capitalSum");
         float sum = JSONLoan.getFloat("sum");
         int term = JSONLoan.getInt("term");
-        float interestRate = JSONLoan.getFloat("installment");
+        float interestRate = JSONLoan.getFloat("interestRate");
         JSONArray JSONInstallments = JSONLoan.getJSONArray("installments");
         ArrayList<Installment> installments = installmentConvertor(JSONInstallments);
 

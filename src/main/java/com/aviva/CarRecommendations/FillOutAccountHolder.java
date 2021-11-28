@@ -4,6 +4,7 @@ import com.aviva.Entities.AccountHolder;
 
 abstract class Handler {
     protected Handler nextInChain;
+    protected int level;
 
     public void add(Handler next) {
         if (nextInChain == null) {
@@ -13,7 +14,16 @@ abstract class Handler {
         }
     }
 
-    public abstract void execute();
+    public void execute(int i) {
+        if (this.level == i) {
+            performTask();
+        }
+        else if (nextInChain != null) {
+            nextInChain.execute(i);
+        }
+    }
+
+    abstract void performTask();
 }
 
 public class FillOutAccountHolder {
@@ -22,15 +32,15 @@ public class FillOutAccountHolder {
         this.account = account;
     }
     public void run() {
-        Handler estimateBudget = new EstimateBudget(account);
-        Handler budgetFilter = new BudgetFilter(account);
-        Handler interestFilter = new InterestFilter(account);
+        Handler estimateBudget = new EstimateBudget(1, account);
+        Handler budgetFilter = new BudgetFilter(2, account);
+        Handler interestFilter = new InterestFilter(3, account);
 
         estimateBudget.add(budgetFilter);
         estimateBudget.add(interestFilter);
 
-        while (estimateBudget.nextInChain != null) {
-            estimateBudget.nextInChain.execute();
+        for (int i = 1; i < 4; i++) {
+            estimateBudget.execute(i);
         }
     }
 }

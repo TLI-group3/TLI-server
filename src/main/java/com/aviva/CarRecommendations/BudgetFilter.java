@@ -22,10 +22,11 @@ public class BudgetFilter extends Handler {
 
     private AccountHolder account;
 
-    public BudgetFilter(AccountHolder account) {
+    public BudgetFilter(int i, AccountHolder account) {
+        this.level = i;
         this.account = account;
     }
-    public void execute() {
+    public void performTask() {
         getInitialCars();
     }
 
@@ -45,7 +46,7 @@ public class BudgetFilter extends Handler {
             index = rand.nextInt(allCars.size());
             Car randomCar = allCars.get(index);
             // Check if car price is above 5000 (required for API call) and within the AccountHolder's savings
-            if (randomCar.getPrice() >= 5000 && randomCar.getPrice() < account.getMonthlyBudget()*12*0.1){
+            if (randomCar.getPrice() >= 5000 && randomCar.getPrice() < account.getMonthlySalary()*12*0.5){
                 recommended.add(randomCar);
             }
         }
