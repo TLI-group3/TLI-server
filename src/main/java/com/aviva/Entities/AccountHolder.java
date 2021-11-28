@@ -20,6 +20,7 @@ public class AccountHolder {
     private float monthlyBudget;
     private float existingCarLoan;
     private String existingCar;
+    private float existingCarValue;
     private float otherMonthlySpending;
 
     //
@@ -43,6 +44,10 @@ public class AccountHolder {
 
     public void setInitialCar(ArrayList<Car> cars) {this.initialCar = cars;}
 
+    public void setExistingCarValue(float existingCarValue) {
+        this.existingCarValue = existingCarValue;
+    }
+
 
     public String getAccountNumber() {return this.accountNumber;}
 
@@ -62,4 +67,7 @@ public class AccountHolder {
 
     public float getOtherMonthlySpending() {return this.otherMonthlySpending;}
 
+    public float getExistingCarValue() {
+        return this.existingCarValue;
+    }
 }
