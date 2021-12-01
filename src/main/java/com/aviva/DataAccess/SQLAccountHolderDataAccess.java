@@ -1,5 +1,6 @@
 package com.aviva.DataAccess;
 
+import com.aviva.Constants.RecommendationConstants;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.Car;
 import com.aviva.Entities.Installment;
@@ -83,7 +84,7 @@ public class SQLAccountHolderDataAccess implements AccountAccessInterface {
 
             String accountNumber = accountHolder.getAccountNumber();
 
-            // Delete previous recommendations if 5 cars already recommended
+            // Delete previous recommendations if #INTEREST_FILTER_SIZE cars already recommended
             deletePreviousRecommendations(connection, accountNumber);
 
             for (Map.Entry<Car, Loan> entry : accountHolder.getRecommendedCars().entrySet()) {
@@ -150,7 +151,7 @@ public class SQLAccountHolderDataAccess implements AccountAccessInterface {
     }
 
     /**
-     * Helper method to delete data from recommendations and installments tables if an account number already has 5 recommended cars
+     * Helper method to delete data from recommendations and installments tables if an account number already has #INTEREST_FILTER_SIZE recommended cars
      */
     public void deletePreviousRecommendations (Connection connection, String accountNumber) {
         ArrayList<String> carIDs = new ArrayList<>();
@@ -166,8 +167,8 @@ public class SQLAccountHolderDataAccess implements AccountAccessInterface {
                 carIDs.add(rs.getString(1));
             }
 
-            // Delete all records of recommendations and installments if there are already 5 recommendations
-            if (carIDs.size() >= 5) {
+            // Delete all records of recommendations and installments if INTEREST_FILTER_SIZE number of recommendations already exist
+            if (carIDs.size() >= RecommendationConstants.INTEREST_FILTER_SIZE) {
                 // Delete all records from recommendations table
                 command = "DELETE FROM recommendations WHERE accountnumber = '" + accountNumber + "'";
                 statement.execute(command);
@@ -180,7 +181,7 @@ public class SQLAccountHolderDataAccess implements AccountAccessInterface {
             }
         }
         catch (SQLException e) {
-            System.out.println("This account number has less than 5 recommended cars");
+            System.out.println("This account number has less than " + RecommendationConstants.INTEREST_FILTER_SIZE + " recommended cars");
         }
     }
 
