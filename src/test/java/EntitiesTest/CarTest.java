@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import com.aviva.Entities.Car;
 import org.json.JSONObject;
 
+/**
+ * Testing the Car entity
+ */
 
 public class CarTest {
     Car carToTest;
@@ -16,16 +19,19 @@ public class CarTest {
         carToTest = new Car("Lamborghini", "Aventador", 2021, 400000F);
         carToTest.setImage("https://www.topgear.com/sites/default/files/cars-car/image/2017/01/aventador-s_green_050" +
                 ".jpg");
+        carToTest.setID("TESTID");
+        carToTest.setVin("TESTVIN");
+    }
+
+    // Test getters
+    @Test
+    public void testGetModel() {
+        assertEquals("Aventador", carToTest.getModel());
     }
 
     @Test
     public void testGetMake() {
         assertEquals("Lamborghini", carToTest.getMake());
-    }
-
-    @Test
-    public void testGetModel() {
-        assertEquals("Aventador", carToTest.getModel());
     }
 
     @Test
@@ -39,17 +45,43 @@ public class CarTest {
     }
 
     @Test
+    public void testGetVin() {
+        assertEquals("TESTVIN", carToTest.getVin());
+    }
+
+    @Test
+    public void testGetID() {
+        assertEquals("TESTID", carToTest.getID());
+    }
+
+    @Test
     public void testGetImage() {
         assertEquals("https://www.topgear.com/sites/default/files/cars-car/" +
                 "image/2017/01/aventador-s_green_050.jpg", carToTest.getImage());
     }
 
+
+    // Test setters
     @Test
     public void testSetImage() {
-        carToTest.setImage("newTestString");
-        assertEquals("newTestString", carToTest.getImage());
+        carToTest.setImage("newTestImage");
+        assertEquals("newTestImage", carToTest.getImage());
     }
 
+    @Test
+    public void testSetID() {
+        carToTest.setID("newTestID");
+        assertEquals("newTestID", carToTest.getID());
+    }
+
+    @Test
+    public void testSetVin() {
+        carToTest.setVin("newTestVin");
+        assertEquals("newTestVin", carToTest.getVin());
+    }
+
+
+    // Test converters
     @Test
     public void testToJSON() {
         JSONObject jsonEquiv = new JSONObject();
@@ -59,10 +91,6 @@ public class CarTest {
         jsonEquiv.put("price", 400000F);
         jsonEquiv.put("image", "https://www.topgear.com/sites/default/files/cars-car/image/2017/01/" +
                 "aventador-s_green_050.jpg");
-        assertEquals(jsonEquiv.getString("make"), carToTest.toJSON().getString("make"));
-        assertEquals(jsonEquiv.getString("model"), carToTest.toJSON().getString("model"));
-        assertEquals(jsonEquiv.getInt("year"), carToTest.toJSON().getInt("year"));
-        assertEquals(jsonEquiv.getFloat("price"), carToTest.toJSON().getFloat("price"));
-        assertEquals(jsonEquiv.getString("image"), carToTest.toJSON().getString("image"));
+        assertEquals(jsonEquiv, carToTest.toJSON());
     }
 }

@@ -1,7 +1,5 @@
 package com.aviva.Entities;
 
-// TODO: When this entity changes, change the budget estimation calculations accordingly
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,7 +9,7 @@ import java.util.HashMap;
 
 public class AccountHolder {
     // General financial Info
-    private String accountNumber;
+    private final String accountNumber;
     private int creditScore;
     private float monthlySalary;
     private HashMap<Car,Loan> recommendedCars;
@@ -22,12 +20,11 @@ public class AccountHolder {
     private String existingCar;
     private float existingCarValue;
     private float otherMonthlySpending;
-
-    //
     private ArrayList<Car> initialCar;
 
     public AccountHolder(String accountNumber){this.accountNumber = accountNumber;}
 
+    // Setters
     public void setCreditScore(int creditScore) {this.creditScore = creditScore;}
 
     public void setMonthlySalary(float monthlySalary) {this.monthlySalary = monthlySalary;}
@@ -49,6 +46,7 @@ public class AccountHolder {
     }
 
 
+    // Getters
     public String getAccountNumber() {return this.accountNumber;}
 
     public int getCreditScore() {return this.creditScore;}

@@ -23,18 +23,23 @@ public class Car {
         this.price = price;
     }
 
+    // Getters
     public String getModel(){ return this.model;}
-    public String getMake() { return make;  }
+    public String getMake() { return make; }
     public int getYear() { return year; }
     public float getPrice() { return price; }
-    public void setImage(String imageToSet) { this.image = imageToSet; }
-    public String getImage() { return image; }
-    public void setID(String id) { this.ID = id; }
-    public String getID(){ return this.ID; }
-    public void setVin(String vin) {this.vin = vin;}
     public String getVin() {return this.vin;}
+    public String getID(){ return this.ID; }
+    public String getImage() { return image; }
 
 
+    // Setters
+    public void setImage(String imageToSet) { this.image = imageToSet; }
+    public void setID(String id) { this.ID = id; }
+    public void setVin(String vin) {this.vin = vin;}
+
+
+    // Convert car to JSON type
     public JSONObject toJSON() {
         JSONObject carJSON = new JSONObject();
         carJSON.put("make", this.make);
