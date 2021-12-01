@@ -5,16 +5,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * This class represents a recommended car with complete loan information
+ * This class represents complete loan information for a recommended car
  */
 
 public class Loan {
-    private float loanAmount;
-    private float interestSum;
-    private float capitalSum;
-    private float loanSum;
-    private int loanTerm;
-    private float interestRate;
+    private final float loanAmount;
+    private final float interestSum;
+    private final float capitalSum;
+    private final float loanSum;
+    private final int loanTerm;
+    private final float interestRate;
     private ArrayList<Installment> installments;
 
     public Loan(float loanAmount, float interestSum, float capitalSum, float loanSum, int loanTerm, float interestRate,
@@ -37,14 +37,7 @@ public class Loan {
         this.interestRate = interestRate;
     }
 
-    public void setLoanAmount(float loanAmount) {this.loanAmount = loanAmount;}
-    public void setInterestSum(float interestSum) {this.interestSum = interestSum;}
-    public void setCapitalSum(float capitalSum) {this.capitalSum = capitalSum;}
-    public void setLoanSum(float loanSum) {this.loanSum = loanSum;}
-    public void setLoanTerm(int loanTerm) {this.loanTerm = loanTerm;}
-    public void setInterestRate(float interestRate) {this.interestRate = interestRate;}
-    public void setInstallments(ArrayList<Installment> installments) {this.installments = installments;}
-
+    // Getters
     public float getLoanAmount() {return this.loanAmount;}
     public float getInterestSum() {return this.interestSum;}
     public float getCapitalSum() {return this.capitalSum;}
@@ -53,6 +46,7 @@ public class Loan {
     public float getInterestRate() {return this.interestRate;}
     public ArrayList<Installment> getInstallments() {return this.installments;}
 
+    // Convert loan to JSON type
     public JSONObject toJSON() {
         JSONObject loanJSON = new JSONObject();
         loanJSON.put("loanAmount", this.loanAmount);

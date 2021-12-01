@@ -1,16 +1,16 @@
 package com.aviva.Entities;
 
 /**
- * This class represents a installment from a loan
+ * This class represents an installment from a loan
  */
 
 public class Installment {
-    private int termNumber;
-    private float termCapital;
-    private float termInterest;
-    private float termInstallment;
-    private float remainingAmount;
-    private float interestSum;
+    private final int termNumber;
+    private final float termCapital;
+    private final float termInterest;
+    private final float termInstallment;
+    private final float remainingAmount;
+    private final float interestSum;
 
     public Installment(int termNumber, float termCapital, float termInterest, float termInstallment, float remainingAmount, float interestSum) {
         this.termNumber = termNumber;
@@ -21,6 +21,8 @@ public class Installment {
         this.interestSum = interestSum;
     }
 
+
+    // Getters
     public int getTermNumber() {return this.termNumber;}
     public float getTermCapital() {return this.termCapital;}
     public float getTermInterest() {return this.termInterest;}

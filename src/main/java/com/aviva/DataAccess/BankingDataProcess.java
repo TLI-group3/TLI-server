@@ -129,7 +129,7 @@ public class BankingDataProcess implements BankingDataProcessingInterface{
      * Returns a Loan object given a ResultSet from the database
      * @return a Loan object with respective data
      */
-    public Loan helperCreateLoanObject(ResultSet loanInfo) throws SQLException {
+    private Loan helperCreateLoanObject(ResultSet loanInfo) throws SQLException {
         float loanAmount = loanInfo.getFloat("loanAmount");
         float interestSum = loanInfo.getFloat("interestSum");
         float CapitalSum = loanInfo.getFloat("CapitalSum");

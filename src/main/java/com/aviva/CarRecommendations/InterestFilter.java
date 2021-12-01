@@ -31,14 +31,15 @@ public class InterestFilter extends Handler{
         generateRecommendedCars();
     }
 
-
-
-    private void generateRecommendedCars(){
+    /**
+     * Generate 5 recommended cars based on their respective loan interest rates and set the cars to the client
+     */
+    public void generateRecommendedCars(){
         ArrayList<Car> initialCars = this.account.getInitialCar();
         // Variable Initialization
         SensoRate srInit = new SensoRate();
-        HashMap<Car, Loan> bestFive = new HashMap<Car, Loan>();
-        ArrayList<Loan> loans = new ArrayList<Loan>();
+        HashMap<Car, Loan> bestFive = new HashMap<>();
+        ArrayList<Loan> loans = new ArrayList<>();
         float[] rates = new float[RecommendationConstants.BUDGET_FILTER_SIZE];
 
         // Loop to store interest rate of each car
@@ -91,13 +92,11 @@ public class InterestFilter extends Handler{
         JSONArray JSONInstallments = JSONLoan.getJSONArray("installments");
         ArrayList<Installment> installments = installmentConvertor(JSONInstallments);
 
-        Loan loan = new Loan(amount, interestSum, capitalSum, sum, term, interestRate, installments);
-
-        return loan;
+        return new Loan(amount, interestSum, capitalSum, sum, term, interestRate, installments);
     }
 
     private ArrayList<Installment> installmentConvertor(JSONArray JSONInstallments) {
-        ArrayList<Installment> installments = new ArrayList<Installment>();
+        ArrayList<Installment> installments = new ArrayList<>();
 
         for (int i = 0; i < JSONInstallments.length(); i++) {
             JSONObject JSONInstallment = JSONInstallments.getJSONObject(i);
