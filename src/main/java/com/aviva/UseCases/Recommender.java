@@ -30,10 +30,4 @@ public class Recommender {
             sqlinit.insertRecommendedCars(user);
         }
     }
-
-    public static void main(String[] args) {
-        InputData id = new InputData("1402110922112412");
-        Recommender rd = new Recommender();
-        rd.generateAndInsert(id);
-    }
 }
