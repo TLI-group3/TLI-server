@@ -2,15 +2,12 @@ package com.aviva.CarRecommendations;
 
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.Car;
-import com.aviva.Entities.Installment;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 
 /**
  * Public class that handles the making a call to the Senso API
@@ -33,8 +30,7 @@ public class SensoRate {
         try {
             // Use the client to send the request
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            JSONObject responseJSON = new JSONObject(response.body());
-            return responseJSON;
+            return new JSONObject(response.body());
         } catch (InterruptedException | IOException e) {
             System.out.println("Could not make API call");
             return null;
@@ -48,7 +44,7 @@ public class SensoRate {
      * @param car the Car for which to calculate the rate
      * @return HTTP POST Request to the Senso API Rate method
      */
-    public HttpRequest sensoAPICallHelper (AccountHolder user, Car car){
+    private HttpRequest sensoAPICallHelper (AccountHolder user, Car car){
         // Initialize variables required by the Senso API
         float carPrice = car.getPrice();
         float downPayment = (float) ((0.1 * carPrice) + user.getExistingCarValue());

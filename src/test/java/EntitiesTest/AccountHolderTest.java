@@ -84,7 +84,7 @@ public class AccountHolderTest {
 
     @Test
     public void testGetOtherMonthlySpending() {
-        assertEquals(10F, accountHolderToTest.getOtherMonthlySpending());
+        assertEquals(18F, accountHolderToTest.getOtherMonthlySpending());
     }
 
     @Test

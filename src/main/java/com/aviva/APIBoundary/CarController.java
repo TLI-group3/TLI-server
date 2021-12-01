@@ -43,38 +43,3 @@ public class CarController {
         return "Greetings!";
     }
 }
-
-//    /**
-//     * Runs our program on the selected clients, and inserts their recommended cars
-//     * into our database.
-//     * This endpoint is meant to be called when a group of client IDs is inserted
-//     * from the "Launch Widgets" page in the front-end.
-//     * @param inputData inserted input by user, includes client ids
-//     * @return boolean representing whether the call was successful
-//     */
-//    @PutMapping("/input")
-//    public boolean runForInputClients(@RequestBody InputData inputData) {
-//        String clientIDsString = inputData.getClientIDs();
-//        String[] clientIDs = clientIDsString.split(" ");
-//        for (String id : clientIDs) {
-//            InterestFilter ifInit = new InterestFilter();
-//            JSONObject cars = ifInit.getBestFiveCars(id);
-//        }
-//        // to_do: return false if error or improve the returned message
-//        return true;
-//    }
-//
-//    /**
-//     * Take in a trade-in car from the user and generate recommended cars.
-//     * This endpoint is meant to be called from the widget in the personal banking page.
-//     * @param params map including accountNumber and tradeIn car name
-//     * @return a list of affordable cars
-//     */
-//    @PostMapping("/widget")
-//    public String getCarsForWidget(@RequestBody Map<String, String> params) {
-//        String accountNumber = params.get("accountNumber");
-//        String tradeIn = params.get("tradeIn");
-//        InterestFilter ifInit = new InterestFilter();
-//        JSONObject cars = ifInit.getBestFiveCars(accountNumber);
-//        return cars.toString();
-//    }

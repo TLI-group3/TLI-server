@@ -27,7 +27,7 @@ public class BankingDataProcessTest {
     public void testGetWithdrawals() {
         assertEquals(1995.0F, processToTest.getWithdrawals(knownUser.getAccountNumber()).get(0));
         assertEquals(0.0F, processToTest.getWithdrawals(knownUser.getAccountNumber()).get(1));
-        assertEquals(300.0F, processToTest.getWithdrawals(knownUser.getAccountNumber()).get(2));
+        assertEquals(800.0F, processToTest.getWithdrawals(knownUser.getAccountNumber()).get(2));
     }
 
     @Test

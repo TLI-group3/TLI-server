@@ -1,8 +1,5 @@
 package EntitiesTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import com.aviva.Entities.Installment;
 import com.aviva.Entities.Loan;
 import org.json.JSONObject;
@@ -11,12 +8,15 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * Testing the Loan entity
  */
 
 public class LoanTest {
    Loan loanToTest;
+
 
     @BeforeEach
     public void setup() {
@@ -65,7 +65,7 @@ public class LoanTest {
                 2F, 3F, 4F, 5F, 6F);
         ArrayList<Installment> testList = new ArrayList<>();
         testList.add(testInstallment);
-        assertEquals(testList, loanToTest.getInstallments());
+        assertEquals(testList.size(), loanToTest.getInstallments().size());
     }
 
     // Test Constructors
@@ -87,6 +87,7 @@ public class LoanTest {
         jsonEquiv.put("loanTerm", 14);
         jsonEquiv.put("interestRate", 15F);
 
-        assertEquals(jsonEquiv, loanToTest.toJSON());
+        assertEquals(jsonEquiv.length(), loanToTest.toJSON().length());
+        assertEquals(jsonEquiv.get("interestRate"), loanToTest.toJSON().get("interestRate"));
     }
 }
