@@ -29,7 +29,7 @@ public class InterestFilterTest {
     public void testGenerateRecommendedCars(){
         BudgetFilter testInitCars = new BudgetFilter(1, knownUser);
         testInitCars.performTask();
-        filterToTest.generateRecommendedCars();
+        filterToTest.performTask();
         assertEquals(5, knownUser.getRecommendedCars().size());
     }
 }

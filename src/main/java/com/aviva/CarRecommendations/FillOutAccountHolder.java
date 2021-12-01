@@ -21,6 +21,11 @@ abstract class Handler {
         }
     }
 
+    /**
+     * Execute the responsibility of this Handler if its level matches the given level.
+     *
+     * @param i an int representing the order of this Handler in the chain of responsibility.
+     */
     public void execute(int i) {
         if (this.level == i) {
             performTask();
@@ -30,6 +35,9 @@ abstract class Handler {
         }
     }
 
+    /**
+     * Perform the responsibility this Handler is responsible for.
+     */
     abstract void performTask();
 }
 
@@ -40,7 +48,8 @@ public class FillOutAccountHolder {
     }
 
     /**
-     *
+     * Run the whole chain of responsibility in order to generate a list of recommended car for the given
+     * AccountHolder in the following order:
      * 1. Estimate budget.
      * 2. Filter for cars based on budget.
      * 3. Apply the SensoAPI on the cars passing the first filtering,

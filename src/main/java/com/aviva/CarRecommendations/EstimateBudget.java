@@ -7,9 +7,8 @@ import com.aviva.Entities.AccountHolder;
 import java.util.*;
 
 /**
- * Public class that handles the business logic of estimating the budget of a particular AccountHolder
+ * Public class that handles the business logic of estimating the budget of a particular AccountHolder.
  */
-
 public class EstimateBudget extends Handler {
     static float MINIMUM_BIMONTHLY_SALARY = 1000;
     static int BIMONTHLY_SALARY_FREQUENCY = 24;

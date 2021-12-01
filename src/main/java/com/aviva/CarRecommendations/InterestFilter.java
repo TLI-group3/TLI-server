@@ -12,9 +12,8 @@ import java.util.HashMap;
 
 /**
  * Public class that handles the business logic of generating the best cars for an AccountHolder (second filter)
- * Filters the initial 10 cars down to 5 based on the lowest interest rates returned by the Senso API
+ * Filters the initial 10 cars down to 5 based on the lowest interest rates returned by the Senso API.
  */
-
 public class InterestFilter extends Handler{
     private final AccountHolder account;
 
@@ -24,7 +23,7 @@ public class InterestFilter extends Handler{
     }
 
     /**
-     * Filter a list of cars by their loan interest rate given by the senso api.
+     * Filter a list of cars by their loan interest rate given by the Senso API.
      */
     public void performTask() {
         generateRecommendedCars();
@@ -33,7 +32,7 @@ public class InterestFilter extends Handler{
     /**
      * Generate 5 recommended cars based on their respective loan interest rates and set the cars to the client
      */
-    public void generateRecommendedCars(){
+    private void generateRecommendedCars(){
         ArrayList<Car> initialCars = this.account.getInitialCar();
         // Variable Initialization
         SensoRate srInit = new SensoRate();
