@@ -5,12 +5,21 @@ import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.InputData;
 import com.aviva.CarRecommendations.OutputBoundary;
 
+/**
+ * Use case class responsible for handling getting a client's recommended cars
+ */
+
 public class Fetcher {
 
     public Fetcher(){
 
     }
 
+    /**
+     * Get a client's previously generated and stored recommended cars
+     * @param input data sent in from our frontend containing the client IDs
+     * @return a JSON formatted string to send to our front end
+     */
     public String getCars(InputData input) {
         AccountHolder user = new AccountHolder(input.getClientIDs());
         BankingDataProcess userData = new BankingDataProcess();
