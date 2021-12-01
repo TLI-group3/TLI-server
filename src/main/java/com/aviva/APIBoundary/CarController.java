@@ -16,7 +16,7 @@ public class CarController {
      * Endpoint for generating a list of recommended cars for a client and inserting information into database
      * @param input inserted input from the frontend, includes client IDs
      */
-    @PostMapping("/generateCars")
+    @PutMapping("/generateCars")
     public void generateCarsForClient(@RequestBody InputData input) {
         Recommender useCaseGenerate = new Recommender();
         useCaseGenerate.generateAndInsert(input);
