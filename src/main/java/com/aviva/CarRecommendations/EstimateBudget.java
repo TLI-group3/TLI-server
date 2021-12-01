@@ -8,9 +8,8 @@ import com.aviva.Constants.RecommendationConstants;
 import java.util.*;
 
 /**
- * Public class that handles the business logic of estimating the budget of a particular AccountHolder
+ * Public class that handles the business logic of estimating the budget of a particular AccountHolder.
  */
-
 public class EstimateBudget extends Handler {
 
     private final AccountHolder account;

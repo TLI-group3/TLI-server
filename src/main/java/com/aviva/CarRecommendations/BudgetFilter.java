@@ -12,7 +12,6 @@ import java.util.Random;
  * The first filter identifies #BUDGET_FILTER_SIZE random cars within the client's budget by checking if the car's price is within
  * the client's yearly savings
  */
-
 public class BudgetFilter extends Handler {
 
     private final AccountHolder account;
@@ -26,7 +25,6 @@ public class BudgetFilter extends Handler {
      * Generate #BUDGET_FILTER_SIZE number of random cars recommended for a particular AccountHolder based on client's budget and set it
      * to the AccountHolder.
      */
-
     public void performTask() {
         getInitialCars();
     }
