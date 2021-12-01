@@ -2,15 +2,13 @@ package com.aviva.CarRecommendations;
 
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.Car;
-import com.aviva.Entities.Installment;
-import org.json.JSONArray;
+import com.aviva.Constants.RecommendationConstants;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 
 /**
  * Public class that handles the making a call to the Senso API
@@ -51,12 +49,12 @@ public class SensoRate {
     public HttpRequest sensoAPICallHelper (AccountHolder user, Car car){
         // Initialize variables required by the Senso API
         float carPrice = car.getPrice();
-        float downPayment = (float) ((0.1 * carPrice) + user.getExistingCarValue());
-        float vehicleKMS = 15000.0F; // Assuming average kilometres driven is 15k
+        float downPayment = (float) ((RecommendationConstants.DOWN_PAYMENT_RATIO * carPrice) + user.getExistingCarValue());
+        float vehicleKMS = RecommendationConstants.VEHICLE_KMS;
         String carMake = car.getMake();
         String carModel = car.getModel();
         int carYear = car.getYear();
-        float loanAmount = (float) (carPrice - downPayment + (0.2 * carPrice)); // Adding 20% of car value as upselling
+        float loanAmount = (float) (carPrice - downPayment + (RecommendationConstants.UPSELL_RATIO * carPrice));
 
         // Input parameters for the Senso API's rate endpoint
         String inputJson = String.format("{\"loanAmount\": %f, \"creditScore\": %d, \"pytBudget\": %d," +

@@ -3,6 +3,7 @@ package com.aviva.CarRecommendations;
 import com.aviva.DataAccess.BankingDataProcess;
 import com.aviva.DataAccess.BankingDataProcessingInterface;
 import com.aviva.Entities.AccountHolder;
+import com.aviva.Constants.RecommendationConstants;
 
 import java.util.*;
 
@@ -11,10 +12,6 @@ import java.util.*;
  */
 
 public class EstimateBudget extends Handler {
-    static float MINIMUM_BIMONTHLY_SALARY = 1000;
-    static int BIMONTHLY_SALARY_FREQUENCY = 24;
-    static int MONTHLY_SPENDING_FREQUENCY = 12;
-    static float MINIMUM_MONTHLY_CAR_LOAN = 50;
 
     private final AccountHolder account;
 
@@ -45,7 +42,7 @@ public class EstimateBudget extends Handler {
         // Mapping the possible deposits that could be the bimonthly salary to its number of occurrence
         Map frequency = new HashMap();
 
-        extractMajorCashFlow(deposits, frequency, MINIMUM_BIMONTHLY_SALARY);
+        extractMajorCashFlow(deposits, frequency, RecommendationConstants.MINIMUM_BIMONTHLY_SALARY);
 
         float possibleSalary = 0;
         int possibleSalaryFrequency = 0;
@@ -53,7 +50,7 @@ public class EstimateBudget extends Handler {
         // Identify the possible salary
         for (Object curr : frequency.keySet()) {
             int currFrequency = (int) frequency.get(curr);
-            if (currFrequency >= BIMONTHLY_SALARY_FREQUENCY && ((float) curr) >= possibleSalary) {
+            if (currFrequency >= RecommendationConstants.BIMONTHLY_SALARY_FREQUENCY && ((float) curr) >= possibleSalary) {
                 possibleSalary = (float) curr;
                 possibleSalaryFrequency = currFrequency;
             }
@@ -71,14 +68,14 @@ public class EstimateBudget extends Handler {
 
         Map frequency = new HashMap();
 
-        extractMajorCashFlow(withdrawals, frequency, MINIMUM_MONTHLY_CAR_LOAN);
+        extractMajorCashFlow(withdrawals, frequency, RecommendationConstants.MINIMUM_MONTHLY_CAR_LOAN);
 
         Set monthlySpendings = new HashSet();
 
         // Identify the monthly occurring withdrawals
         for (Object curr : frequency.keySet()) {
             int currFrequency = (int) frequency.get(curr);
-            if (currFrequency >= MONTHLY_SPENDING_FREQUENCY) {
+            if (currFrequency >= RecommendationConstants.MONTHLY_SPENDING_FREQUENCY) {
                monthlySpendings.add(curr);
             }
         }
@@ -98,7 +95,7 @@ public class EstimateBudget extends Handler {
      */
     private void determineMonthlyBudget() {
         if (account.getExistingCarLoan() == 0) {
-            float monthlyBudget = (float) ((account.getMonthlySalary() - account.getOtherMonthlySpending()) * 0.1);
+            float monthlyBudget = (float) ((account.getMonthlySalary() - account.getOtherMonthlySpending()) * RecommendationConstants.MONTHLY_ALLOCATION);
             account.setMonthlyBudget(monthlyBudget);
         } else {
             account.setMonthlyBudget(account.getExistingCarLoan());

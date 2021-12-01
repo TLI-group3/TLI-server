@@ -4,6 +4,7 @@ import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.Car;
 import com.aviva.Entities.Installment;
 import com.aviva.Entities.Loan;
+import com.aviva.Constants.RecommendationConstants;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 
 /**
  * Public class that handles the business logic of generating the best cars for an AccountHolder (second filter)
- * Filters the initial 10 cars down to 5 based on the lowest interest rates returned by the Senso API
+ * Filters the initial #BUDGET_FILTER_SIZE cars down to #INTEREST_FILTER_SIZE based on the lowest interest rates returned by the Senso API
  */
 
 public class InterestFilter extends Handler{
@@ -38,7 +39,7 @@ public class InterestFilter extends Handler{
         SensoRate srInit = new SensoRate();
         HashMap<Car, Loan> bestFive = new HashMap<Car, Loan>();
         ArrayList<Loan> loans = new ArrayList<Loan>();
-        float[] rates = new float[10];
+        float[] rates = new float[RecommendationConstants.BUDGET_FILTER_SIZE];
 
         // Loop to store interest rate of each car
         for (int i = 0; i < initialCars.size(); i++) {
@@ -52,8 +53,8 @@ public class InterestFilter extends Handler{
         float[] sortedRates = Arrays.copyOf(rates, 10);
         Arrays.sort(sortedRates);
 
-        // Loop to get five best cars
-        for (int i = 0; i < 5; i++) {
+        // Loop to get #INTEREST_FILTER_SIZE best cars
+        for (int i = 0; i < RecommendationConstants.INTEREST_FILTER_SIZE; i++) {
             float sortedRate = sortedRates[i];
             int carIndex = getFirstIndex(rates, sortedRate);
             Car carAtIndex = initialCars.get(carIndex);
