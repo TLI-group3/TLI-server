@@ -8,7 +8,7 @@ import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.InputData;
 
 /**
- * A use case class reposnible for handling the generating a client's recommended cars and inserting
+ * A use case class responsible for handling the generating a client's recommended cars and inserting
  * the cars into our database
  */
 
