@@ -1,6 +1,6 @@
 package com.aviva.APIBoundary;
 
-import com.aviva.UseCases.*;
+import com.aviva.Controllers.*;
 import com.aviva.Entities.InputData;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +29,7 @@ public class CarController {
      * @return string representation of recommended car information for front end to display
      */
     @GetMapping("/getCars")
-    public String getCars(@RequestBody InputData input){
+    public String getCars(@RequestParam String input){
         Fetcher useCaseGet = new Fetcher();
         return useCaseGet.getCars(input);
     }

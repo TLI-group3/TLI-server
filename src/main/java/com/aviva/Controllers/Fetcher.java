@@ -1,8 +1,7 @@
-package com.aviva.UseCases;
+package com.aviva.Controllers;
 
 import com.aviva.DataAccess.BankingDataProcess;
 import com.aviva.Entities.AccountHolder;
-import com.aviva.Entities.InputData;
 import com.aviva.CarRecommendations.OutputBoundary;
 
 /**
@@ -14,14 +13,13 @@ public class Fetcher {
     public Fetcher(){
 
     }
-
     /**
      * Get a client's previously generated and stored recommended cars
-     * @param input data sent in from our frontend containing the client IDs
+     * @param input string sent in from front end containing the client ID
      * @return a JSON formatted string to send to our front end
      */
-    public String getCars(InputData input) {
-        AccountHolder user = new AccountHolder(input.getClientIDs());
+    public String getCars(String input) {
+        AccountHolder user = new AccountHolder(input);
         BankingDataProcess userData = new BankingDataProcess();
         OutputBoundary dataConverter = new OutputBoundary();
         return dataConverter.convert(userData.getRecommendedCars(user.getAccountNumber()));
