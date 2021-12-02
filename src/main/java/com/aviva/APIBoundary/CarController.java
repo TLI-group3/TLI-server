@@ -1,6 +1,6 @@
 package com.aviva.APIBoundary;
 
-import com.aviva.UseCases.*;
+import com.aviva.Controllers.*;
 import com.aviva.Entities.InputData;
 import org.springframework.web.bind.annotation.*;
 
