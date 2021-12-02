@@ -26,6 +26,6 @@ public class RecommenderTest {
         Fetcher test = new Fetcher();
         recommenderToTest.generateAndInsert(knownInput);
         assertEquals("{\"cars\":[{\"image\":\"https://",
-                test.getCars(knownInput).substring(0, 27));
+                test.getCars(knownInput.getClientIDs()).substring(0, 27));
     }
 }
