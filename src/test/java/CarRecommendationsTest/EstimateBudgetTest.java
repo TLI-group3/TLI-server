@@ -8,22 +8,23 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EstimateBudgetTest {
-    EstimateBudget classToTest;
+    EstimateBudget estimatorToTest;
     AccountHolder knownAccount;
 
     @BeforeEach
     public void setup() {
-        classToTest = new EstimateBudget();
         knownAccount = new AccountHolder("1402110922112412");
+        estimatorToTest = new EstimateBudget(1, knownAccount);
+        estimatorToTest.performTask();
     }
 
     @Test
-    public void testCalculateYearlyBudget() {
-        assertEquals(38460.0F, classToTest.calculateYearlyBudget(knownAccount));
-    }
-
-    @Test
-    public void testCalculateMonthlyBudget() {
-        assertEquals(3205.0F, classToTest.calculateMonthlyBudget(knownAccount));
+    public void testEstimateBudget() {
+        assertEquals(5500, knownAccount.getMonthlySalary());
+        assertEquals(1995, knownAccount.getOtherMonthlySpending());
+        assertEquals(800, knownAccount.getExistingCarLoan());
+        assertEquals(800, knownAccount.getMonthlyBudget());
+        assertEquals(719, knownAccount.getCreditScore());
     }
 }
+

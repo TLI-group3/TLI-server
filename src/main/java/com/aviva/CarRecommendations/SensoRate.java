@@ -2,7 +2,7 @@ package com.aviva.CarRecommendations;
 
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.Car;
-import org.json.JSONArray;
+import com.aviva.Constants.RecommendationConstants;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URI;
@@ -23,7 +23,7 @@ public class SensoRate {
      * @param car the Car for which to calculate the rate
      * @return the interest rate as a float
      */
-    public float getInterestRate(AccountHolder user, Car car) {
+    public JSONObject getLoan(AccountHolder user, Car car) {
         // Set up HTTP Client and POST Request to Senso API
         HttpClient httpClient = HttpClient.newHttpClient();
         HttpRequest request = sensoAPICallHelper(user, car);
@@ -31,36 +31,10 @@ public class SensoRate {
         try {
             // Use the client to send the request
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            JSONObject responseJSON = new JSONObject(response.body());
-            return responseJSON.getFloat("interestRate");
-        }
-        catch (InterruptedException | IOException e) {
-            System.out.println("Could not HTTP Request");
-        }
-
-        return (float) -1.0;
-    }
-
-    /**
-     * Returns the installments for a particular AccountHolder and Car
-     *
-     * @param user the AccountHolder for which to calculate the rate
-     * @param car the Car for which to calculate the rate
-     * @return the installment plan for a given Car and AccountHolder as a JSONArray
-     */
-    public JSONArray getInstallments(AccountHolder user, Car car) {
-        // Set up HTTP Client and POST Request to Senso API
-        HttpClient httpClient = HttpClient.newHttpClient();
-        HttpRequest request = sensoAPICallHelper(user, car);
-
-        try {
-            // use the client to send the request
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            JSONObject responseJSON = new JSONObject(response.body());
-            return responseJSON.getJSONArray("installments");
+            return new JSONObject(response.body());
         } catch (InterruptedException | IOException e) {
-            System.out.println("Could not HTTP Request");
-            return new JSONArray();
+            System.out.println("Could not make API call");
+            return null;
         }
     }
 
@@ -71,15 +45,15 @@ public class SensoRate {
      * @param car the Car for which to calculate the rate
      * @return HTTP POST Request to the Senso API Rate method
      */
-    public HttpRequest sensoAPICallHelper(AccountHolder user, Car car) {
+    private HttpRequest sensoAPICallHelper (AccountHolder user, Car car){
         // Initialize variables required by the Senso API
         float carPrice = car.getPrice();
-        float downPayment = (float) (0.1 * carPrice);
-        float vehicleKMS = 15000.0F; // Assuming average kilometres driven is 15k
+        float downPayment = (float) ((RecommendationConstants.DOWN_PAYMENT_RATIO * carPrice) + user.getExistingCarValue());
+        float vehicleKMS = RecommendationConstants.VEHICLE_KMS;
         String carMake = car.getMake();
         String carModel = car.getModel();
         int carYear = car.getYear();
-        float loanAmount = (float) (carPrice - downPayment + (0.2 * carPrice)); // Adding 20% of car value as upselling
+        float loanAmount = (float) (carPrice - downPayment + (RecommendationConstants.UPSELL_RATIO * carPrice));
 
         // Input parameters for the Senso API's rate endpoint
         String inputJson = String.format("{\"loanAmount\": %f, \"creditScore\": %d, \"pytBudget\": %d," +
@@ -95,5 +69,4 @@ public class SensoRate {
                 .POST(HttpRequest.BodyPublishers.ofString(inputJson))
                 .build();
     }
-    
 }

@@ -34,13 +34,35 @@ public class CarDataProcess implements CarDataProcessingInterface{
     }
 
     /**
-     * @param name Full label of car as YEAR MAKE MODEL
+     * @param carName the name of the car in the format: YEAR MAKE MODEL
      * @return a Car object using the database
      */
-    public Car getCarByName(String name){
+    public Car getCarByName(String carName){
         // Query a car by its name
         SQLCarDataAccess sqlcdaInit = new SQLCarDataAccess();
-        ResultSet carInDB = sqlcdaInit.getCar(name);
+        ResultSet carInDB = sqlcdaInit.getCarByName(carName);
+
+        Car noCar = new Car("noCar", "noCar", 0, 0);
+
+        // Convert the queried car into a Car entity
+        try {
+            carInDB.next();
+            return helperCreateCarObject(carInDB);
+        }
+        catch (SQLException e) {
+            System.out.println("Could not get car by name");
+        }
+        return noCar;
+    }
+
+    /**
+     * @param vin vin number of the car
+     * @return a Car object using the database
+     */
+    public Car getCarByVin(String vin){
+        // Query a car by its vin number
+        SQLCarDataAccess sqlcdaInit = new SQLCarDataAccess();
+        ResultSet carInDB = sqlcdaInit.getCarByVin(vin);
 
         Car noCar = new Car("noCar", "noCar", 0, 0);
 
@@ -65,8 +87,10 @@ public class CarDataProcess implements CarDataProcessingInterface{
         int carYear = carsInDB.getInt("modelYear");
         int carPrice = carsInDB.getInt("price");
         String carImage = carsInDB.getString("image");
+        String vin = carsInDB.getString("vin");
         Car carToAdd = new Car(carName, carModel, carYear, carPrice);
         carToAdd.setImage(carImage);
+        carToAdd.setVin(vin);
         return carToAdd;
     }
 }

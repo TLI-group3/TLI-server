@@ -1,46 +1,68 @@
 package com.aviva.CarRecommendations;
 
-import com.aviva.DataAccess.BankingDataProcess;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.Car;
+import com.aviva.Entities.Installment;
+import com.aviva.Entities.Loan;
+import com.aviva.Constants.RecommendationConstants;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Public class that handles the business logic of generating the best cars for an AccountHolder (second filter)
- * Filters the initial 10 cars down to 5 based on the lowest interest rates returned by the Senso API
+ * Filters the initial #BUDGET_FILTER_SIZE cars down to #INTEREST_FILTER_SIZE based on the lowest interest rates returned by the Senso API.
  */
+public class InterestFilter extends Handler{
+    private final AccountHolder account;
 
-public class InterestFilter {
+    public InterestFilter(int i, AccountHolder account) {
+        this.level = i;
+        this.account = account;
+    }
 
     /**
-     * Returns the best five cars given an AccountHolder's accountNumber based on the lowest interest rates
-     *
-     * @param accountNumber the account number of an AccountHolder
-     * @return JSON that maps cars to five Car entities with the lowest interest rate
+     * Filter a list of cars by their loan interest rate given by the Senso API.
      */
-    public JSONObject getBestFiveCars(String accountNumber) {
-        // Instantiate AccountHolder given the accountNumber
-        BankingDataProcess bdpInit = new BankingDataProcess();
-        AccountHolder user = bdpInit.makeAccountHolder(accountNumber);
+    public void performTask() {
+        generateRecommendedCars();
+    }
 
-        // Get and set the AccountHolder's budget
-        EstimateBudget ebInit = new EstimateBudget();
-        float yearlyBudget = ebInit.calculateYearlyBudget(user);
-        user.setSavings(yearlyBudget);
-        float monthlyBudget = ebInit.calculateMonthlyBudget(user);
-        user.setMonthlyBudget(monthlyBudget);
+    /**
+     * Generate 5 recommended cars based on their respective loan interest rates and set the cars to the client
+     */
+    private void generateRecommendedCars(){
+        ArrayList<Car> initialCars = this.account.getInitialCar();
+        // Variable Initialization
+        SensoRate srInit = new SensoRate();
+        HashMap<Car, Loan> bestFive = new HashMap<>();
+        ArrayList<Loan> loans = new ArrayList<>();
+        float[] rates = new float[RecommendationConstants.BUDGET_FILTER_SIZE];
 
-        // Get the list of possible cars for the AccountHolder
-        BudgetFilter bfInit = new BudgetFilter();
-        ArrayList<Car> cars = bfInit.getRecommendedCars(user);
+        // Loop to store interest rate of each car
+        for (int i = 0; i < initialCars.size(); i++) {
+            JSONObject JSONLoan = srInit.getLoan(account, initialCars.get(i));
+            Loan loan = loanConverter(JSONLoan);
+            loans.add(loan);
+            rates[i] = loan.getInterestRate();
+        }
 
-        ArrayList<Car> bestFive = filterLowestFive(user, cars);
+        // Create a copy of the array of interest rates and sort them
+        float[] sortedRates = Arrays.copyOf(rates, 10);
+        Arrays.sort(sortedRates);
 
-        // Convert to JSON
-        return convertToJSON(bestFive);
+        // Loop to get #INTEREST_FILTER_SIZE best cars
+        for (int i = 0; i < RecommendationConstants.INTEREST_FILTER_SIZE; i++) {
+            float sortedRate = sortedRates[i];
+            int carIndex = getFirstIndex(rates, sortedRate);
+            Car carAtIndex = initialCars.get(carIndex);
+            Loan loanAtIndex = loans.get(carIndex);
+            bestFive.put(carAtIndex, loanAtIndex);
+            rates[carIndex] = (float) -1.0;
+        }
+        account.setRecommendedCars(bestFive);
     }
 
     /**
@@ -50,7 +72,7 @@ public class InterestFilter {
      * @param value a float representing the interest rate to find within the given array
      * @return index value of given element in array as integer
      */
-    public int getFirstIndex(float[] rates, float value) {
+    private int getFirstIndex(float[] rates, float value) {
         for (int i = 0; i < rates.length; i++) {
             if (rates[i] == value) {
                 return i;
@@ -59,57 +81,36 @@ public class InterestFilter {
         return -1;
     }
 
-    /**
-     * Convert an array list of cars into JSON equivalent
-     *
-     * @param bestFive an array list of car objects
-     * @return return JSONObject of cars
-     */
-    public JSONObject convertToJSON(ArrayList<Car> bestFive){
-        // Initialisation
-        JSONObject carsJSON = new JSONObject();
-        JSONArray recommendedCarsJSON = new JSONArray();
+    private Loan loanConverter(JSONObject JSONLoan) {
+        float amount = JSONLoan.getFloat("amount");
+        float interestSum = JSONLoan.getFloat("interestSum");
+        float capitalSum = JSONLoan.getFloat("capitalSum");
+        float sum = JSONLoan.getFloat("sum");
+        int term = JSONLoan.getInt("term");
+        float interestRate = JSONLoan.getFloat("interestRate");
+        JSONArray JSONInstallments = JSONLoan.getJSONArray("installments");
+        ArrayList<Installment> installments = installmentConvertor(JSONInstallments);
 
-        // Convert each car object to JSON and add to JSON array
-        for (Car car : bestFive) {
-            JSONObject carJSON = car.toJSON();
-            recommendedCarsJSON.put(carJSON);
-        }
-        carsJSON.put("cars", recommendedCarsJSON);
-
-        return carsJSON;
+        return new Loan(amount, interestSum, capitalSum, sum, term, interestRate, installments);
     }
 
-    /**
-     * Filter a list of cars by their loan interest rate given by the senso api
-     *
-     * @param user an account holder providing financial details
-     * @param initalCars the initial list of cars to filter against
-     * @return an array list of lowest interest cars
-     */
-    public ArrayList<Car> filterLowestFive(AccountHolder user, ArrayList<Car> initalCars){
-        // Variable Initialization
-        SensoRate srInit = new SensoRate();
-        ArrayList<Car> bestFive = new ArrayList<>();
-        float[] rates = new float[10];
+    private ArrayList<Installment> installmentConvertor(JSONArray JSONInstallments) {
+        ArrayList<Installment> installments = new ArrayList<>();
 
-        // Loop to store interest rate of each car
-        for (int i = 0; i < initalCars.size(); i++) {
-            float interestRate = srInit.getInterestRate(user, initalCars.get(i));
-            rates[i] = interestRate;
+        for (int i = 0; i < JSONInstallments.length(); i++) {
+            JSONObject JSONInstallment = JSONInstallments.getJSONObject(i);
+
+            float capital = JSONInstallment.getFloat("capital");
+            float interest = JSONInstallment.getFloat("interest");
+            float installment = JSONInstallment.getFloat("installment");
+            float remain = JSONInstallment.getFloat("remain");
+            float interestSum = JSONInstallment.getFloat("interestSum");
+
+            Installment installmentToAdd = new Installment(i + 1, capital, interest, installment,
+                    remain, interestSum);
+            installments.add(installmentToAdd);
         }
 
-        // Create a copy of the array of interest rates and sort them
-        float[] sortedRates = Arrays.copyOf(rates, 10);
-        Arrays.sort(sortedRates);
-
-        // Loop to get five best cars
-        for (int i = 0; i < 5; i++) {
-            float sortedRate = sortedRates[i];
-            int carIndex = getFirstIndex(rates, sortedRate);
-            bestFive.add(initalCars.get(carIndex));
-            rates[carIndex] = (float) -1.0;
-        }
-        return bestFive;
+        return installments;
     }
 }

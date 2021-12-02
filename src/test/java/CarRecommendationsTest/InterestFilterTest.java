@@ -2,10 +2,15 @@ package CarRecommendationsTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.aviva.CarRecommendations.BudgetFilter;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.CarRecommendations.InterestFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+/**
+ * Testing if our interest filter successfully returns an expected list of cars
+ */
 
 public class InterestFilterTest {
     InterestFilter filterToTest;
@@ -13,20 +18,18 @@ public class InterestFilterTest {
 
     @BeforeEach
     public void setup() {
-        filterToTest = new InterestFilter();
         knownUser = new AccountHolder("1402110922112412");
+        knownUser.setMonthlySalary(5500F);
+        knownUser.setMonthlyBudget(900F);
+        knownUser.setCreditScore(719);
+        filterToTest = new InterestFilter(2, knownUser);
     }
 
     @Test
-    public void testGetFirstIndexHelper(){
-        float[] testArr = {0F, 1F, 2F, 3F, 4F, 5F, 6F};
-        assertEquals(6, filterToTest.getFirstIndex(testArr, 6F));
+    public void testGenerateRecommendedCars(){
+        BudgetFilter testInitCars = new BudgetFilter(1, knownUser);
+        testInitCars.performTask();
+        filterToTest.performTask();
+        assertEquals(5, knownUser.getRecommendedCars().size());
     }
-
-    @Test
-    public void testBestFiveCarsRecommendedSize(){
-        int lengthOfList = filterToTest.getBestFiveCars(knownUser.getAccountNumber()).getJSONArray("cars").length();
-        assertEquals(5, lengthOfList);
-    }
-
 }

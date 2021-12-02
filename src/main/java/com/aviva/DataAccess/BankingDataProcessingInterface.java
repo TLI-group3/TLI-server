@@ -1,6 +1,9 @@
 package com.aviva.DataAccess;
 
+import com.aviva.Entities.Car;
+import com.aviva.Entities.Loan;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This interface defines methods that process data from our database into
@@ -8,6 +11,7 @@ import java.util.ArrayList;
  *
  * Implementations of this interface should NOT talk directly to the SQL db
  */
+
 public interface BankingDataProcessingInterface {
     /**
      * Returns a list of deposits made by the client from their bank statement.
@@ -32,4 +36,11 @@ public interface BankingDataProcessingInterface {
      * @return credit score
      */
     public int getCreditScore(String accountNumber);
+
+    /**
+     * Returns a mapping of a client's recommended Car Objects to their respective Loan Objects
+     * @param accountNumber the id number of the client
+     * @return HashMap of Car Objects to their respective Loan Objects
+     */
+    public HashMap<Car, Loan> getRecommendedCars(String accountNumber);
 }

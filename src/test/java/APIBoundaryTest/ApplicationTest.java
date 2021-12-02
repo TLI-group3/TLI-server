@@ -1,5 +1,7 @@
 package APIBoundaryTest;
 
+import com.aviva.APIBoundary.Application;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,17 +16,21 @@ import java.net.http.HttpResponse;
  * Testing if our own spring boot api is starting up and running as intended, both locally and on the EC2
  */
 
-public class SpringSetupTest {
+public class ApplicationTest {
+
     @Test
-    public void testApiSetup() throws IOException, InterruptedException {
+    public void testApiSetup() throws IOException, InterruptedException {;
+        String[] args = new String[1];
+        args[0] = "SpringApplication.run(Application.class, args)";
+        Application.main(args);
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://cb.caravantage.tech/"))
+                .uri(URI.create("http://localhost:8080/"))
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         String responseJSON = response.body();
-        assertEquals("Greetings!", responseJSON.toString());
+        assertEquals("Greetings!", responseJSON);
     }
 }
