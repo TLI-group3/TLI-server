@@ -11,8 +11,8 @@ public class Fetcher {
 
     }
 
-    public String getCars(InputData input) {
-        AccountHolder user = new AccountHolder(input.getClientIDs());
+    public String getCars(String input) {
+        AccountHolder user = new AccountHolder(input);
         BankingDataProcess userData = new BankingDataProcess();
         OutputBoundary dataConverter = new OutputBoundary();
         return dataConverter.convert(userData.getRecommendedCars(user.getAccountNumber()));
