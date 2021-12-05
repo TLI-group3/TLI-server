@@ -26,18 +26,25 @@ public class initDB {
             deleteTable(connection, "cars");
             deleteDatabase(connection);
             createDatabase(connection);
-            createCarTable(connection);
-            createBankingTable(connection);
-            createCreditTable(connection);
-            createRecommendationsTable(connection);
-            createInstallmentsTable(connection);
+            createTable(connection, "CREATE TABLE cars(vin VARCHAR(255), price INT(8), brand VARCHAR(24), " +
+                    "model VARCHAR(24), modelYear INT(8), image VARCHAR(5000), PRIMARY KEY (vin))");
+            createTable(connection, "CREATE TABLE banking(accountNumber VARCHAR(255), " +
+                    "transactionDate VARCHAR(24), deposits FLOAT(8), withdrawals FLOAT(8))");
+            createTable(connection, "CREATE TABLE credit(accountNumber VARCHAR(255), " +
+                    "queryDate DATE, creditScore INT(8))");
+            createTable(connection, "CREATE TABLE recommendations(carID VARCHAR(255), " +
+                    "accountNumber VARCHAR(255), vin VARCHAR (255), loanAmount FLOAT(32), interestSum FLOAT(32), " +
+                    "capitalSum FLOAT(32), loanSum FLOAT(32), loanTerm INT(8), interestRate FLOAT(32), PRIMARY KEY(carID))");
+            createTable(connection, "CREATE TABLE installments(carID VARCHAR(255), termNumber INT(8), " +
+                    "termCapital FLOAT(32), termInterest FLOAT(32), termInstallment FLOAT(32), " +
+                    "remainingAmount FLOAT(32), interestSum FLOAT(32))");
             writeCarData(connection, "data/Car_Data.csv");
             writeBankingData(connection, "data/Banking_Data.csv");
             writeCreditData(connection, "data/Credit_Data.csv");
         }
         // Print error statement if connection fails
         catch (SQLException e) {
-            System.out.println("Failed to connect");
+            System.out.println("Failed to connect to the database");
         }
     }
 
@@ -74,92 +81,19 @@ public class initDB {
     }
 
     /**
-     * Creates a car table on the aviva database
+     * Creates a table specified by a command on the aviva database
      * @param connection communication link with RDS
+     * @param command string representing the SQL command to create a table in the database
      */
-    public static void createCarTable(Connection connection) {
+    public static void createTable(Connection connection, String command) {
         try {
             Statement statement = connection.createStatement();
-            String command = "USE aviva";
+            statement.execute("USE aviva");
             statement.execute(command);
-            command = "CREATE TABLE cars(vin VARCHAR(255), price INT(8), brand VARCHAR(24), model VARCHAR(24), modelYear INT(8), image VARCHAR(5000), PRIMARY KEY (vin))";
-            statement.execute(command);
-            System.out.println("Successfully created table: cars");
+            System.out.println("Successfully created table with the following command: " + command);
         }
         catch (SQLException e) {
-            System.out.println("Failed to create car table");
-        }
-    }
-
-    /**
-     * Creates a banking table on the aviva database
-     * @param connection communication link with RDS
-     */
-    public static void createBankingTable(Connection connection) {
-        try {
-            Statement statement = connection.createStatement();
-            String command = "USE aviva";
-            statement.execute(command);
-            command = "CREATE TABLE banking(accountNumber VARCHAR(255), transactionDate VARCHAR(24), deposits FLOAT(8), withdrawals FLOAT(8))";
-            statement.execute(command);
-            System.out.println("Successfully created table: banking");
-        }
-        catch (SQLException e) {
-            System.out.println("Failed to create banking table");
-        }
-    }
-
-    /**
-     * Creates a credit table on the aviva database
-     * @param connection communication link with RDS
-     */
-    public static void createCreditTable(Connection connection) {
-        try {
-            Statement statement = connection.createStatement();
-            String command = "USE aviva";
-            statement.execute(command);
-            command = "CREATE TABLE credit(accountNumber VARCHAR(255), queryDate DATE, creditScore INT(8))";
-            statement.execute(command);
-            System.out.println("Successfully created table: credit");
-        }
-        catch (SQLException e) {
-            System.out.println("Failed to create credit table");
-        }
-    }
-
-    /**
-     * Creates a recommendations table on the aviva database
-     * @param connection communication link with RDS
-     */
-    public static void createRecommendationsTable(Connection connection) {
-        try {
-            Statement statement = connection.createStatement();
-            String command = "USE aviva";
-            statement.execute(command);
-            command = "CREATE TABLE recommendations(carID VARCHAR(255), accountNumber VARCHAR(255), vin VARCHAR (255), loanAmount FLOAT(32), interestSum FLOAT(32), capitalSum FLOAT(32), loanSum FLOAT(32), loanTerm INT(8), interestRate FLOAT(32), PRIMARY KEY(carID))";
-            statement.execute(command);
-            System.out.println("Successfully created table: recommendations");
-        }
-        catch (SQLException e) {
-            System.out.println("Failed to create recommendations table");
-        }
-    }
-
-    /**
-     * Creates an installments table on the aviva database
-     * @param connection communication link with RDS
-     */
-    public static void createInstallmentsTable(Connection connection) {
-        try {
-            Statement statement = connection.createStatement();
-            String command = "USE aviva";
-            statement.execute(command);
-            command = "CREATE TABLE installments(carID VARCHAR(255), termNumber INT(8), termCapital FLOAT(32), termInterest FLOAT(32), termInstallment FLOAT(32), remainingAmount FLOAT(32), interestSum FLOAT(32))";
-            statement.execute(command);
-            System.out.println("Successfully created table: installments");
-        }
-        catch (SQLException e) {
-            System.out.println("Failed to create installments table");
+            System.out.println("Failed to create table with the following command: " + command);
         }
     }
 
