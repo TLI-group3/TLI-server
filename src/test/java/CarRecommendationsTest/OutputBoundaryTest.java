@@ -1,8 +1,8 @@
 package CarRecommendationsTest;
 
-import com.aviva.CarRecommendations.OutputBoundary;
-import com.aviva.Entities.Car;
-import com.aviva.Entities.Loan;
+import com.caravantage.CarRecommendations.OutputBoundary;
+import com.caravantage.Entities.Car;
+import com.caravantage.Entities.Loan;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

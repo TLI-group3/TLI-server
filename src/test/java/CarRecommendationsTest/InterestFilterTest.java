@@ -2,9 +2,9 @@ package CarRecommendationsTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.aviva.CarRecommendations.BudgetFilter;
-import com.aviva.Entities.AccountHolder;
-import com.aviva.CarRecommendations.InterestFilter;
+import com.caravantage.CarRecommendations.BudgetFilter;
+import com.caravantage.Entities.AccountHolder;
+import com.caravantage.CarRecommendations.InterestFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

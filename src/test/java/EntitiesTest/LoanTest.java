@@ -1,7 +1,7 @@
 package EntitiesTest;
 
-import com.aviva.Entities.Installment;
-import com.aviva.Entities.Loan;
+import com.caravantage.Entities.Installment;
+import com.caravantage.Entities.Loan;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
