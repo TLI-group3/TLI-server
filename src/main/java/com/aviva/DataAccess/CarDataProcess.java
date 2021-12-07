@@ -34,28 +34,6 @@ public class CarDataProcess implements CarDataProcessingInterface{
     }
 
     /**
-     * @param carName the name of the car in the format: YEAR MAKE MODEL
-     * @return a Car object using the database
-     */
-    public Car getCarByName(String carName){
-        // Query a car by its name
-        SQLCarDataAccess sqlcdaInit = new SQLCarDataAccess();
-        ResultSet carInDB = sqlcdaInit.getCarByName(carName);
-
-        Car noCar = new Car("noCar", "noCar", 0, 0);
-
-        // Convert the queried car into a Car entity
-        try {
-            carInDB.next();
-            return helperCreateCarObject(carInDB);
-        }
-        catch (SQLException e) {
-            System.out.println("Could not get car by name");
-        }
-        return noCar;
-    }
-
-    /**
      * @param vin vin number of the car
      * @return a Car object using the database
      */

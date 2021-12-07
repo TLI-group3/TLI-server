@@ -141,7 +141,7 @@ public class initDB {
             // Loop to read through each line in CSV file
             while ((lineText = lineReader.readLine()) != null) {
                 String[] data = lineText.split(",");
-                String vin = data[0];
+                String vin = data[0].trim();
                 String price = data[1];
                 String brand = data[2];
                 String model = data[3];
