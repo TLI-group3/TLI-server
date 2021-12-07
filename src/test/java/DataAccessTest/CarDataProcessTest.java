@@ -23,8 +23,8 @@ public class CarDataProcessTest {
     }
 
     @Test
-    public void testGetCarByName() {
-        Car gotCar = processToTest.getCarByName("2016 ford explorer");
+    public void testGetCarByVin() {
+        Car gotCar = processToTest.getCarByVin("1fm5k7bh1ggc33135");
         assertEquals("ford", gotCar.getMake());
         assertEquals("explorer", gotCar.getModel());
         assertEquals(2016, gotCar.getYear());
