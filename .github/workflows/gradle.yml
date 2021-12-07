@@ -29,3 +29,9 @@ jobs:
       uses: gradle/gradle-build-action@4137be6a8bf7d7133955359dbd952c0ca73b1021
       with:
         arguments: build
+      env:
+        AVANTAGE_SQLDB_PWD: ${{ secrets.AVANTAGE_SQLDB_PWD }}
+        AVANTAGE_SQLDB_URL: ${{ secrets.AVANTAGE_SQLDB_URL }}
+        AVANTAGE_SQLDB_USER: ${{ secrets.AVANTAGE_SQLDB_USER }}
+        SENSO_API_KEY: ${{ secrets.SENSO_API_KEY }}
+        SENSO_API_URL: ${{ secrets.SENSO_API_URL }}
