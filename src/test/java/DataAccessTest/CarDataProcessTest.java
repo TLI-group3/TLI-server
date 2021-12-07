@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 public class CarDataProcessTest {
     CarDataProcess processToTest;
-    Car knownCar;
 
     @BeforeEach
     public void setup() {
