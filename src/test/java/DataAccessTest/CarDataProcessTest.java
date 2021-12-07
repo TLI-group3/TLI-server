@@ -14,7 +14,6 @@ public class CarDataProcessTest {
     @BeforeEach
     public void setup() {
         processToTest = new CarDataProcess();
-        knownCar = new Car("ford", "explorer", 2016, 12000F);
     }
 
     @Test
