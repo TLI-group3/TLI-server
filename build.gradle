@@ -24,11 +24,3 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
-
-tasks.withType(Test) {
-	environment 'AVANTAGE_SQLDB_PWD','tligroup3'
-	environment 'AVANTAGE_SQLDB_URL', 'cb-database.c0bn4vphjqef.us-east-2.rds.amazonaws.com'
-	environment 'AVANTAGE_SQLDB_USER', 'Alamgir'
-	environment 'SENSO_API_KEY', 'AIzaSyCD_-qCdXqrvWGHN1tpe2PH6Rf8zpnTdXs'
-	environment 'SENSO_API_URL', 'https://auto-loan-api.senso.ai'
-}
