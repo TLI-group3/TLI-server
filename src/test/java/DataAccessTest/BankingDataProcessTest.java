@@ -2,7 +2,7 @@ package DataAccessTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.aviva.DataAccess.BankingDataProcess;
+import com.aviva.FetchCars.BankingDataProcess;
 import com.aviva.Entities.AccountHolder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

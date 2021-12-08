@@ -1,8 +1,8 @@
-package com.aviva.Controllers;
+package com.aviva.UseCases;
 
 import com.aviva.CarRecommendations.FillOutAccountHolder;
 import com.aviva.Constants.RecommendationConstants;
-import com.aviva.DataAccess.CarDataProcess;
+import com.aviva.FetchCars.CarDataProcess;
 import com.aviva.DataAccess.SQLAccountHolderDataAccess;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.InputData;

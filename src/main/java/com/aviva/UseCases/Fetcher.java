@@ -1,6 +1,6 @@
-package com.aviva.Controllers;
+package com.aviva.UseCases;
 
-import com.aviva.DataAccess.BankingDataProcess;
+import com.aviva.FetchCars.BankingDataProcess;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.CarRecommendations.OutputBoundary;
 

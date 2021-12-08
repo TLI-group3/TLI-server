@@ -1,4 +1,4 @@
-package com.aviva.DataAccess;
+package com.aviva.FetchCars;
 
 import com.aviva.Entities.Car;
 import com.aviva.Entities.Loan;

@@ -1,5 +1,6 @@
-package com.aviva.DataAccess;
+package com.aviva.FetchCars;
 
+import com.aviva.DataAccess.SQLAccountHolderDataAccess;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.Car;
 import com.aviva.Entities.Loan;
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * Public class that handles processing data from the database and converting it into proper types/entities for clients
  */
 
-public class BankingDataProcess implements BankingDataProcessingInterface{
+public class BankingDataProcess implements BankingDataProcessingInterface {
 
     /**
      * Returns a list of deposits made by the client from their bank statement assuming ordered by date in database.
