@@ -1,7 +1,7 @@
-package com.aviva.CarRecommendations;
+package com.aviva.ApplicationLogic;
 
 import com.aviva.Entities.AccountHolder;
-import com.aviva.FetchCars.CarDataProcess;
+import com.aviva.DatabaseUseCases.CarDataProcess;
 import com.aviva.Constants.RecommendationConstants;
 import java.util.ArrayList;
 import com.aviva.Entities.Car;

@@ -1,8 +1,8 @@
 package com.aviva.UseCases;
 
-import com.aviva.FetchCars.BankingDataProcess;
+import com.aviva.DatabaseUseCases.BankingDataProcess;
 import com.aviva.Entities.AccountHolder;
-import com.aviva.CarRecommendations.OutputBoundary;
+import com.aviva.ApplicationLogic.OutputBoundary;
 
 /**
  * Use case class responsible for handling getting a client's recommended cars

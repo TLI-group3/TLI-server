@@ -1,4 +1,4 @@
-package com.aviva.DataAccess;
+package com.aviva.DatabaseController;
 
 import com.aviva.Constants.RecommendationConstants;
 import com.aviva.Entities.AccountHolder;

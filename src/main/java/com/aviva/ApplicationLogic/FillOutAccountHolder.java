@@ -1,4 +1,4 @@
-package com.aviva.CarRecommendations;
+package com.aviva.ApplicationLogic;
 
 import com.aviva.Entities.AccountHolder;
 

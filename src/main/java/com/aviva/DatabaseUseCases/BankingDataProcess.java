@@ -1,6 +1,6 @@
-package com.aviva.FetchCars;
+package com.aviva.DatabaseUseCases;
 
-import com.aviva.DataAccess.SQLAccountHolderDataAccess;
+import com.aviva.DatabaseController.SQLAccountHolderDataAccess;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.Car;
 import com.aviva.Entities.Loan;

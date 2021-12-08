@@ -1,4 +1,4 @@
-package com.aviva.APIBoundary;
+package com.aviva.APIController;
 
 import com.aviva.UseCases.*;
 import com.aviva.Entities.InputData;

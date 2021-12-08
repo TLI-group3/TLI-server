@@ -2,7 +2,7 @@ package CarRecommendationsTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.aviva.CarRecommendations.SensoRate;
+import com.aviva.ApplicationLogic.SensoRate;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.Car;
 import org.json.JSONObject;

@@ -1,7 +1,7 @@
-package com.aviva.CarRecommendations;
+package com.aviva.ApplicationLogic;
 
-import com.aviva.FetchCars.BankingDataProcess;
-import com.aviva.FetchCars.BankingDataProcessingInterface;
+import com.aviva.DatabaseUseCases.BankingDataProcess;
+import com.aviva.DatabaseUseCases.BankingDataProcessingInterface;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Constants.RecommendationConstants;
 

@@ -1,6 +1,6 @@
 package CarRecommendationsTest;
 
-import com.aviva.CarRecommendations.OutputBoundary;
+import com.aviva.ApplicationLogic.OutputBoundary;
 import com.aviva.Entities.Car;
 import com.aviva.Entities.Loan;
 import org.junit.jupiter.api.BeforeEach;

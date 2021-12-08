@@ -1,4 +1,4 @@
-package com.aviva.FetchCars;
+package com.aviva.DatabaseUseCases;
 
 import com.aviva.Entities.Car;
 import java.util.ArrayList;
