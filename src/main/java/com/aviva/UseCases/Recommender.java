@@ -1,9 +1,9 @@
 package com.aviva.UseCases;
 
-import com.aviva.ApplicationLogic.FillOutAccountHolder;
+import com.aviva.CarRecommendations.FillOutAccountHolder;
 import com.aviva.Constants.RecommendationConstants;
-import com.aviva.DatabaseUseCases.CarDataProcess;
-import com.aviva.DatabaseController.SQLAccountHolderDataAccess;
+import com.aviva.FetchCars.CarDataProcess;
+import com.aviva.DataAccess.SQLAccountHolderDataAccess;
 import com.aviva.Entities.AccountHolder;
 import com.aviva.Entities.InputData;
 
@@ -13,9 +13,6 @@ import com.aviva.Entities.InputData;
  */
 
 public class Recommender {
-    public Recommender(){
-    }
-
     /**
      * Follows our backend logic to generate a list of the best possible cars based on loans and saved to that client
      * @param input the input sent in from our front end including the clients' IDs

@@ -2,7 +2,7 @@ package CarRecommendationsTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.aviva.ApplicationLogic.BudgetFilter;
+import com.aviva.CarRecommendations.BudgetFilter;
 import com.aviva.Entities.AccountHolder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

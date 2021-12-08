@@ -1,18 +1,14 @@
 package com.aviva.UseCases;
 
-import com.aviva.DatabaseUseCases.BankingDataProcess;
+import com.aviva.FetchCars.BankingDataProcess;
 import com.aviva.Entities.AccountHolder;
-import com.aviva.ApplicationLogic.OutputBoundary;
+import com.aviva.CarRecommendations.OutputBoundary;
 
 /**
  * Use case class responsible for handling getting a client's recommended cars
  */
 
 public class Fetcher {
-
-    public Fetcher(){
-
-    }
     /**
      * Get a client's previously generated and stored recommended cars
      * @param input string sent in from front end containing the client ID

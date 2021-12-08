@@ -1,6 +1,6 @@
-package com.aviva.DatabaseUseCases;
+package com.aviva.FetchCars;
 
-import com.aviva.DatabaseController.SQLCarDataAccess;
+import com.aviva.DataAccess.SQLCarDataAccess;
 import com.aviva.Entities.Car;
 import java.sql.ResultSet;
 import java.sql.SQLException;

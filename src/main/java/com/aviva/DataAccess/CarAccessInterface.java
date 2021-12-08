@@ -1,4 +1,4 @@
-package com.aviva.DatabaseController;
+package com.aviva.DataAccess;
 
 import java.sql.ResultSet;
 
