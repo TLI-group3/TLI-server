@@ -1,6 +1,6 @@
 package com.aviva.Controllers;
 
-import com.aviva.CarRecommendations.FillOutAccountHolder;
+import com.aviva.CarRecommendations.SetUpAccountHolder;
 import com.aviva.Constants.RecommendationConstants;
 import com.aviva.DataAccess.CarDataProcess;
 import com.aviva.DataAccess.SQLAccountHolderDataAccess;
@@ -35,7 +35,7 @@ public class Recommender {
                 user.setExistingCar(input.getTradeInCar());
                 user.setExistingCarValue((float) (cdpInit.getCarByName(user.getExistingCar()).getPrice() * RecommendationConstants.TRADE_DEPRECIATION_RATIO));
             }
-            FillOutAccountHolder program = new FillOutAccountHolder(user);
+            SetUpAccountHolder program = new SetUpAccountHolder(user);
             program.run();
             sqlinit.insertRecommendedCars(user);
         }
