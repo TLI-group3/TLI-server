@@ -1,8 +1,7 @@
 package DataAccessTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import com.caravantage.DataAccess.CarDataProcess;
+import com.caravantage.FetchCars.CarDataProcess;
 import com.caravantage.Entities.Car;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

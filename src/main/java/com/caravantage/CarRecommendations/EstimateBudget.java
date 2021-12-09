@@ -1,7 +1,7 @@
 package com.caravantage.CarRecommendations;
 
-import com.caravantage.DataAccess.BankingDataProcess;
-import com.caravantage.DataAccess.BankingDataProcessingInterface;
+import com.caravantage.FetchCars.BankingDataProcess;
+import com.caravantage.FetchCars.BankingDataProcessingInterface;
 import com.caravantage.Entities.AccountHolder;
 import com.caravantage.Constants.RecommendationConstants;
 

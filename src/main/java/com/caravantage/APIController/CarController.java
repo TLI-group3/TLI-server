@@ -1,6 +1,6 @@
-package com.caravantage.APIBoundary;
+package com.caravantage.APIController;
 
-import com.caravantage.Controllers.*;
+import com.caravantage.UseCases.*;
 import com.caravantage.Entities.InputData;
 import org.springframework.web.bind.annotation.*;
 

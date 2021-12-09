@@ -1,8 +1,10 @@
-package com.caravantage.DataAccess;
+package com.caravantage.FetchCars;
 
+import com.caravantage.DataAccess.SQLAccountHolderDataAccess;
 import com.caravantage.Entities.AccountHolder;
 import com.caravantage.Entities.Car;
 import com.caravantage.Entities.Loan;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ import java.util.HashMap;
  * Public class that handles processing data from the database and converting it into proper types/entities for clients
  */
 
-public class BankingDataProcess implements BankingDataProcessingInterface{
+public class BankingDataProcess implements BankingDataProcessingInterface {
 
     /**
      * Returns a list of deposits made by the client from their bank statement assuming ordered by date in database.

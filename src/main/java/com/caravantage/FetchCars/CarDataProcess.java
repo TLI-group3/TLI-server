@@ -1,5 +1,6 @@
-package com.caravantage.DataAccess;
+package com.caravantage.FetchCars;
 
+import com.caravantage.DataAccess.SQLCarDataAccess;
 import com.caravantage.Entities.Car;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * Public class that handles processing data from the database and converting it into proper types/entities for cars
  */
 
-public class CarDataProcess implements CarDataProcessingInterface{
+public class CarDataProcess implements CarDataProcessingInterface {
     /**
      * Iterates through our table of cars and returns all of them
      * @return a list of car objects from our database sorted by ascending price
