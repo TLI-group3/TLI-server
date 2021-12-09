@@ -1,5 +1,7 @@
 package com.caravantage.FetchCars;
 
+import com.caravantage.DataAccess.AccountAccessInterface;
+import com.caravantage.DataAccess.CarAccessInterface;
 import com.caravantage.DataAccess.SQLAccountHolderDataAccess;
 import com.caravantage.Entities.AccountHolder;
 import com.caravantage.Entities.Car;
@@ -15,17 +17,14 @@ import java.util.HashMap;
  */
 
 public class BankingDataProcess implements BankingDataProcessingInterface {
-
     /**
      * Returns a list of deposits made by the client from their bank statement assuming ordered by date in database.
      * @param accountNumber the account number of the client
      * @return list of deposit amounts in chronological order.
      */
-    public ArrayList<Float> getDeposits(String accountNumber) {
+    public ArrayList<Float> getDeposits(String accountNumber, AccountAccessInterface sqlahdaInit) {
         // Query all transactions for the given account number
-        SQLAccountHolderDataAccess sqlahdaInit = new SQLAccountHolderDataAccess();
         ResultSet accountDetails = sqlahdaInit.getAllFinancialTransactions(accountNumber);
-
         ArrayList<Float> deposits = new ArrayList<>();
 
         // Add any deposit to a list
@@ -45,11 +44,9 @@ public class BankingDataProcess implements BankingDataProcessingInterface {
      * @param accountNumber the account number of the client
      * @return list of withdrawal amounts in chronological order.
      */
-    public ArrayList<Float> getWithdrawals(String accountNumber) {
+    public ArrayList<Float> getWithdrawals(String accountNumber, AccountAccessInterface sqlahdaInit) {
         // Query all transactions for the given account number
-        SQLAccountHolderDataAccess sqlahdaInit = new SQLAccountHolderDataAccess();
         ResultSet accountDetails = sqlahdaInit.getAllFinancialTransactions(accountNumber);
-
         ArrayList<Float> withdrawals = new ArrayList<>();
 
         // Add any withdrawals to a list
@@ -68,9 +65,8 @@ public class BankingDataProcess implements BankingDataProcessingInterface {
      * @param accountNumber the account number of the client
      * @return credit score
      */
-    public int getCreditScore(String accountNumber){
+    public int getCreditScore(String accountNumber, AccountAccessInterface sqlahdaInit){
         // Query the latest credit score for the given account number
-        SQLAccountHolderDataAccess sqlahdaInit = new SQLAccountHolderDataAccess();
         ResultSet latestCreditResultSet = sqlahdaInit.getLatestCreditScore(accountNumber);
 
         int creditScore = 0;
@@ -92,9 +88,9 @@ public class BankingDataProcess implements BankingDataProcessingInterface {
      * @param accountNumber the account number of the client
      * @return AccountHolder entity for the given accountNumber
      */
-    public AccountHolder makeAccountHolder(String accountNumber) {
+    public AccountHolder makeAccountHolder(String accountNumber, AccountAccessInterface accountAccess) {
         AccountHolder user = new AccountHolder(accountNumber);
-        user.setCreditScore(getCreditScore(accountNumber));
+        user.setCreditScore(getCreditScore(accountNumber, accountAccess));
         return user;
     }
 
@@ -103,18 +99,19 @@ public class BankingDataProcess implements BankingDataProcessingInterface {
      * @param accountNumber the id number of the client
      * @return HashMap of Car Objects to their respective Loan Objects
      */
-    public HashMap<Car, Loan> getRecommendedCars(String accountNumber) {
+    public HashMap<Car, Loan> getRecommendedCars(String accountNumber,
+                                                 CarDataProcessingInterface carProcess,
+                                                 AccountAccessInterface accountAccess, CarAccessInterface carAccess) {
         HashMap<Car, Loan> recommendations = new HashMap<>();
 
         try {
             // Query the latest credit score for the given account number
-            SQLAccountHolderDataAccess sqlahdaInit = new SQLAccountHolderDataAccess();
-            CarDataProcess cdpInit = new CarDataProcess();
-            ResultSet allRecommendations = sqlahdaInit.getAllRecommendations(accountNumber);
+            ResultSet allRecommendations = accountAccess.getAllRecommendations(accountNumber);
 
             while (allRecommendations.next()) {
                 String vin = allRecommendations.getString(3);
-                Car carFromDataset = cdpInit.getCarByVin(vin);
+
+                Car carFromDataset = carProcess.getCarByVin(vin, carAccess);
                 Loan loanfromQuery = helperCreateLoanObject(allRecommendations);
                 recommendations.put(carFromDataset, loanfromQuery);
             }

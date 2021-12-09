@@ -1,6 +1,6 @@
 package com.caravantage.FetchCars;
 
-import com.caravantage.DataAccess.SQLCarDataAccess;
+import com.caravantage.DataAccess.CarAccessInterface;
 import com.caravantage.Entities.Car;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,13 +11,13 @@ import java.util.ArrayList;
  */
 
 public class CarDataProcess implements CarDataProcessingInterface {
+
     /**
      * Iterates through our table of cars and returns all of them
      * @return a list of car objects from our database sorted by ascending price
      */
-    public ArrayList<Car> getAllCars(){
+    public ArrayList<Car> getAllCars(CarAccessInterface sqlcdaInit){
         // Query all cars
-        SQLCarDataAccess sqlcdaInit = new SQLCarDataAccess();
         ResultSet carsInDB = sqlcdaInit.getAllCars();
 
         ArrayList<Car> cars = new ArrayList<>();
@@ -38,9 +38,8 @@ public class CarDataProcess implements CarDataProcessingInterface {
      * @param vin vin number of the car
      * @return a Car object using the database
      */
-    public Car getCarByVin(String vin){
+    public Car getCarByVin(String vin, CarAccessInterface sqlcdaInit){
         // Query a car by its vin number
-        SQLCarDataAccess sqlcdaInit = new SQLCarDataAccess();
         ResultSet carInDB = sqlcdaInit.getCarByVin(vin);
 
         Car noCar = new Car("noCar", "noCar", 0, 0);

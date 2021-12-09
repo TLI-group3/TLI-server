@@ -1,5 +1,6 @@
 package com.caravantage.FetchCars;
 
+import com.caravantage.DataAccess.AccountAccessInterface;
 import com.caravantage.Entities.Car;
 import com.caravantage.Entities.Loan;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public interface BankingDataProcessingInterface {
      * @param accountNumber the id number of the client
      * @return list of deposit amounts in chronological order.
      */
-    public ArrayList<Float> getDeposits(String accountNumber);
+    public ArrayList<Float> getDeposits(String accountNumber, AccountAccessInterface sqlahdaInit);
 
     /**
      * Returns a list of withdrawals made by the client from their bank statement.
@@ -27,7 +28,7 @@ public interface BankingDataProcessingInterface {
      * @param accountNumber the id number of the client
      * @return list of withdrawal amounts in chronological order.
      */
-    public ArrayList<Float> getWithdrawals(String accountNumber);
+    public ArrayList<Float> getWithdrawals(String accountNumber, AccountAccessInterface sqlahdaInit);
 
     /**
      * Returns the client's credit score
@@ -35,7 +36,7 @@ public interface BankingDataProcessingInterface {
      * @param accountNumber the id number of the client
      * @return credit score
      */
-    public int getCreditScore(String accountNumber);
+    public int getCreditScore(String accountNumber, AccountAccessInterface sqlahdaInit);
 
     /**
      * Returns a mapping of a client's recommended Car Objects to their respective Loan Objects

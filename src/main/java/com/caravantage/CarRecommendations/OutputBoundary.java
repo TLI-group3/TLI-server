@@ -12,10 +12,6 @@ import java.util.HashMap;
  */
 
 public class OutputBoundary {
-    public OutputBoundary(){
-
-    }
-
     /**
      * Converst a hasmap of car, loan to a json formatted string
      * @param recommended the filtered recommended cars to convert

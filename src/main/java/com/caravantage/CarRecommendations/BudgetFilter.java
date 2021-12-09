@@ -1,10 +1,13 @@
 package com.caravantage.CarRecommendations;
 
+import com.caravantage.DataAccess.CarAccessInterface;
 import com.caravantage.Entities.AccountHolder;
 import com.caravantage.FetchCars.CarDataProcess;
 import com.caravantage.Constants.RecommendationConstants;
 import java.util.ArrayList;
 import com.caravantage.Entities.Car;
+import com.caravantage.FetchCars.CarDataProcessingInterface;
+
 import java.util.Random;
 
 /**
@@ -15,10 +18,14 @@ import java.util.Random;
 public class BudgetFilter extends Handler {
 
     private final AccountHolder account;
+    CarDataProcessingInterface carProcess;
+    CarAccessInterface carAccess;
 
-    public BudgetFilter(int i, AccountHolder account) {
+    public BudgetFilter(int i, AccountHolder account, CarDataProcessingInterface carProcess, CarAccessInterface carAccess) {
         this.level = i;
         this.account = account;
+        this.carProcess = carProcess;
+        this.carAccess = carAccess;
     }
 
     /**
@@ -26,13 +33,12 @@ public class BudgetFilter extends Handler {
      * to the AccountHolder.
      */
     public void performTask() {
-        getInitialCars();
+        getInitialCars(carProcess, carAccess);
     }
 
-    private void getInitialCars() {
+    private void getInitialCars(CarDataProcessingInterface carProcess, CarAccessInterface carAccess) {
         // Get list of all cars
-        CarDataProcess cdpInit = new CarDataProcess();
-        ArrayList<Car> allCars = cdpInit.getAllCars();
+        ArrayList<Car> allCars = carProcess.getAllCars(carAccess);
         int numCars = allCars.size();
 
         // Variable Initialization

@@ -1,5 +1,13 @@
 package com.caravantage.APIController;
 
+import com.caravantage.DataAccess.AccountAccessInterface;
+import com.caravantage.DataAccess.CarAccessInterface;
+import com.caravantage.DataAccess.SQLAccountHolderDataAccess;
+import com.caravantage.DataAccess.SQLCarDataAccess;
+import com.caravantage.FetchCars.BankingDataProcess;
+import com.caravantage.FetchCars.BankingDataProcessingInterface;
+import com.caravantage.FetchCars.CarDataProcess;
+import com.caravantage.FetchCars.CarDataProcessingInterface;
 import com.caravantage.UseCases.*;
 import com.caravantage.Entities.InputData;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +20,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin(origins="*")
 public class CarController {
+    AccountAccessInterface accountAccess;
+    CarAccessInterface carAccess;
+    BankingDataProcessingInterface bankProcess;
+    CarDataProcessingInterface carProcess;
+
+    public CarController() {
+        this.accountAccess = new SQLAccountHolderDataAccess();
+        this.carAccess = new SQLCarDataAccess();
+        this.bankProcess = new BankingDataProcess();
+        this.carProcess = new CarDataProcess();
+    }
+
     /**
      * Endpoint for generating a list of recommended cars for a client and inserting information into database
      * @param input inserted input from the frontend, includes client IDs
@@ -19,7 +39,7 @@ public class CarController {
     @PutMapping("/generateCars")
     public void generateCarsForClient(@RequestBody InputData input) {
         Recommender useCaseGenerate = new Recommender();
-        useCaseGenerate.generateAndInsert(input);
+        useCaseGenerate.generateAndInsert(input, accountAccess, carAccess, bankProcess, carProcess);
     }
 
 
