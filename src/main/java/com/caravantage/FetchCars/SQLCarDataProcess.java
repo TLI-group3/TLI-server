@@ -10,15 +10,20 @@ import java.util.ArrayList;
  * Public class that handles processing data from the database and converting it into proper types/entities for cars
  */
 
-public class CarDataProcess implements CarDataProcessingInterface {
+public class SQLCarDataProcess extends CarDataProcessor {
+
+    public SQLCarDataProcess(CarAccessInterface carAccess) {
+        super(carAccess);
+    }
 
     /**
      * Iterates through our table of cars and returns all of them
      * @return a list of car objects from our database sorted by ascending price
      */
-    public ArrayList<Car> getAllCars(CarAccessInterface sqlcdaInit){
+    @Override
+    public ArrayList<Car> getAllCars(){
         // Query all cars
-        ResultSet carsInDB = sqlcdaInit.getAllCars();
+        ResultSet carsInDB = carAccess.getAllCars();
 
         ArrayList<Car> cars = new ArrayList<>();
 
@@ -38,9 +43,10 @@ public class CarDataProcess implements CarDataProcessingInterface {
      * @param vin vin number of the car
      * @return a Car object using the database
      */
-    public Car getCarByVin(String vin, CarAccessInterface sqlcdaInit){
+    @Override
+    public Car getCarByVin(String vin){
         // Query a car by its vin number
-        ResultSet carInDB = sqlcdaInit.getCarByVin(vin);
+        ResultSet carInDB = carAccess.getCarByVin(vin);
 
         Car noCar = new Car("noCar", "noCar", 0, 0);
 

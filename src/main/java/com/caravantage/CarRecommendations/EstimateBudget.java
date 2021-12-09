@@ -1,8 +1,6 @@
 package com.caravantage.CarRecommendations;
 
-import com.caravantage.DataAccess.AccountAccessInterface;
-import com.caravantage.DataAccess.CarAccessInterface;
-import com.caravantage.FetchCars.BankingDataProcessingInterface;
+import com.caravantage.FetchCars.BankingDataProcessor;
 import com.caravantage.Entities.AccountHolder;
 import com.caravantage.Constants.RecommendationConstants;
 
@@ -14,34 +12,30 @@ import java.util.*;
 public class EstimateBudget extends Handler {
 
     private final AccountHolder account;
+    BankingDataProcessor bankProcess;
 
-    BankingDataProcessingInterface bankProcess;
-    AccountAccessInterface accountAccess;
-
-    public EstimateBudget(int i, AccountHolder account,
-                          BankingDataProcessingInterface bdpInit, AccountAccessInterface accountAccess) {
+    public EstimateBudget(int i, AccountHolder account, BankingDataProcessor bdpInit) {
         this.level = i;
         this.account = account;
         this.bankProcess = bdpInit;
-        this.accountAccess = accountAccess;
     }
 
     /**
      * Estimate the monthly budget of a given AccountHolder by identifying their salary and monthly spending.
      */
     public void performTask() {
-        identifyBiMonthlySalary(accountAccess);
-        identifySpending(accountAccess);
+        identifyBiMonthlySalary();
+        identifySpending();
         determineMonthlyBudget();
 
-        account.setCreditScore(bankProcess.getCreditScore(account.getAccountNumber(), accountAccess));
+        account.setCreditScore(bankProcess.getCreditScore(account.getAccountNumber()));
     }
 
     /**
      * Set the monthly salary of an AccountHolder based on studying the deposits of this AccountHolder
      */
-    private void identifyBiMonthlySalary(AccountAccessInterface accountAccess) {
-        ArrayList<Float> deposits = bankProcess.getDeposits(account.getAccountNumber(), accountAccess);
+    private void identifyBiMonthlySalary() {
+        ArrayList<Float> deposits = bankProcess.getDeposits(account.getAccountNumber());
 
         // Mapping the possible deposits that could be the bimonthly salary to its number of occurrence
         Map frequency = new HashMap();
@@ -67,8 +61,8 @@ public class EstimateBudget extends Handler {
      * Set the other monthly spending, and optionally an existing car loan,
      * of an AccountHolder based on studying the deposits of this AccountHolder.
      */
-    private void identifySpending(AccountAccessInterface accountAccess) {
-        ArrayList<Float> withdrawals = bankProcess.getWithdrawals(account.getAccountNumber(), accountAccess);
+    private void identifySpending() {
+        ArrayList<Float> withdrawals = bankProcess.getWithdrawals(account.getAccountNumber());
 
         Map frequency = new HashMap();
 

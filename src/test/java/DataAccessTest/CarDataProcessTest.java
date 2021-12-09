@@ -1,17 +1,21 @@
 package DataAccessTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import com.caravantage.FetchCars.CarDataProcess;
+
+import com.caravantage.DataAccess.SQLCarDataAccess;
+import com.caravantage.FetchCars.SQLCarDataProcess;
 import com.caravantage.Entities.Car;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CarDataProcessTest {
-    CarDataProcess processToTest;
+    SQLCarDataProcess processToTest;
+    SQLCarDataAccess accessor;
 
     @BeforeEach
     public void setup() {
-        processToTest = new CarDataProcess();
+        accessor = new SQLCarDataAccess();
+        processToTest = new SQLCarDataProcess(accessor);
     }
 
     @Test

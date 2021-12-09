@@ -3,7 +3,9 @@ package CarRecommendationsTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.caravantage.CarRecommendations.BudgetFilter;
+import com.caravantage.DataAccess.SQLCarDataAccess;
 import com.caravantage.Entities.AccountHolder;
+import com.caravantage.FetchCars.SQLCarDataProcess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,9 +19,11 @@ public class BudgetFilterTest {
 
     @BeforeEach
     public void setup() {
+        SQLCarDataAccess carAccess = new SQLCarDataAccess();
+        SQLCarDataProcess carProcess = new SQLCarDataProcess(carAccess);
         knownUser = new AccountHolder("1402110922112412");
         knownUser.setMonthlySalary(5500F);
-        filterToTest = new BudgetFilter(1, knownUser);
+        filterToTest = new BudgetFilter(1, knownUser, carProcess);
     }
 
     @Test

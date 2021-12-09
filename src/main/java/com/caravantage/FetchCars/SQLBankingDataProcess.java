@@ -2,7 +2,6 @@ package com.caravantage.FetchCars;
 
 import com.caravantage.DataAccess.AccountAccessInterface;
 import com.caravantage.DataAccess.CarAccessInterface;
-import com.caravantage.DataAccess.SQLAccountHolderDataAccess;
 import com.caravantage.Entities.AccountHolder;
 import com.caravantage.Entities.Car;
 import com.caravantage.Entities.Loan;
@@ -16,15 +15,21 @@ import java.util.HashMap;
  * Public class that handles processing data from the database and converting it into proper types/entities for clients
  */
 
-public class BankingDataProcess implements BankingDataProcessingInterface {
+public class SQLBankingDataProcess extends BankingDataProcessor {
+    public SQLBankingDataProcess(AccountAccessInterface accountAccess, CarDataProcessor carProcess,
+                                 CarAccessInterface carAccess) {
+        super(accountAccess, carProcess, carAccess);
+    }
+
     /**
      * Returns a list of deposits made by the client from their bank statement assuming ordered by date in database.
      * @param accountNumber the account number of the client
      * @return list of deposit amounts in chronological order.
      */
-    public ArrayList<Float> getDeposits(String accountNumber, AccountAccessInterface sqlahdaInit) {
+    @Override
+    public ArrayList<Float> getDeposits(String accountNumber) {
         // Query all transactions for the given account number
-        ResultSet accountDetails = sqlahdaInit.getAllFinancialTransactions(accountNumber);
+        ResultSet accountDetails = accountAccess.getAllFinancialTransactions(accountNumber);
         ArrayList<Float> deposits = new ArrayList<>();
 
         // Add any deposit to a list
@@ -44,9 +49,10 @@ public class BankingDataProcess implements BankingDataProcessingInterface {
      * @param accountNumber the account number of the client
      * @return list of withdrawal amounts in chronological order.
      */
-    public ArrayList<Float> getWithdrawals(String accountNumber, AccountAccessInterface sqlahdaInit) {
+    @Override
+    public ArrayList<Float> getWithdrawals(String accountNumber) {
         // Query all transactions for the given account number
-        ResultSet accountDetails = sqlahdaInit.getAllFinancialTransactions(accountNumber);
+        ResultSet accountDetails = accountAccess.getAllFinancialTransactions(accountNumber);
         ArrayList<Float> withdrawals = new ArrayList<>();
 
         // Add any withdrawals to a list
@@ -65,9 +71,10 @@ public class BankingDataProcess implements BankingDataProcessingInterface {
      * @param accountNumber the account number of the client
      * @return credit score
      */
-    public int getCreditScore(String accountNumber, AccountAccessInterface sqlahdaInit){
+    @Override
+    public int getCreditScore(String accountNumber){
         // Query the latest credit score for the given account number
-        ResultSet latestCreditResultSet = sqlahdaInit.getLatestCreditScore(accountNumber);
+        ResultSet latestCreditResultSet = accountAccess.getLatestCreditScore(accountNumber);
 
         int creditScore = 0;
 
@@ -88,9 +95,9 @@ public class BankingDataProcess implements BankingDataProcessingInterface {
      * @param accountNumber the account number of the client
      * @return AccountHolder entity for the given accountNumber
      */
-    public AccountHolder makeAccountHolder(String accountNumber, AccountAccessInterface accountAccess) {
+    public AccountHolder makeAccountHolder(String accountNumber) {
         AccountHolder user = new AccountHolder(accountNumber);
-        user.setCreditScore(getCreditScore(accountNumber, accountAccess));
+        user.setCreditScore(getCreditScore(accountNumber));
         return user;
     }
 
@@ -99,9 +106,8 @@ public class BankingDataProcess implements BankingDataProcessingInterface {
      * @param accountNumber the id number of the client
      * @return HashMap of Car Objects to their respective Loan Objects
      */
-    public HashMap<Car, Loan> getRecommendedCars(String accountNumber,
-                                                 CarDataProcessingInterface carProcess,
-                                                 AccountAccessInterface accountAccess, CarAccessInterface carAccess) {
+    @Override
+    public HashMap<Car, Loan> getRecommendedCars(String accountNumber) {
         HashMap<Car, Loan> recommendations = new HashMap<>();
 
         try {
@@ -111,7 +117,7 @@ public class BankingDataProcess implements BankingDataProcessingInterface {
             while (allRecommendations.next()) {
                 String vin = allRecommendations.getString(3);
 
-                Car carFromDataset = carProcess.getCarByVin(vin, carAccess);
+                Car carFromDataset = carProcess.getCarByVin(vin);
                 Loan loanfromQuery = helperCreateLoanObject(allRecommendations);
                 recommendations.put(carFromDataset, loanfromQuery);
             }

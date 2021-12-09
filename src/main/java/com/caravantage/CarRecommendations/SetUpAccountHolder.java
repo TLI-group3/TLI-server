@@ -1,28 +1,21 @@
 package com.caravantage.CarRecommendations;
 
-import com.caravantage.DataAccess.AccountAccessInterface;
-import com.caravantage.DataAccess.CarAccessInterface;
 import com.caravantage.Entities.AccountHolder;
-import com.caravantage.FetchCars.BankingDataProcessingInterface;
-import com.caravantage.FetchCars.CarDataProcessingInterface;
+import com.caravantage.FetchCars.BankingDataProcessor;
+import com.caravantage.FetchCars.CarDataProcessor;
 
 /**
  * The class that is responsible for filling in the instance variables of an AccountHolder.
  */
 public class SetUpAccountHolder {
     private AccountHolder account;
-    BankingDataProcessingInterface bankProcess;
-    AccountAccessInterface accountAccess;
-    CarDataProcessingInterface carProcess;
-    CarAccessInterface carAccess;
+    BankingDataProcessor bankProcess;
+    CarDataProcessor carProcess;
     public SetUpAccountHolder(AccountHolder account,
-                              BankingDataProcessingInterface bankProcess, AccountAccessInterface accountAccess,
-                              CarDataProcessingInterface carProcess, CarAccessInterface carAccess) {
+                              BankingDataProcessor bankProcess, CarDataProcessor carProcess) {
         this.account = account;
         this.bankProcess = bankProcess;
-        this.accountAccess = accountAccess;
         this.carProcess = carProcess;
-        this.carAccess = carAccess;
     }
 
     /**
@@ -34,8 +27,8 @@ public class SetUpAccountHolder {
      *    filter the cars based on returned installment information.
      */
     public void run() {
-        Handler estimateBudget = new EstimateBudget(1, account, bankProcess, accountAccess);
-        Handler budgetFilter = new BudgetFilter(2, account, carProcess, carAccess);
+        Handler estimateBudget = new EstimateBudget(1, account, bankProcess);
+        Handler budgetFilter = new BudgetFilter(2, account, carProcess);
         Handler interestFilter = new InterestFilter(3, account);
 
         estimateBudget.add(budgetFilter);

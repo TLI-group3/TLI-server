@@ -4,10 +4,10 @@ import com.caravantage.DataAccess.AccountAccessInterface;
 import com.caravantage.DataAccess.CarAccessInterface;
 import com.caravantage.DataAccess.SQLAccountHolderDataAccess;
 import com.caravantage.DataAccess.SQLCarDataAccess;
-import com.caravantage.FetchCars.BankingDataProcess;
-import com.caravantage.FetchCars.BankingDataProcessingInterface;
-import com.caravantage.FetchCars.CarDataProcess;
-import com.caravantage.FetchCars.CarDataProcessingInterface;
+import com.caravantage.FetchCars.SQLBankingDataProcess;
+import com.caravantage.FetchCars.BankingDataProcessor;
+import com.caravantage.FetchCars.SQLCarDataProcess;
+import com.caravantage.FetchCars.CarDataProcessor;
 import com.caravantage.UseCases.*;
 import com.caravantage.Entities.InputData;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.*;
 public class CarController {
     AccountAccessInterface accountAccess;
     CarAccessInterface carAccess;
-    BankingDataProcessingInterface bankProcess;
-    CarDataProcessingInterface carProcess;
+    BankingDataProcessor bankProcess;
+    CarDataProcessor carProcess;
 
     public CarController() {
         this.accountAccess = new SQLAccountHolderDataAccess();
         this.carAccess = new SQLCarDataAccess();
-        this.bankProcess = new BankingDataProcess();
-        this.carProcess = new CarDataProcess();
+        this.bankProcess = new SQLBankingDataProcess(accountAccess, carProcess, carAccess);
+        this.carProcess = new SQLCarDataProcess(carAccess);
     }
 
     /**
@@ -38,8 +38,8 @@ public class CarController {
      */
     @PutMapping("/generateCars")
     public void generateCarsForClient(@RequestBody InputData input) {
-        Recommender useCaseGenerate = new Recommender();
-        useCaseGenerate.generateAndInsert(input, accountAccess, carAccess, bankProcess, carProcess);
+        Recommender useCaseGenerate = new Recommender(accountAccess, bankProcess, carProcess);
+        useCaseGenerate.generateAndInsert(input);
     }
 
 
@@ -50,7 +50,7 @@ public class CarController {
      */
     @GetMapping("/getCars")
     public String getCars(@RequestParam String input){
-        Fetcher useCaseGet = new Fetcher();
+        Fetcher useCaseGet = new Fetcher(bankProcess);
         return useCaseGet.getCars(input);
     }
 
