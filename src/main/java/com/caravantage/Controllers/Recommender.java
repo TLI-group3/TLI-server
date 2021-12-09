@@ -33,7 +33,7 @@ public class Recommender {
             // Check to see if they have a current car they would like to trade in
             if (input.getTradeInCar() != null){
                 user.setExistingCar(input.getTradeInCar());
-                user.setExistingCarValue((float) (cdpInit.getCarByName(user.getExistingCar()).getPrice() * RecommendationConstants.TRADE_DEPRECIATION_RATIO));
+                user.setExistingCarValue((float) (cdpInit.getCarByVin(user.getExistingCar()).getPrice() * RecommendationConstants.TRADE_DEPRECIATION_RATIO));
             }
             FillOutAccountHolder program = new FillOutAccountHolder(user);
             program.run();

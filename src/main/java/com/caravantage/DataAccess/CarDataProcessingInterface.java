@@ -18,12 +18,6 @@ public interface CarDataProcessingInterface {
     public ArrayList<Car> getAllCars();
 
     /**
-     * @param carName the name of the car in the format: YEAR MAKE MODEL
-     * @return a Car object using the database
-     */
-    public Car getCarByName(String carName);
-
-    /**
      * @param vin the vin number of the car to query
      * @return a Car object using the database
      */
