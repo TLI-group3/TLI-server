@@ -1,6 +1,6 @@
 package com.caravantage.UseCases;
 
-import com.caravantage.CarRecommendations.FillOutAccountHolder;
+import com.caravantage.CarRecommendations.SetUpAccountHolder;
 import com.caravantage.Constants.RecommendationConstants;
 import com.caravantage.FetchCars.CarDataProcess;
 import com.caravantage.DataAccess.SQLAccountHolderDataAccess;
@@ -32,7 +32,7 @@ public class Recommender {
                 user.setExistingCar(input.getTradeInCar());
                 user.setExistingCarValue((float) (cdpInit.getCarByVin(user.getExistingCar()).getPrice() * RecommendationConstants.TRADE_DEPRECIATION_RATIO));
             }
-            FillOutAccountHolder program = new FillOutAccountHolder(user);
+            SetUpAccountHolder program = new SetUpAccountHolder(user);
             program.run();
             sqlinit.insertRecommendedCars(user);
         }
