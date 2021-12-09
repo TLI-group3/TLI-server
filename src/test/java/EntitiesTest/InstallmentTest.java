@@ -2,7 +2,7 @@ package EntitiesTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.aviva.Entities.Installment;
+import com.caravantage.Entities.Installment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

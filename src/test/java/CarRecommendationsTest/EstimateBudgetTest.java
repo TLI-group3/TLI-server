@@ -1,7 +1,7 @@
 package CarRecommendationsTest;
 
-import com.aviva.CarRecommendations.EstimateBudget;
-import com.aviva.Entities.AccountHolder;
+import com.caravantage.CarRecommendations.EstimateBudget;
+import com.caravantage.Entities.AccountHolder;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
