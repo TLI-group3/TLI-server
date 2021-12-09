@@ -1,6 +1,6 @@
-package com.caravantage.Controllers;
+package com.caravantage.UseCases;
 
-import com.caravantage.DataAccess.BankingDataProcess;
+import com.caravantage.FetchCars.BankingDataProcess;
 import com.caravantage.Entities.AccountHolder;
 import com.caravantage.CarRecommendations.OutputBoundary;
 
@@ -9,10 +9,6 @@ import com.caravantage.CarRecommendations.OutputBoundary;
  */
 
 public class Fetcher {
-
-    public Fetcher(){
-
-    }
     /**
      * Get a client's previously generated and stored recommended cars
      * @param input string sent in from front end containing the client ID

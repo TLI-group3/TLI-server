@@ -2,7 +2,7 @@ package UseCasesTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.caravantage.Entities.AccountHolder;
-import com.caravantage.Controllers.Fetcher;
+import com.caravantage.UseCases.Fetcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

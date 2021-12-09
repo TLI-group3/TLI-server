@@ -2,8 +2,8 @@ package UseCasesTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.caravantage.Entities.InputData;
-import com.caravantage.Controllers.Fetcher;
-import com.caravantage.Controllers.Recommender;
+import com.caravantage.UseCases.Fetcher;
+import com.caravantage.UseCases.Recommender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

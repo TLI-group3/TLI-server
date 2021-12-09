@@ -1,4 +1,4 @@
-package com.caravantage.DataAccess;
+package com.caravantage.FetchCars;
 
 import com.caravantage.Entities.Car;
 import com.caravantage.Entities.Loan;
