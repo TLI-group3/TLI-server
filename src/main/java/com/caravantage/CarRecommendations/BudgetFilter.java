@@ -53,7 +53,7 @@ public class BudgetFilter extends Handler {
                 // Also check only for "new" cars
                 if (randomCar.getPrice() >= RecommendationConstants.MINIMUM_CAR_PRICE
                         && randomCar.getPrice() < account.getMonthlySalary() * 12 * RecommendationConstants.CAR_EXPENDITURE_RATIO
-                        && randomCar.getYear() >= 2019) {
+                        && randomCar.getYear() >= RecommendationConstants.LOWEST_YEAR) {
                     recommended.add(randomCar);
                 }
 
