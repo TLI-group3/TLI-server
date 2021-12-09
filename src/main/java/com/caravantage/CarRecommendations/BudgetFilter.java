@@ -1,7 +1,7 @@
 package com.caravantage.CarRecommendations;
 
 import com.caravantage.Entities.AccountHolder;
-import com.caravantage.DataAccess.CarDataProcess;
+import com.caravantage.FetchCars.CarDataProcess;
 import com.caravantage.Constants.RecommendationConstants;
 import java.util.ArrayList;
 import com.caravantage.Entities.Car;

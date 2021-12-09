@@ -1,8 +1,8 @@
-package com.caravantage.Controllers;
+package com.caravantage.UseCases;
 
 import com.caravantage.CarRecommendations.SetUpAccountHolder;
 import com.caravantage.Constants.RecommendationConstants;
-import com.caravantage.DataAccess.CarDataProcess;
+import com.caravantage.FetchCars.CarDataProcess;
 import com.caravantage.DataAccess.SQLAccountHolderDataAccess;
 import com.caravantage.Entities.AccountHolder;
 import com.caravantage.Entities.InputData;
@@ -13,9 +13,6 @@ import com.caravantage.Entities.InputData;
  */
 
 public class Recommender {
-    public Recommender(){
-    }
-
     /**
      * Follows our backend logic to generate a list of the best possible cars based on loans and saved to that client
      * @param input the input sent in from our front end including the clients' IDs

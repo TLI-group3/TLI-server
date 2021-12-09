@@ -1,6 +1,6 @@
 package APIBoundaryTest;
 
-import com.caravantage.APIBoundary.Application;
+import com.caravantage.APIController.Application;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
