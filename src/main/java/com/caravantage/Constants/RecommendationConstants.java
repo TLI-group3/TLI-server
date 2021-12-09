@@ -19,4 +19,5 @@ public class RecommendationConstants {
     public static int MONTHLY_SPENDING_FREQUENCY = 12;
     public static float MINIMUM_MONTHLY_CAR_LOAN = 50;
     public static final double MONTHLY_ALLOCATION = 0.1; // % of monthly budget allocated to spend
+    public static final int LOWEST_YEAR = 2019; // used to limit to only relatively new cars
 }

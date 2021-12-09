@@ -50,8 +50,10 @@ public class BudgetFilter extends Handler {
                 Car randomCar = allCars.get(index);
 
                 // Check if car price is above MINIMUM_CAR_PRICE (required for API call) and within the AccountHolder's savings
-                if (randomCar.getPrice() >= RecommendationConstants.MINIMUM_CAR_PRICE && randomCar.getPrice() <
-                        account.getMonthlySalary() * 12 * RecommendationConstants.CAR_EXPENDITURE_RATIO) {
+                // Also check only for "new" cars
+                if (randomCar.getPrice() >= RecommendationConstants.MINIMUM_CAR_PRICE
+                        && randomCar.getPrice() < account.getMonthlySalary() * 12 * RecommendationConstants.CAR_EXPENDITURE_RATIO
+                        && randomCar.getYear() >= RecommendationConstants.LOWEST_YEAR) {
                     recommended.add(randomCar);
                 }
 
