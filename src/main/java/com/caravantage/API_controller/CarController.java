@@ -28,8 +28,8 @@ public class CarController {
     public CarController() {
         this.accountAccess = new SQLAccountHolderDataAccess();
         this.carAccess = new SQLCarDataAccess();
-        this.bankProcess = new SQLBankingDataProcess(accountAccess, carProcess);
         this.carProcess = new SQLCarDataProcess(carAccess);
+        this.bankProcess = new SQLBankingDataProcess(accountAccess, carProcess);
     }
 
     /**
