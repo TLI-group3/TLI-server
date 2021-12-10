@@ -20,7 +20,7 @@ public class EstimateBudgetTest {
         SQLCarDataAccess carDataAccess = new SQLCarDataAccess();
         SQLCarDataProcess carProcess = new SQLCarDataProcess(carDataAccess);
         SQLAccountHolderDataAccess accountAccess = new SQLAccountHolderDataAccess();
-        SQLBankingDataProcess bankProcess = new SQLBankingDataProcess(accountAccess, carProcess, carDataAccess);
+        SQLBankingDataProcess bankProcess = new SQLBankingDataProcess(accountAccess, carProcess);
         knownAccount = new AccountHolder("1402110922112412");
         estimatorToTest = new EstimateBudget(1, knownAccount, bankProcess);
         estimatorToTest.performTask();
