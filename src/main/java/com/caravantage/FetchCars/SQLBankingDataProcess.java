@@ -1,7 +1,6 @@
 package com.caravantage.FetchCars;
 
 import com.caravantage.DataAccess.AccountAccessInterface;
-import com.caravantage.DataAccess.CarAccessInterface;
 import com.caravantage.Entities.AccountHolder;
 import com.caravantage.Entities.Car;
 import com.caravantage.Entities.Loan;
@@ -16,9 +15,8 @@ import java.util.HashMap;
  */
 
 public class SQLBankingDataProcess extends BankingDataProcessor {
-    public SQLBankingDataProcess(AccountAccessInterface accountAccess, CarDataProcessor carProcess,
-                                 CarAccessInterface carAccess) {
-        super(accountAccess, carProcess, carAccess);
+    public SQLBankingDataProcess(AccountAccessInterface accountAccess, CarDataProcessor carProcess) {
+        super(accountAccess, carProcess);
     }
 
     /**
