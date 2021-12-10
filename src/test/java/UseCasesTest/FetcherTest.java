@@ -23,7 +23,7 @@ public class FetcherTest {
         SQLCarDataAccess carDataAccess = new SQLCarDataAccess();
         SQLCarDataProcess carProcess = new SQLCarDataProcess(carDataAccess);
         SQLAccountHolderDataAccess accountAccess = new SQLAccountHolderDataAccess();
-        SQLBankingDataProcess bankProcess = new SQLBankingDataProcess(accountAccess, carProcess, carDataAccess);
+        SQLBankingDataProcess bankProcess = new SQLBankingDataProcess(accountAccess, carProcess);
         fetcherToTest = new Fetcher(bankProcess);
         knownUser = new AccountHolder("1402110922112412");
     }
