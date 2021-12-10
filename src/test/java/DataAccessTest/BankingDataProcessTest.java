@@ -20,7 +20,7 @@ public class BankingDataProcessTest {
         SQLCarDataProcess carProcess = new SQLCarDataProcess(carDataAccess);
         SQLAccountHolderDataAccess accountAccess = new SQLAccountHolderDataAccess();
         knownUser = new AccountHolder("1402110922112412");
-        processToTest = new SQLBankingDataProcess(accountAccess, carProcess);
+        processToTest = new SQLBankingDataProcess(accountAccess, carProcess, carDataAccess);
     }
 
     @Test
