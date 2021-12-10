@@ -1,14 +1,21 @@
 package com.caravantage.CarRecommendations;
 
 import com.caravantage.Entities.AccountHolder;
+import com.caravantage.FetchCars.BankingDataProcessor;
+import com.caravantage.FetchCars.CarDataProcessor;
 
 /**
  * The class that is responsible for filling in the instance variables of an AccountHolder.
  */
 public class SetUpAccountHolder {
     private AccountHolder account;
-    public SetUpAccountHolder(AccountHolder account) {
+    BankingDataProcessor bankProcess;
+    CarDataProcessor carProcess;
+    public SetUpAccountHolder(AccountHolder account,
+                              BankingDataProcessor bankProcess, CarDataProcessor carProcess) {
         this.account = account;
+        this.bankProcess = bankProcess;
+        this.carProcess = carProcess;
     }
 
     /**
@@ -20,8 +27,8 @@ public class SetUpAccountHolder {
      *    filter the cars based on returned installment information.
      */
     public void run() {
-        Handler estimateBudget = new EstimateBudget(1, account);
-        Handler budgetFilter = new BudgetFilter(2, account);
+        Handler estimateBudget = new EstimateBudget(1, account, bankProcess);
+        Handler budgetFilter = new BudgetFilter(2, account, carProcess);
         Handler interestFilter = new InterestFilter(3, account);
 
         estimateBudget.add(budgetFilter);

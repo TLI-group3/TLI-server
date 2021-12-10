@@ -1,19 +1,26 @@
 package DataAccessTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import com.caravantage.FetchCars.BankingDataProcess;
+
+import com.caravantage.DataAccess.SQLAccountHolderDataAccess;
+import com.caravantage.DataAccess.SQLCarDataAccess;
+import com.caravantage.FetchCars.SQLBankingDataProcess;
 import com.caravantage.Entities.AccountHolder;
+import com.caravantage.FetchCars.SQLCarDataProcess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class BankingDataProcessTest {
-    BankingDataProcess processToTest;
+    SQLBankingDataProcess processToTest;
     AccountHolder knownUser;
 
     @BeforeEach
     public void setup(){
+        SQLCarDataAccess carDataAccess = new SQLCarDataAccess();
+        SQLCarDataProcess carProcess = new SQLCarDataProcess(carDataAccess);
+        SQLAccountHolderDataAccess accountAccess = new SQLAccountHolderDataAccess();
         knownUser = new AccountHolder("1402110922112412");
-        processToTest = new BankingDataProcess();
+        processToTest = new SQLBankingDataProcess(accountAccess, carProcess, carDataAccess);
     }
 
     @Test

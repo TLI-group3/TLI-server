@@ -1,5 +1,6 @@
 package com.caravantage.FetchCars;
 
+import com.caravantage.DataAccess.CarAccessInterface;
 import com.caravantage.Entities.Car;
 import java.util.ArrayList;
 
@@ -10,16 +11,22 @@ import java.util.ArrayList;
  * Implementations of this interface should NOT talk directly to the SQL db
  */
 
-public interface CarDataProcessingInterface {
+public abstract class CarDataProcessor {
+    CarAccessInterface carAccess;
+
+    public CarDataProcessor(CarAccessInterface carAccess) {
+        this.carAccess = carAccess;
+    }
+
     /**
      * Iterates through our table of cars and returns all of them
      * @return a list of car objects from our database sorted by ascending price
      */
-    public ArrayList<Car> getAllCars();
+    public abstract ArrayList<Car> getAllCars();
 
     /**
      * @param vin the vin number of the car to query
      * @return a Car object using the database
      */
-    public Car getCarByVin(String vin);
+    public abstract Car getCarByVin(String vin);
 }

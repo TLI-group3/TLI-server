@@ -1,7 +1,6 @@
 package com.caravantage.CarRecommendations;
 
-import com.caravantage.FetchCars.BankingDataProcess;
-import com.caravantage.FetchCars.BankingDataProcessingInterface;
+import com.caravantage.FetchCars.BankingDataProcessor;
 import com.caravantage.Entities.AccountHolder;
 import com.caravantage.Constants.RecommendationConstants;
 
@@ -13,12 +12,12 @@ import java.util.*;
 public class EstimateBudget extends Handler {
 
     private final AccountHolder account;
+    BankingDataProcessor bankProcess;
 
-    BankingDataProcessingInterface bdpInit = new BankingDataProcess();
-
-    public EstimateBudget(int i, AccountHolder account) {
+    public EstimateBudget(int i, AccountHolder account, BankingDataProcessor bdpInit) {
         this.level = i;
         this.account = account;
+        this.bankProcess = bdpInit;
     }
 
     /**
@@ -29,14 +28,14 @@ public class EstimateBudget extends Handler {
         identifySpending();
         determineMonthlyBudget();
 
-        account.setCreditScore(bdpInit.getCreditScore(account.getAccountNumber()));
+        account.setCreditScore(bankProcess.getCreditScore(account.getAccountNumber()));
     }
 
     /**
      * Set the monthly salary of an AccountHolder based on studying the deposits of this AccountHolder
      */
     private void identifyBiMonthlySalary() {
-        ArrayList<Float> deposits = bdpInit.getDeposits(account.getAccountNumber());
+        ArrayList<Float> deposits = bankProcess.getDeposits(account.getAccountNumber());
 
         // Mapping the possible deposits that could be the bimonthly salary to its number of occurrence
         Map frequency = new HashMap();
@@ -63,7 +62,7 @@ public class EstimateBudget extends Handler {
      * of an AccountHolder based on studying the deposits of this AccountHolder.
      */
     private void identifySpending() {
-        ArrayList<Float> withdrawals = bdpInit.getWithdrawals(account.getAccountNumber());
+        ArrayList<Float> withdrawals = bankProcess.getWithdrawals(account.getAccountNumber());
 
         Map frequency = new HashMap();
 
