@@ -26,7 +26,7 @@ public class RecommenderTest {
         SQLCarDataAccess carDataAccess = new SQLCarDataAccess();
         SQLCarDataProcess carProcess = new SQLCarDataProcess(carDataAccess);
         SQLAccountHolderDataAccess accountAccess = new SQLAccountHolderDataAccess();
-        bankProcess = new SQLBankingDataProcess(accountAccess, carProcess, carDataAccess);
+        bankProcess = new SQLBankingDataProcess(accountAccess, carProcess);
         recommenderToTest = new Recommender(accountAccess, bankProcess, carProcess);
         knownInput = new InputData("1402110922112412");
     }

@@ -17,12 +17,9 @@ import java.util.HashMap;
 public abstract class BankingDataProcessor {
     AccountAccessInterface accountAccess;
     CarDataProcessor carProcess;
-    CarAccessInterface carAccess;
 
-    public BankingDataProcessor(AccountAccessInterface accountAccess, CarDataProcessor carProcess,
-                                CarAccessInterface carAccess) {
+    public BankingDataProcessor(AccountAccessInterface accountAccess, CarDataProcessor carProcess) {
         this.accountAccess = accountAccess;
-        this.carAccess = carAccess;
         this.carProcess = carProcess;
     }
 
